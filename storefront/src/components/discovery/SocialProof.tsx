@@ -7,7 +7,7 @@ import { Quote } from 'lucide-react'
  * Social Proof — Testimonials + Stats
  *
  * Uses FortyFive.io's real testimonials (53% close rate increase) plus
- * American Outliers' SOF placement results. These are real quotes.
+ * Sales Autonomy' SOF placement results. These are real quotes.
  * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
 const STATS = [
@@ -29,14 +29,14 @@ const TESTIMONIALS = [
     quote:
       'He stopped the firefighting within weeks — tightened schedules, raised our bar on quality, and built a bench I actually trust. He\'s the operator we needed to take us to the next phase of growth.',
     name: 'CEO, Construction Company',
-    title: 'American Outliers Placement',
+    title: 'Sales Autonomy Placement',
     context: 'Former SEAL Officer',
   },
   {
     quote:
       'Low maintenance, high agency. He owns the number, levels up the team, and partners with ops to deliver faster.',
     name: 'VP Sales, Home Services',
-    title: 'American Outliers Placement',
+    title: 'Sales Autonomy Placement',
     context: 'Former Green Beret',
   },
   {

@@ -1,161 +1,384 @@
-import Link from 'next/link'
+"use client";
 
-export default function Home() {
+import Link from "next/link";
+
+export default function SalesAutonomyLandingPage() {
   return (
-    <>
-      {/* ── Hero ──────────────────────────────────────────────────────────── */}
-      <section className="hero">
-        <div className="cove-content">
-          <div className="animate-in">
-            <span className="badge badge-accent" style={{ marginBottom: '24px', display: 'inline-flex' }}>
-              Now Accepting Clients
+    <div className="min-h-screen bg-[#fcfaf8] text-[#111111] font-sans">
+      
+      {/* ── HERO SECTION ─────────────────────────────────────────────────── */}
+      <section className="pt-40 pb-20 md:pt-48 md:pb-24 px-6">
+        <div className="max-w-5xl mx-auto text-center">
+          <div className="inline-block mb-8 px-4 py-1.5 rounded-full border border-black/10 text-[#111111]/70 text-sm font-medium tracking-wide">
+            Standardized GTM Profiles &amp; Published References
+          </div>
+
+          <h1 className="text-5xl md:text-7xl font-serif tracking-tight mb-8 leading-[1.08] text-[#111111]">
+            The standardized profile.
+            <br />
+            <span className="text-[#111111]/60 italic font-light">
+              The verified references. Nothing else.
             </span>
-          </div>
-          <h1 className="animate-in animate-delay-1">
-            <span className="text-gradient">Trained sales operators.</span>
-            <br />Placed in 30 days.
           </h1>
-          <p className="animate-in animate-delay-2">
-            We source, train, and place sales professionals from America's top talent pools.
-            Your reps arrive with a proven process, a diagnostic framework, and the reps to hit quota in 90 days.
+
+          <p className="text-xl md:text-2xl text-[#111111]/65 mb-12 max-w-3xl mx-auto font-light leading-relaxed">
+            Founding AEs, Mid-Market &amp; Enterprise Sellers, VPs of Sales, and GTM Engineers. Every candidate builds one standardized 6-block profile and publishes LinkedIn-verified references from former bosses, teammates, and buyers—before you ever take a first call.
           </p>
-          <div className="hero-actions animate-in animate-delay-3">
-            <a href="/room/ee0008cd-b2f0-49bb-825d-93c41ee5df12" className="btn btn-primary btn-lg">
-              See a Discovery Room →
-            </a>
-            <a href="/pricing" className="btn btn-secondary btn-lg">
-              View pricing
-            </a>
-          </div>
-        </div>
-      </section>
 
-      {/* ── Stats Strip ─────────────────────────────────────────────────── */}
-      <section style={{ padding: '0 0 64px', textAlign: 'center' }}>
-        <div className="cove-content">
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '48px', flexWrap: 'wrap' }}>
-            {[
-              { value: '40–60%', label: 'of B2B deals die to inaction, not competitors' },
-              { value: '50–60%', label: 'of sales reps miss quota annually' },
-              { value: '$50K–$250K+', label: 'average cost of one bad sales hire' },
-            ].map((stat) => (
-              <div key={stat.label} style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: 'var(--text-heading-lg)', fontWeight: 800, letterSpacing: '-0.03em', color: 'var(--text)' }}>
-                  {stat.value}
-                </div>
-                <div style={{ fontSize: 'var(--text-caption)', color: 'var(--text-muted)', maxWidth: '180px', marginTop: '4px' }}>
-                  {stat.label}
-                </div>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              href="/portal/demo"
+              className="px-8 py-4 bg-[#111111] hover:bg-[#333333] text-white font-medium transition-colors text-base w-full sm:w-auto"
+            >
+              Browse the Live Bench
+            </Link>
+            <Link
+              href="/hire/apply"
+              className="px-8 py-4 bg-transparent border border-black/20 hover:border-black hover:bg-black/5 text-[#111111] font-medium transition-colors text-base w-full sm:w-auto"
+            >
+              Get a Bench Pass ($0 Placement Fee)
+            </Link>
+            <Link
+              href="/academy/apply"
+              className="px-8 py-4 bg-white border border-black/10 hover:border-black/40 text-[#111111]/80 hover:text-[#111111] font-medium transition-colors text-base w-full sm:w-auto"
+            >
+              For Candidates: Build Stealth Profile
+            </Link>
+          </div>
+
+          {/* 4 Editorial Proof Metrics */}
+          <div className="mt-24 pt-12 border-t border-black/10">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+              <div className="flex flex-col">
+                <span className="text-4xl md:text-5xl font-serif tracking-tight text-[#111111] mb-2">
+                  6 Blocks
+                </span>
+                <span className="text-[0.7rem] uppercase tracking-[0.15em] text-[#111111]/50 font-medium">
+                  Standardized Per Profile
+                </span>
               </div>
-            ))}
+              <div className="flex flex-col">
+                <span className="text-4xl md:text-5xl font-serif tracking-tight text-[#111111] mb-2">
+                  360°
+                </span>
+                <span className="text-[0.7rem] uppercase tracking-[0.15em] text-[#111111]/50 font-medium">
+                  Published References on Profile
+                </span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-4xl md:text-5xl font-serif tracking-tight text-[#111111] mb-2">
+                  100%
+                </span>
+                <span className="text-[0.7rem] uppercase tracking-[0.15em] text-[#111111]/50 font-medium">
+                  Stealth &amp; Domain-Shielded
+                </span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-4xl md:text-5xl font-serif tracking-tight text-[#111111] mb-2">
+                  $0
+                </span>
+                <span className="text-[0.7rem] uppercase tracking-[0.15em] text-[#111111]/50 font-medium">
+                  Back-End Commission Fee
+                </span>
+              </div>
+            </div>
           </div>
-          <p className="rail-label" style={{ marginTop: '32px', fontSize: '9px' }}>
-            Sources: Harvard Business Review · CSO Insights · DePaul University
-          </p>
         </div>
       </section>
 
-      {/* ── How It Works ────────────────────────────────────────────────── */}
-      <section style={{ padding: '64px 0 96px' }}>
-        <div className="cove-content">
-          <div className="text-center" style={{ marginBottom: '64px' }}>
-            <p className="rail-label" style={{ marginBottom: '12px' }}>The 4D Framework</p>
-            <h2>A proven system. Not a job board.</h2>
-            <p style={{ maxWidth: '560px', margin: '16px auto 0' }}>
-              Every rep we place runs the same four-stage process that has closed millions in B2B revenue.
-              No guesswork. No trial and error.
-            </p>
+      {/* ── SECTION 2: THREE PILLARS (Books-style Hairline Grid) ────────── */}
+      <section className="py-24 px-6 border-t border-black/10">
+        <div className="max-w-6xl mx-auto">
+          <div className="mb-16">
+            <div className="text-xs uppercase tracking-[0.2em] text-[#111111]/40 font-medium mb-3">
+              How It Works
+            </div>
+            <h2 className="text-4xl md:text-5xl font-serif tracking-tight text-[#111111]">
+              Two Signals That Actually Matter.
+            </h2>
           </div>
-          <div className="grid-3">
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-black/10 border border-black/10">
             {[
               {
-                icon: '🔍',
-                title: 'Discovery',
-                desc: 'Find out if the problem is real, urgent, and worth solving. Qualify hard. Disqualify early.',
+                num: "01 · The Standardized Profile",
+                title: "Apples-to-Apples Deal Context",
+                tagline: "6 identical blocks on every card",
+                desc: "A '130% quota' bullet on a resume means nothing without context. Every candidate on the bench is normalized across the same 6 blocks: ARR stage scaled, median ACV, sales cycle, buyer persona, self-sourced outbound split, and exact comp floor."
               },
               {
-                icon: '🩺',
-                title: 'Diagnosis',
-                desc: 'Go deeper. What have they tried? Why did it fail? Can they solve this without outside help?',
+                num: "02 · Published References",
+                title: "Verified Before Call #1",
+                tagline: "Managers, teammates & buyers",
+                desc: "Normally you don't hear from references until the end of a 6-week interview loop. Here, candidates invite their former VPs of Sales, Solutions Engineers, and customers to publish LinkedIn and work-email verified references directly onto their profile."
               },
               {
-                icon: '🎯',
-                title: 'Demo',
-                desc: 'Show how your specific approach solves their specific problem. No feature dumps. No generic decks.',
-              },
-              {
-                icon: '✅',
-                title: 'Decision',
-                desc: 'Guide the final call. Handle pricing, align stakeholders, and drive to a signed agreement.',
-              },
-              {
-                icon: '🛡️',
-                title: 'Fatality Matrix',
-                desc: 'Every lost deal fits one of five categories. We diagnose the root cause and fix the process so it never happens again.',
-              },
-              {
-                icon: '📊',
-                title: 'Strategic Sales Plan',
-                desc: 'Data-driven funnel tracking. Activities → Conversations → Meetings → Closed. Know your numbers at every stage.',
-              },
-            ].map((feature) => (
-              <div key={feature.title} className="card" style={{ padding: '32px' }}>
-                <div className="feature-icon">{feature.icon}</div>
-                <div className="feature-title">{feature.title}</div>
-                <div className="feature-desc">{feature.desc}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Discovery Room Preview ────────────────────────────────────── */}
-      <section style={{ padding: '64px 0 96px' }}>
-        <div className="cove-panel">
-          <div className="text-center" style={{ marginBottom: '48px' }}>
-            <p className="rail-label" style={{ marginBottom: '12px' }}>The Discovery Room</p>
-            <h2>Your prospect gets their own private room</h2>
-            <p style={{ maxWidth: '560px', margin: '16px auto 0' }}>
-              Not a PDF. Not a pitch deck. A custom digital environment where prospects explore their challenges,
-              see your approach, run their own ROI calculator, and review a tailored proposal — on their schedule.
-            </p>
-          </div>
-          <div className="card" style={{ padding: '32px', textAlign: 'center' }}>
-            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '24px', marginBottom: '32px' }}>
-              {['Pain Discovery', 'Solution Walkthrough', 'Social Proof', 'ROI Calculator', 'Proposal', 'Kickoff'].map((step, i) => (
-                <div key={step} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <div style={{
-                    width: '24px', height: '24px', borderRadius: '50%',
-                    background: 'var(--accent-soft)', color: '#a5b4fc',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: '11px', fontWeight: 700,
-                  }}>
-                    {i + 1}
+                num: "03 · The Bench Pass",
+                title: "Instant Shortlist + Warm Intros",
+                tagline: "Zero back-end placement fees",
+                desc: "Browse the anonymized bench for free. Activate a Bench Pass to filter by your exact role spec and request double-opt-in warm introductions immediately. When a candidate approves your intro, their full identity unlocks."
+              }
+            ].map((item, idx) => (
+              <div key={idx} className="bg-[#fcfaf8] p-10 md:p-12 flex flex-col justify-between">
+                <div>
+                  <div className="text-xs uppercase tracking-[0.2em] text-[#d9534f] font-medium mb-4">
+                    {item.num}
                   </div>
-                  <span style={{ fontSize: 'var(--text-body-sm)', color: 'var(--text-secondary)' }}>{step}</span>
+                  <h3 className="text-3xl font-serif text-[#111111] mb-2 leading-snug">
+                    {item.title}
+                  </h3>
+                  <p className="text-xs uppercase tracking-[0.15em] text-[#111111]/45 font-medium mb-6">
+                    {item.tagline}
+                  </p>
+                  <p className="text-[#111111]/65 font-light leading-relaxed">
+                    {item.desc}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── SECTION 3: SAMPLE STANDARDIZED CARD + PUBLISHED REFERENCES ──── */}
+      <section className="py-24 px-6 border-t border-black/10 bg-[#f5f4ef]/60">
+        <div className="max-w-6xl mx-auto">
+          <div className="mb-14 flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div>
+              <div className="text-xs uppercase tracking-[0.2em] text-[#111111]/40 font-medium mb-3">
+                Inside Every Profile
+              </div>
+              <h2 className="text-4xl md:text-5xl font-serif tracking-tight text-[#111111]">
+                The Profile + The Published References
+              </h2>
+            </div>
+            <Link
+              href="/portal/demo"
+              className="text-sm font-medium text-[#111111] underline underline-offset-4 hover:text-[#d9534f]"
+            >
+              Browse all candidates on the Live Bench →
+            </Link>
+          </div>
+
+          {/* Sample Candidate Dossier Card */}
+          <div className="bg-white border border-black/10 p-8 md:p-12">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-8 border-b border-black/10">
+              <div>
+                <div className="flex flex-wrap items-center gap-2.5 mb-2">
+                  <span className="px-3 py-1 bg-[#111111] text-white text-[11px] uppercase tracking-[0.15em] font-medium">
+                    Founding / Mid-Market AE
+                  </span>
+                  <span className="px-3 py-1 border border-black/15 text-[#111111]/70 text-[11px] uppercase tracking-[0.15em]">
+                    ✓ 1-of-1 LinkedIn Verified
+                  </span>
+                  <span className="px-3 py-1 bg-[#f5f4ef] text-[#111111]/60 text-[11px] uppercase tracking-[0.15em]">
+                    Stealth Active • Comp Floor: $100K Base / $200K OTE
+                  </span>
+                </div>
+                <h3 className="text-3xl font-serif text-[#111111] mt-2">
+                  Candidate #JM-204{" "}
+                  <span className="text-[#111111]/50 italic font-light text-2xl">
+                    — Currently at Series B Cybersecurity SaaS
+                  </span>
+                </h3>
+              </div>
+
+              <Link
+                href="/hire/apply"
+                className="px-6 py-3.5 bg-[#111111] hover:bg-[#333333] text-white text-sm font-medium transition-colors self-start md:self-center shrink-0"
+              >
+                Request Warm Intro →
+              </Link>
+            </div>
+
+            {/* Part 1: The Standardized 6-Block Profile */}
+            <div className="mt-8 mb-3 text-xs uppercase tracking-[0.2em] text-[#111111]/45 font-medium">
+              Part 01 · Standardized 6-Block Operator Profile
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-6 gap-px bg-black/10 border border-black/10 mb-10">
+              <div className="bg-[#fcfaf8] p-5">
+                <div className="text-[10px] uppercase tracking-[0.15em] text-[#111111]/45 mb-1">
+                  01 · Stage Scaled
+                </div>
+                <div className="text-lg font-serif text-[#111111]">$1.4M → $8M ARR</div>
+              </div>
+              <div className="bg-[#fcfaf8] p-5">
+                <div className="text-[10px] uppercase tracking-[0.15em] text-[#111111]/45 mb-1">
+                  02 · Deal Band (ACV)
+                </div>
+                <div className="text-lg font-serif text-[#111111]">$50K–$150K ($95K)</div>
+              </div>
+              <div className="bg-[#fcfaf8] p-5">
+                <div className="text-[10px] uppercase tracking-[0.15em] text-[#111111]/45 mb-1">
+                  03 · Attainment
+                </div>
+                <div className="text-lg font-serif text-[#111111]">142% Avg (3 Yrs)</div>
+              </div>
+              <div className="bg-[#fcfaf8] p-5">
+                <div className="text-[10px] uppercase tracking-[0.15em] text-[#111111]/45 mb-1">
+                  04 · Pipeline Mix
+                </div>
+                <div className="text-lg font-serif text-[#111111]">65% Self-Sourced</div>
+              </div>
+              <div className="bg-[#fcfaf8] p-5">
+                <div className="text-[10px] uppercase tracking-[0.15em] text-[#111111]/45 mb-1">
+                  05 · Primary Buyer
+                </div>
+                <div className="text-lg font-serif text-[#111111]">VP Eng / CTO / CISO</div>
+              </div>
+              <div className="bg-[#fcfaf8] p-5">
+                <div className="text-[10px] uppercase tracking-[0.15em] text-[#111111]/45 mb-1">
+                  06 · Cycle &amp; Territory
+                </div>
+                <div className="text-lg font-serif text-[#111111]">60–90d • Greenfield</div>
+              </div>
+            </div>
+
+            {/* Part 2: Published References */}
+            <div className="mb-3 text-xs uppercase tracking-[0.2em] text-[#d9534f] font-medium">
+              Part 02 · Published References (Verified via LinkedIn + Work Email)
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-black/10 border border-black/10">
+              {[
+                {
+                  who: "Former VP of Sales (Direct Manager)",
+                  meta: "Managed Jordan for 9 quarters",
+                  quote:
+                    "Jordan was my #1 rep for 9 straight quarters. She built her own target list from scratch and never waited on marketing for pipeline."
+                },
+                {
+                  who: "Lead Solutions Engineer (Teammate)",
+                  meta: "Partnered on 40+ technical evaluations",
+                  quote:
+                    "Best AE I've partnered with. She runs real technical discovery on Call #1 and never pulls me into unqualified demos."
+                },
+                {
+                  who: "VP of Engineering (Customer Who Bought)",
+                  meta: "Signed $110K annual agreement",
+                  quote:
+                    "She understood our architecture bottleneck better than any vendor we evaluated and helped me build the ROI case for our CFO."
+                }
+              ].map((end, i) => (
+                <div key={i} className="bg-[#fcfaf8] p-8 flex flex-col justify-between">
+                  <p className="text-base font-serif italic text-[#111111]/85 leading-relaxed mb-6">
+                    &ldquo;{end.quote}&rdquo;
+                  </p>
+                  <div className="pt-4 border-t border-black/10 flex items-center justify-between text-xs">
+                    <div>
+                      <div className="font-medium text-[#111111]">{end.who}</div>
+                      <div className="text-[11px] text-[#111111]/50 mt-0.5">{end.meta}</div>
+                    </div>
+                    <span className="uppercase tracking-widest text-[10px] text-[#111111]/55 shrink-0">
+                      ✓ Verified
+                    </span>
+                  </div>
                 </div>
               ))}
             </div>
-            <a href="/room/ee0008cd-b2f0-49bb-825d-93c41ee5df12" className="btn btn-primary btn-lg">
-              Walk through a live demo →
-            </a>
           </div>
         </div>
       </section>
 
-      {/* ── CTA ───────────────────────────────────────────────────────────── */}
-      <section style={{ padding: '96px 0', textAlign: 'center' }}>
-        <div className="cove-content">
-          <h2>Stop hiring. Start placing.</h2>
-          <p style={{ maxWidth: '480px', margin: '16px auto 32px' }}>
-            Tell us what you need. We source, train, and place operators who run
-            a proven sales process from day one.
-          </p>
-          <a href="/room/ee0008cd-b2f0-49bb-825d-93c41ee5df12" className="btn btn-primary btn-lg">
-            Open your Discovery Room →
-          </a>
+      {/* ── SECTION 4: THE BENCH PASS (One Simple Offer) ────────────────── */}
+      <section className="py-24 px-6 border-t border-black/10">
+        <div className="max-w-5xl mx-auto">
+          <div className="bg-white border border-black/10 p-10 md:p-16">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 pb-10 border-b border-black/10">
+              <div>
+                <div className="text-xs uppercase tracking-[0.2em] text-[#d9534f] font-medium mb-3">
+                  The Bench Pass • Simple Flat Access
+                </div>
+                <h2 className="text-4xl md:text-5xl font-serif tracking-tight text-[#111111]">
+                  One Pass. Unlimited Intros. $0 Placement Fee.
+                </h2>
+                <p className="text-lg text-[#111111]/65 font-light mt-4 max-w-2xl leading-relaxed">
+                  No 25% headhunter commissions. No 6-week retainers. Configure your 6-Block Role Spec in 60 seconds, unlock your matched shortlist from our Live Bench, and request direct warm intros to candidates whose references are already verified.
+                </p>
+              </div>
+              <div className="shrink-0 md:text-right">
+                <div className="text-4xl md:text-5xl font-serif text-[#111111]">$2,500</div>
+                <div className="text-xs uppercase tracking-[0.15em] text-[#111111]/50 mt-1">
+                  Per Month • Cancel Anytime
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 py-10">
+              {[
+                "Instant access to all standardized 6-Block Candidate Profiles & published references",
+                "1:1 shortlist filtering matched to your ARR stage, ACV band, buyer persona, and OTE",
+                "1-click double-opt-in warm introductions (candidate identity unlocks on approval)",
+                "Hire 1, 2, or 5 operators with $0 back-end placement commission"
+              ].map((item, i) => (
+                <div key={i} className="flex items-start gap-3 text-[#111111]/80 font-light">
+                  <span className="text-[#111111] font-medium mt-0.5">✓</span>
+                  <span>{item}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="pt-8 border-t border-black/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="text-xs uppercase tracking-[0.15em] text-[#111111]/50">
+                Tracks Included: Founding AE · Mid-Market &amp; Enterprise AE · VP of Sales · GTM Engineer
+              </div>
+              <Link
+                href="/hire/apply"
+                className="w-full sm:w-auto px-8 py-4 bg-[#111111] hover:bg-[#333333] text-white text-sm font-medium text-center transition-colors shrink-0"
+              >
+                Configure Role &amp; Unlock the Bench →
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
-    </>
+
+      {/* ── SECTION 5: TWO SELF-SERVE PATHS (Companies & Candidates) ────── */}
+      <section className="py-24 px-6 border-t border-black/10 bg-[#f5f4ef]">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-black/10 border border-black/10">
+            <div className="bg-[#fcfaf8] p-10 md:p-14 flex flex-col justify-between">
+              <div>
+                <div className="text-xs uppercase tracking-[0.2em] text-[#d9534f] font-medium mb-3">
+                  For Founders &amp; Sales Leaders
+                </div>
+                <h3 className="text-3xl font-serif text-[#111111] mb-4">
+                  Unlock Your Shortlist in 60 Seconds
+                </h3>
+                <p className="text-[#111111]/65 font-light leading-relaxed mb-8">
+                  Set your role track, ACV band, sales cycle, buyer persona, and comp range using our standardized 6-block intake. Immediately see matching profiles and published references.
+                </p>
+              </div>
+              <Link
+                href="/hire/apply"
+                className="inline-block w-full text-center py-4 bg-[#111111] text-white hover:bg-[#333333] font-medium transition-colors"
+              >
+                Get a Bench Pass →
+              </Link>
+            </div>
+
+            <div className="bg-[#fcfaf8] p-10 md:p-14 flex flex-col justify-between">
+              <div>
+                <div className="text-xs uppercase tracking-[0.2em] text-[#111111]/50 font-medium mb-3">
+                  For Sellers, Leaders &amp; GTM Engineers
+                </div>
+                <h3 className="text-3xl font-serif text-[#111111] mb-4">
+                  Build Your Profile &amp; Publish References
+                </h3>
+                <p className="text-[#111111]/65 font-light leading-relaxed mb-8">
+                  Drop your resume to auto-fill your 6-block profile in 10 seconds, shield your current employer&apos;s domain, and invite former managers, teammates, and customers to publish verified references to your card.
+                </p>
+              </div>
+              <Link
+                href="/academy/apply"
+                className="inline-block w-full text-center py-4 border border-black/20 hover:border-black hover:bg-black/5 text-[#111111] font-medium transition-colors"
+              >
+                Build My Stealth Profile →
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
   );
 }

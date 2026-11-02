@@ -8,9 +8,9 @@ ARG NEXT_PUBLIC_SUPABASE_ANON_KEY
 ENV NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL
 ENV NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY
 
-COPY storefront/package*.json ./
+COPY package*.json ./
 RUN npm ci
-COPY storefront/ .
+COPY . .
 RUN npm run build
 
 # Runner Stage
