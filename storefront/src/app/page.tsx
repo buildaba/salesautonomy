@@ -22,7 +22,7 @@ export default function SalesAutonomyLandingPage() {
           </h1>
 
           <p className="text-xl md:text-2xl text-[#111111]/65 mb-12 max-w-3xl mx-auto font-light leading-relaxed">
-            Founding AEs, Mid-Market &amp; Enterprise Sellers, VPs of Sales, and GTM Engineers. Every candidate builds one standardized 6-block profile and publishes LinkedIn-verified references from former bosses, teammates, and buyers—before you ever take a first call.
+            A symmetrical marketplace for Founding AEs, Enterprise Sellers, VPs of Sales, and GTM Engineers. Candidates publish a standardized 6-block profile and verified references. Hiring companies publish a standardized 6-block role profile and verified reverse references—before Call #1.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -101,22 +101,22 @@ export default function SalesAutonomyLandingPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-black/10 border border-black/10">
             {[
               {
-                num: "01 · The Standardized Profile",
-                title: "Apples-to-Apples Deal Context",
-                tagline: "6 identical blocks on every card",
-                desc: "A '130% quota' bullet on a resume means nothing without context. Every candidate on the bench is normalized across the same 6 blocks: ARR stage scaled, median ACV, sales cycle, buyer persona, self-sourced outbound split, and exact comp floor."
+                num: "01 · Standardized 6-Block Profiles",
+                title: "Apples-to-Apples on Both Sides",
+                tagline: "Candidates & Hiring Companies",
+                desc: "Every candidate is normalized across ARR stage scaled, ACV, attainment, pipeline mix, buyer persona, and comp floor. Every hiring company publishes an identical 6-block role profile showing real team quota attainment, inbound/outbound split, runway, and OTE."
               },
               {
-                num: "02 · Published References",
+                num: "02 · Published 360° References",
                 title: "Verified Before Call #1",
-                tagline: "Managers, teammates & buyers",
-                desc: "Normally you don't hear from references until the end of a 6-week interview loop. Here, candidates invite their former VPs of Sales, Solutions Engineers, and customers to publish LinkedIn and work-email verified references directly onto their profile."
+                tagline: "Bosses, teammates & customers",
+                desc: "Candidates publish LinkedIn-verified references from former VPs of Sales, Solutions Engineers, and buyers. Hiring companies publish reverse references from the Founder/VP, a current rep on the floor, and a paying customer."
               },
               {
                 num: "03 · The Bench Pass",
                 title: "Instant Shortlist + Warm Intros",
                 tagline: "Zero back-end placement fees",
-                desc: "Browse the anonymized bench for free. Activate a Bench Pass to filter by your exact role spec and request double-opt-in warm introductions immediately. When a candidate approves your intro, their full identity unlocks."
+                desc: "Browse the anonymized bench for free. Activate a Bench Pass to publish your candidate-facing Company & Role Profile, filter your matched shortlist, and send double-opt-in warm intro requests."
               }
             ].map((item, idx) => (
               <div key={idx} className="bg-[#fcfaf8] p-10 md:p-12 flex flex-col justify-between">
@@ -257,6 +257,123 @@ export default function SalesAutonomyLandingPage() {
                   meta: "Signed $110K annual agreement",
                   quote:
                     "She understood our architecture bottleneck better than any vendor we evaluated and helped me build the ROI case for our CFO."
+                }
+              ].map((end, i) => (
+                <div key={i} className="bg-[#fcfaf8] p-8 flex flex-col justify-between">
+                  <p className="text-base font-serif italic text-[#111111]/85 leading-relaxed mb-6">
+                    &ldquo;{end.quote}&rdquo;
+                  </p>
+                  <div className="pt-4 border-t border-black/10 flex items-center justify-between text-xs">
+                    <div>
+                      <div className="font-medium text-[#111111]">{end.who}</div>
+                      <div className="text-[11px] text-[#111111]/50 mt-0.5">{end.meta}</div>
+                    </div>
+                    <span className="uppercase tracking-widest text-[10px] text-[#111111]/55 shrink-0">
+                      ✓ Verified
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Sample Candidate-Facing Company & Role Dossier Card */}
+          <div className="bg-white border border-black/10 p-8 md:p-12 mt-10">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-8 border-b border-black/10">
+              <div>
+                <div className="flex flex-wrap items-center gap-2.5 mb-2">
+                  <span className="px-3 py-1 bg-[#111111] text-white text-[11px] uppercase tracking-[0.15em] font-medium">
+                    Candidate-Facing Company &amp; Role Profile
+                  </span>
+                  <span className="px-3 py-1 border border-black/15 text-[#111111]/70 text-[11px] uppercase tracking-[0.15em]">
+                    ✓ Founder &amp; Cap Table Verified
+                  </span>
+                  <span className="px-3 py-1 bg-[#f5f4ef] text-[#111111]/60 text-[11px] uppercase tracking-[0.15em]">
+                    $165K Base / $330K OTE + 0.35% Equity
+                  </span>
+                </div>
+                <h3 className="text-3xl font-serif text-[#111111] mt-2">
+                  Role #CO-101 · Founding AE (Seat #1){" "}
+                  <span className="text-[#111111]/50 italic font-light text-2xl">
+                    — Series A Cloud Security SaaS ($2.8M ARR)
+                  </span>
+                </h3>
+              </div>
+
+              <Link
+                href="/hire/apply"
+                className="px-6 py-3.5 border border-black/20 hover:border-black text-[#111111] text-sm font-medium transition-colors self-start md:self-center shrink-0"
+              >
+                Build Your Company Profile →
+              </Link>
+            </div>
+
+            {/* Part 1: The Standardized 6-Block Company & Role Profile */}
+            <div className="mt-8 mb-3 text-xs uppercase tracking-[0.2em] text-[#111111]/45 font-medium">
+              Part 01 · Standardized 6-Block Company &amp; Role Profile
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-6 gap-px bg-black/10 border border-black/10 mb-10">
+              <div className="bg-[#fcfaf8] p-5">
+                <div className="text-[10px] uppercase tracking-[0.15em] text-[#111111]/45 mb-1">
+                  01 · Stage &amp; Runway
+                </div>
+                <div className="text-lg font-serif text-[#111111]">$2.8M ARR • 34 Mos</div>
+              </div>
+              <div className="bg-[#fcfaf8] p-5">
+                <div className="text-[10px] uppercase tracking-[0.15em] text-[#111111]/45 mb-1">
+                  02 · Deal Band (ACV)
+                </div>
+                <div className="text-lg font-serif text-[#111111]">$45K–$120K ($68K)</div>
+              </div>
+              <div className="bg-[#fcfaf8] p-5">
+                <div className="text-[10px] uppercase tracking-[0.15em] text-[#111111]/45 mb-1">
+                  03 · Quota &amp; Team Math
+                </div>
+                <div className="text-lg font-serif text-[#111111]">$900K Quota (3.6x)</div>
+              </div>
+              <div className="bg-[#fcfaf8] p-5">
+                <div className="text-[10px] uppercase tracking-[0.15em] text-[#111111]/45 mb-1">
+                  04 · Pipeline Reality
+                </div>
+                <div className="text-lg font-serif text-[#111111]">45% Inb / 55% Outb</div>
+              </div>
+              <div className="bg-[#fcfaf8] p-5">
+                <div className="text-[10px] uppercase tracking-[0.15em] text-[#111111]/45 mb-1">
+                  05 · Primary Buyer
+                </div>
+                <div className="text-lg font-serif text-[#111111]">CISO / VP Infra</div>
+              </div>
+              <div className="bg-[#fcfaf8] p-5">
+                <div className="text-[10px] uppercase tracking-[0.15em] text-[#111111]/45 mb-1">
+                  06 · Cycle &amp; Ramp
+                </div>
+                <div className="text-lg font-serif text-[#111111]">45–75d • 3m Draw</div>
+              </div>
+            </div>
+
+            {/* Part 2: Published Reverse References */}
+            <div className="mb-3 text-xs uppercase tracking-[0.2em] text-[#d9534f] font-medium">
+              Part 02 · Published Reverse References (Verified Team &amp; Customer Vouches)
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-black/10 border border-black/10">
+              {[
+                {
+                  who: "Co-Founder & CEO (Hiring Manager)",
+                  meta: "Closed first 42 customers ($2.8M ARR)",
+                  quote:
+                    "I've personally closed our first $2.8M in ARR and documented every discovery call. You're walking into warm enterprise security evaluations and a 14-day POC that converts at 68%."
+                },
+                {
+                  who: "Founding Staff Engineer (POC Partner)",
+                  meta: "Joins technical evaluations directly",
+                  quote:
+                    "We deploy into the customer's AWS environment in 20 minutes. When a prospect asks for a custom compliance integration on a live deal, we ship it the same week."
+                },
+                {
+                  who: "CISO at Series C FinTech (Customer)",
+                  meta: "Signed $95K annual contract",
+                  quote:
+                    "Fastest security vendor evaluation we ran all year. Clear ROI in week one of the POC—no vaporware."
                 }
               ].map((end, i) => (
                 <div key={i} className="bg-[#fcfaf8] p-8 flex flex-col justify-between">
