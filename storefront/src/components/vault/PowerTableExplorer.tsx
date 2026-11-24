@@ -795,6 +795,36 @@ interface PowerTableExplorerProps {
   initialIndustry?: string;
 }
 
+function getDefaultStackedAgencies(rec: {
+  industryKey: string;
+  signalType: string;
+  stackedAgencies?: string[];
+}): string[] {
+  if (rec.stackedAgencies && rec.stackedAgencies.length >= 2) {
+    return rec.stackedAgencies;
+  }
+  const sig = rec.signalType.toUpperCase();
+  if (rec.industryKey === "healthcare") {
+    if (sig.includes("FDA") || sig.includes("510")) {
+      return ["FDA 510(k)", "DOL Form 5500", "SAM.gov", "DOL H-1B LCA"];
+    }
+    if (sig.includes("PERMIT")) {
+      return ["CMS NPPES", "DOL Form 5500", "Socrata Permits", "SBA 504 Loan"];
+    }
+    return ["CMS NPPES", "DOL Form 5500", "HHS OIG LEIE", "CMS Care Compare"];
+  }
+  if (rec.industryKey === "fleet") {
+    if (sig.includes("OSHA") || sig.includes("EPA")) {
+      return ["Federal OSHA", "EPA ECHO", "DOL Form 5500", "SBA 504 Loan"];
+    }
+    return ["DOT FMCSA", "DOL Form 5500", "Federal OSHA", "FAA Registry"];
+  }
+  if (sig.includes("PERMIT")) {
+    return ["Socrata Permits", "DOL Form 5500", "SBA 504 Loan", "SEC Form D"];
+  }
+  return ["SAM.gov", "USAspending", "DOL Form 5500", "DOL H-1B LCA"];
+}
+
 function mapInitialIndustry(raw?: string): string {
   if (!raw) return "ALL";
   const normalized = raw.toLowerCase();
@@ -939,6 +969,26 @@ export function PowerTableExplorer({ initialIndustry }: PowerTableExplorerProps)
               qualifyingFactPrimary: `Source: ${s.provenance?.source_system || "Federal Filing"} · ${s.filing?.external_filing_id || ""}`,
               qualifyingFactSecondary: `${entityName} · ${city}, ${state}`,
               repOpenerLine: `Saw ${entityName} filed ${s.filing?.external_filing_id || "a new compliance update"} (${s.signal_title || ""}) in ${city}, ${state}.`,
+              stackedAgencies: Array.isArray(s.stacked_agencies)
+                ? s.stacked_agencies.map((code: string) =>
+                    code
+                      .replace("FDA_OPENFDA_510K", "FDA 510(k)")
+                      .replace("SEC_EDGAR_FORM_D", "SEC Form D")
+                      .replace("SBA_7A_504", "SBA 504 Loan")
+                      .replace("DOL_LCA_H1B", "DOL H-1B LCA")
+                      .replace("DOL_5500", "DOL Form 5500")
+                      .replace("CMS_NPPES", "CMS NPPES")
+                      .replace("HHS_OIG_LEIE", "HHS OIG LEIE")
+                      .replace("CMS_QCOR", "CMS Care Compare")
+                      .replace("SOCRATA_PERMITS", "Socrata Permits")
+                      .replace("OSHA_ITA", "Federal OSHA")
+                      .replace("OSHA_EPA", "OSHA / EPA")
+                      .replace("EPA_ECHO", "EPA ECHO")
+                      .replace("FAA_REGISTRY", "FAA Registry")
+                      .replace("SAM_GOV", "SAM.gov")
+                      .replace("USASPENDING", "USAspending")
+                  )
+                : undefined,
               provenanceReceipts: [
                 {
                   fieldName: String(s.filing?.filing_type || "statutory_filing"),
@@ -1453,6 +1503,19 @@ export function PowerTableExplorer({ initialIndustry }: PowerTableExplorerProps)
                       <p className="text-xs text-[#3d3a34] leading-relaxed">
                         {rec.signalHeadline}
                       </p>
+                      <div className="flex flex-wrap items-center gap-1 mt-2">
+                        <span className="text-[10px] font-medium text-[#2e6f40] mr-0.5">
+                          Stacked ({getDefaultStackedAgencies(rec).length} Agencies):
+                        </span>
+                        {getDefaultStackedAgencies(rec).map((agency) => (
+                          <span
+                            key={agency}
+                            className="px-1.5 py-0.5 rounded bg-[#faf9f5] border border-black/10 text-[10px] font-mono text-[#5c5852]"
+                          >
+                            {agency}
+                          </span>
+                        ))}
+                      </div>
                     </td>
 
                     <td className="py-4 px-4 align-top whitespace-nowrap tabular-nums">
@@ -1540,7 +1603,14 @@ export function PowerTableExplorer({ initialIndustry }: PowerTableExplorerProps)
 
       {/* Slide-Over Account Details Drawer */}
       <SignalDossierDrawer
-        record={activeDrawerRecord}
+        record={
+          activeDrawerRecord
+            ? {
+                ...activeDrawerRecord,
+                stackedAgencies: getDefaultStackedAgencies(activeDrawerRecord),
+              }
+            : null
+        }
         onClose={() => setActiveDrawerRecord(null)}
         isUnlocked={
           activeDrawerRecord

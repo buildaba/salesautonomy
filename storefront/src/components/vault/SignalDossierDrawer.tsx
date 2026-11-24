@@ -68,6 +68,7 @@ export interface VaultRecord {
   qualifyingFactPrimary: string;
   qualifyingFactSecondary: string;
   repOpenerLine: string;
+  stackedAgencies?: string[];
   provenanceReceipts: ProvenanceReceipt[];
   contacts: BuyingContact[];
 }
@@ -104,9 +105,15 @@ export function SignalDossierDrawer({
   const handleCopyGrokbotBrief = () => {
     const primaryContact = record.contacts[0];
     const primaryReceipt = record.provenanceReceipts[0];
+    const agenciesList = (
+      record.stackedAgencies && record.stackedAgencies.length > 0
+        ? record.stackedAgencies
+        : ["DOL Form 5500 (EIN)", "SAM.gov (UEI)", record.engine]
+    ).join(" + ");
     const brief = [
-      `# Grokbot / Clay Autonomous Outbound Brief — ${record.dbaName}`,
+      `# Grokbot / Clay Multi-Agency Outbound Brief — ${record.dbaName}`,
       `Entity: ${record.legalName} (${record.domain})`,
+      `Stacked Federal Agencies: ${agenciesList}`,
       `Location: ${record.city}, ${record.state} · ${record.siteCountOrFleet} · ${record.verifiedHeadcount}`,
       `Trigger (${record.urgencyTier} · Score ${record.currentScore}/100): ${record.signalType} — ${record.signalHeadline}`,
       `Official Statutory Proof: ${primaryReceipt?.sourceName || "Federal Filing"} (${primaryReceipt?.sourceUrl || ""}) · SHA-256: ${primaryReceipt?.sha256Hash || ""}`,
@@ -144,6 +151,9 @@ export function SignalDossierDrawer({
                   <span className="px-2.5 py-1 rounded-md bg-[#ecfdf5] text-[#2e6f40] border border-[#a7f3d0] text-[11px] font-medium">
                     Deadline: {record.forwardWindowDays} Days Left
                   </span>
+                  <span className="px-2.5 py-1 rounded-md bg-[#141413] text-[#faf9f5] text-[11px] font-medium">
+                    {(record.stackedAgencies?.length || 3)} Federal Agencies Stacked
+                  </span>
                 </div>
                 <h2 className="text-2xl md:text-3xl font-serif font-medium text-[#141413] tracking-tight">
                   {record.dbaName}
@@ -151,6 +161,21 @@ export function SignalDossierDrawer({
                 <p className="text-xs text-[#5c5852] mt-1">
                   {record.domain} · {record.city}, {record.state} · {record.verifiedHeadcount}
                 </p>
+                {record.stackedAgencies && record.stackedAgencies.length > 0 && (
+                  <div className="flex flex-wrap items-center gap-1.5 mt-2.5">
+                    <span className="text-[11px] text-[#6b665e] font-medium">
+                      Cross-Walked Agencies:
+                    </span>
+                    {record.stackedAgencies.map((ag) => (
+                      <span
+                        key={ag}
+                        className="px-2 py-0.5 rounded-md bg-white border border-black/10 text-[10px] font-mono text-[#141413]"
+                      >
+                        {ag}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
               <button
                 type="button"

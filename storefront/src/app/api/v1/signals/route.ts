@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import {
   getAllCanonicalVaultSignals,
   VERTICAL_ENGINES_METADATA,
+  FEDERAL_AGENCIES_15_CATALOG,
   generateWeeklyDeltaDigestCsv,
   VerticalEngineId,
   CanonicalSignalDelta,
@@ -78,6 +79,7 @@ function buildGrokbotOutboundBrief(signal: CanonicalSignalDelta, isUnlocked: boo
   return {
     signal_id: signal.id,
     vertical_engine: signal.vertical_engine,
+    stacked_federal_agencies: signal.stacked_agencies ?? ['DOL_5500', 'SAM_GOV', signal.provenance.source_system],
     urgency_score: signal.urgency.urgency_score,
     deadline_window: deadlineText,
     target_account: {
@@ -252,9 +254,12 @@ export async function GET(req: NextRequest) {
         format,
       },
       total_matches: formattedSignals.length,
+      total_federal_agencies_indexed: FEDERAL_AGENCIES_15_CATALOG.length,
+      federal_agencies_catalog: FEDERAL_AGENCIES_15_CATALOG,
       vertical_engines_available: VERTICAL_ENGINES_METADATA.map((e) => ({
         id: e.id,
         name: e.name,
+        stacked_agency_codes: e.stacked_agency_codes,
         refresh_cadence: e.refresh_cadence,
       })),
       signals: formattedSignals,

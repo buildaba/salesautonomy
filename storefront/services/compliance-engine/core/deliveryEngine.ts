@@ -67,7 +67,12 @@ export interface CanonicalFilingRecord {
     | 'FEDERAL_CONTRACT_RECOMPETE'
     | 'CMS_DEFICIENCY_CITATION'
     | 'OIG_EXCLUSION_FLAG'
-    | 'COMMERCIAL_BUILDING_PERMIT';
+    | 'COMMERCIAL_BUILDING_PERMIT'
+    | 'FDA_510K_DEVICE_CLEARANCE'
+    | 'SEC_FORM_D_GROWTH_FINANCING'
+    | 'SBA_504_EXPANSION_LOAN'
+    | 'DOL_H1B_SKILLED_HIRING_SURGE'
+    | 'FAA_COMMERCIAL_FLEET_REGISTRATION';
   filing_date: string;
   effective_date: string | null;
   expiration_date: string | null;
@@ -109,6 +114,7 @@ export interface CanonicalSignalDelta {
   filing: CanonicalFilingRecord;
   provenance: SourceProvenanceRecord;
   buying_committee: CanonicalContactRecord[];
+  stacked_agencies?: string[];
 }
 
 /**
