@@ -927,21 +927,20 @@ export function PowerTableExplorer() {
   };
 
   return (
-    <div className="bg-white border border-black/15 shadow-xs">
+    <div className="bg-white border border-black/10 rounded-2xl shadow-[0_1px_2px_rgba(20,20,19,0.03)] overflow-hidden">
       {/* Top Bar: Credit Meter Counter & Bulk Actions */}
-      <div className="bg-[#f5f4ef] border-b border-black/10 px-6 py-4 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-        <div className="flex flex-wrap items-center gap-3">
-          <span className="px-3 py-1 bg-[#111111] text-white text-[11px] uppercase tracking-[0.15em] font-medium">
-            PowerTable Vault Explorer
+      <div className="bg-[#f0eee6]/70 border-b border-black/8 px-6 py-4 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+        <div className="flex flex-wrap items-center gap-2.5">
+          <span className="px-3 py-1 rounded-full bg-[#141413] text-[#faf9f5] text-xs font-medium">
+            Live Vault Explorer
           </span>
-          <span className="px-3 py-1 bg-white border border-black/15 text-[11px] font-mono text-[#111111]">
+          <span className="px-3 py-1 rounded-full bg-white border border-black/10 text-xs font-mono text-[#141413] tabular-nums">
             <strong>
               {creditsRemaining.toLocaleString()} / 1,250 Monthly Contact Unlocks
-              Available
             </strong>
           </span>
-          <span className="text-xs text-[#111111]/65 hidden sm:inline">
-            • 50-Keyword CPA Filter Active • &lt;2% Bounce SLA
+          <span className="text-xs text-[#5c5852] hidden sm:inline">
+            · 55-Keyword CPA Filter · &lt;2% Bounce SLA
           </span>
         </div>
 
@@ -949,24 +948,24 @@ export function PowerTableExplorer() {
           <button
             type="button"
             onClick={handleBulkUnlockSelected}
-            className="px-3.5 py-2 border border-black/20 bg-white hover:border-black text-xs font-medium text-[#111111] inline-flex items-center gap-1.5 transition-colors cursor-pointer"
+            className="px-3.5 py-2 rounded-xl border border-black/14 bg-white hover:bg-[#f0eee6] text-xs font-medium text-[#141413] inline-flex items-center gap-1.5 transition-colors cursor-pointer"
           >
-            <Unlock className="w-3.5 h-3.5 text-[#d9534f]" />
+            <Unlock className="w-3.5 h-3.5 text-[#2e6f40]" />
             Unlock Selected ({selectedIds.length || filteredRecords.length})
           </button>
           <button
             type="button"
             onClick={handleExportCsv}
-            className="px-4 py-2 bg-[#111111] hover:bg-[#333333] text-white text-xs uppercase tracking-wider font-medium inline-flex items-center gap-1.5 transition-colors cursor-pointer"
+            className="px-4 py-2 rounded-xl bg-[#141413] hover:bg-[#2c2b28] text-[#faf9f5] text-xs font-medium inline-flex items-center gap-1.5 transition-colors cursor-pointer"
           >
             <Download className="w-3.5 h-3.5" />
-            1-Click CSV Export ({selectedIds.length || filteredRecords.length} Rows)
+            Export CSV ({selectedIds.length || filteredRecords.length} Rows)
           </button>
         </div>
       </div>
 
       {csvExportNotice && (
-        <div className="bg-emerald-50 border-b border-emerald-300 px-6 py-2.5 text-xs text-emerald-950 flex items-center justify-between">
+        <div className="bg-[#ecfdf5] border-b border-[#a7f3d0] px-6 py-2.5 text-xs text-[#065f46] flex items-center justify-between">
           <span>✓ {csvExportNotice}</span>
           <button
             type="button"
@@ -978,34 +977,34 @@ export function PowerTableExplorer() {
         </div>
       )}
 
-      {/* Vertical Engine Tabs */}
-      <div className="border-b border-black/10 px-6 pt-4 bg-[#fcfaf8] flex flex-wrap gap-1.5">
+      {/* Vertical Engine Pill Tabs (buildaba PracticePathShowcase style) */}
+      <div className="border-b border-black/8 px-6 py-3.5 bg-[#faf9f5] flex flex-wrap items-center gap-1.5">
         {[
           {
             id: "ALL",
-            label: "All 3 Vertical Engines (12 Sample Rows)",
+            label: "All 3 Engines (12)",
           },
           {
             id: "Healthcare & Multi-Site Clinic Graph",
-            label: "Engine 1: Healthcare & Multi-Site Clinics (4)",
+            label: "01 · Healthcare & Clinics (4)",
           },
           {
             id: "Industrial, Fleet & Facility Risk Graph",
-            label: "Engine 2: Industrial, Fleet & Facility Risk (4)",
+            label: "02 · Industrial & Fleet (4)",
           },
           {
             id: "Public Sector, Contractors & Permits Graph",
-            label: "Engine 3: Public Sector, Contractors & Permits (4)",
+            label: "03 · Public Sector & Permits (4)",
           },
         ].map((tab) => (
           <button
             key={tab.id}
             type="button"
             onClick={() => setSelectedEngine(tab.id)}
-            className={`px-4 py-2.5 text-xs uppercase tracking-[0.12em] font-medium border-t border-x transition-colors cursor-pointer ${
+            className={`px-3.5 py-2 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
               selectedEngine === tab.id
-                ? "bg-white text-[#111111] border-black/15 -mb-px pb-3"
-                : "bg-[#f5f4ef]/70 text-[#111111]/60 border-transparent hover:text-[#111111]"
+                ? "bg-[#141413] text-[#faf9f5] shadow-xs"
+                : "bg-white border border-black/10 text-[#5c5852] hover:text-[#141413] hover:bg-[#f0eee6]"
             }`}
           >
             {tab.label}
@@ -1014,15 +1013,15 @@ export function PowerTableExplorer() {
       </div>
 
       {/* Filter Bar: Search, State, Urgency Tier, Signal Type */}
-      <div className="p-6 border-b border-black/10 bg-white grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
+      <div className="p-5 border-b border-black/8 bg-white grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
         <div className="md:col-span-5 relative">
-          <Search className="w-4 h-4 text-[#111111]/40 absolute left-3.5 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-[#6b665e] absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search legal name, EIN, USDOT, NPI, permit #, or trigger..."
-            className="w-full bg-[#fcfaf8] border border-black/15 pl-10 pr-4 py-2.5 text-xs text-[#111111] placeholder:text-[#111111]/40 focus:outline-none focus:border-black"
+            className="w-full rounded-xl bg-[#faf9f5] border border-black/12 pl-10 pr-4 py-2.5 text-xs text-[#141413] placeholder:text-[#6b665e] focus:outline-none focus:border-[#141413]"
           />
         </div>
 
@@ -1031,7 +1030,7 @@ export function PowerTableExplorer() {
             value={stateFilter}
             onChange={(e) => setStateFilter(e.target.value)}
             aria-label="Filter by state"
-            className="w-full bg-[#fcfaf8] border border-black/15 px-3 py-2.5 text-xs text-[#111111] focus:outline-none focus:border-black"
+            className="w-full rounded-xl bg-[#faf9f5] border border-black/12 px-3 py-2.5 text-xs text-[#141413] focus:outline-none focus:border-[#141413]"
           >
             <option value="ALL">All States ({uniqueStates.length})</option>
             {uniqueStates.map((st) => (
@@ -1047,9 +1046,9 @@ export function PowerTableExplorer() {
             value={urgencyFilter}
             onChange={(e) => setUrgencyFilter(e.target.value)}
             aria-label="Filter by urgency tier"
-            className="w-full bg-[#fcfaf8] border border-black/15 px-3 py-2.5 text-xs text-[#111111] focus:outline-none focus:border-black"
+            className="w-full rounded-xl bg-[#faf9f5] border border-black/12 px-3 py-2.5 text-xs text-[#141413] focus:outline-none focus:border-[#141413]"
           >
-            <option value="ALL">All Urgency Windows</option>
+            <option value="ALL">All Windows</option>
             <option value="Immediate (0-30d)">Immediate (0-30d)</option>
             <option value="High (31-60d)">High (31-60d)</option>
             <option value="Active (61-90d)">Active (61-90d)</option>
@@ -1061,7 +1060,7 @@ export function PowerTableExplorer() {
             value={signalTypeFilter}
             onChange={(e) => setSignalTypeFilter(e.target.value)}
             aria-label="Filter by signal type"
-            className="w-full bg-[#fcfaf8] border border-black/15 px-3 py-2.5 text-xs text-[#111111] focus:outline-none focus:border-black"
+            className="w-full rounded-xl bg-[#faf9f5] border border-black/12 px-3 py-2.5 text-xs text-[#141413] focus:outline-none focus:border-[#141413]"
           >
             <option value="ALL">All Forward Triggers ({uniqueSignalTypes.length})</option>
             {uniqueSignalTypes.map((sig) => (
@@ -1077,34 +1076,34 @@ export function PowerTableExplorer() {
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="bg-[#f5f4ef] border-b border-black/10 text-[10px] uppercase tracking-[0.15em] text-[#111111]/55">
+            <tr className="bg-[#faf9f5] border-b border-black/8 text-[11px] font-medium text-[#6b665e]">
               <th className="py-3.5 px-4 w-10">
                 <button
                   type="button"
                   onClick={toggleSelectAllVisible}
-                  className="text-[#111111] cursor-pointer"
+                  className="text-[#141413] cursor-pointer"
                   aria-label="Select all visible rows"
                 >
                   {filteredRecords.length > 0 &&
                   filteredRecords.every((r) => selectedIds.includes(r.id)) ? (
                     <CheckSquare className="w-4 h-4" />
                   ) : (
-                    <Square className="w-4 h-4" />
+                    <Square className="w-4 h-4 text-[#6b665e]" />
                   )}
                 </button>
               </th>
               <th className="py-3.5 px-4">Canonical Entity &amp; Backbone IDs</th>
               <th className="py-3.5 px-4">Footprint &amp; Form 5500 Headcount</th>
               <th className="py-3.5 px-4">Forward-Looking Signal &amp; Window</th>
-              <th className="py-3.5 px-4">Decayed Score</th>
+              <th className="py-3.5 px-4">Score</th>
               <th className="py-3.5 px-4">Verified Officer (CPA-Filtered)</th>
               <th className="py-3.5 px-4 text-right">Dossier &amp; Receipts</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-black/10 text-xs">
+          <tbody className="divide-y divide-black/8 text-xs">
             {filteredRecords.length === 0 ? (
               <tr>
-                <td colSpan={7} className="py-12 px-6 text-center text-[#111111]/60">
+                <td colSpan={7} className="py-12 px-6 text-center text-[#5c5852]">
                   No accounts match that filter combination. Clear one filter or search
                   another keyword to inspect rows.
                 </td>
@@ -1121,8 +1120,8 @@ export function PowerTableExplorer() {
                     onClick={() => setActiveDrawerRecord(rec)}
                     className={`transition-colors cursor-pointer ${
                       isSelected
-                        ? "bg-[#fcfaf8]"
-                        : "bg-white hover:bg-[#fcfaf8]"
+                        ? "bg-[#faf9f5]"
+                        : "bg-white hover:bg-[#faf9f5]"
                     }`}
                   >
                     <td
@@ -1133,37 +1132,37 @@ export function PowerTableExplorer() {
                       }}
                     >
                       {isSelected ? (
-                        <CheckSquare className="w-4 h-4 text-[#111111]" />
+                        <CheckSquare className="w-4 h-4 text-[#141413]" />
                       ) : (
-                        <Square className="w-4 h-4 text-[#111111]/35" />
+                        <Square className="w-4 h-4 text-[#6b665e]/50" />
                       )}
                     </td>
 
                     <td className="py-4 px-4 align-top max-w-xs">
                       <div className="flex flex-wrap items-center gap-1.5 mb-1">
-                        <span className="px-2 py-0.5 bg-[#f5f4ef] border border-black/10 text-[9px] uppercase tracking-wider font-medium text-[#111111]/80">
-                          {rec.state} • {rec.city}
+                        <span className="px-2 py-0.5 rounded-md bg-[#f0eee6] border border-black/8 text-[10px] font-medium text-[#3d3a34]">
+                          {rec.state} · {rec.city}
                         </span>
-                        <span className="text-[10px] font-mono text-[#111111]/50">
+                        <span className="text-[10px] font-mono text-[#6b665e]">
                           {rec.canonicalEntityId}
                         </span>
                       </div>
-                      <div className="font-serif text-base text-[#111111] font-medium leading-snug">
+                      <div className="font-serif text-base text-[#141413] font-medium leading-snug">
                         {rec.legalName}
                       </div>
-                      <div className="text-[11px] font-mono text-[#111111]/60 mt-0.5">
-                        {rec.domain} • {rec.einOrIdentifier}
+                      <div className="text-[11px] font-mono text-[#5c5852] mt-0.5">
+                        {rec.domain} · {rec.einOrIdentifier}
                       </div>
                     </td>
 
                     <td className="py-4 px-4 align-top">
-                      <div className="font-medium text-[#111111]">
+                      <div className="font-medium text-[#141413]">
                         {rec.siteCountOrFleet}
                       </div>
-                      <div className="text-[11px] text-[#111111]/60 mt-0.5">
+                      <div className="text-[11px] text-[#5c5852] mt-0.5">
                         {rec.verifiedHeadcount}
                       </div>
-                      <div className="text-[10px] font-mono text-[#111111]/50 mt-1">
+                      <div className="text-[10px] font-mono text-[#6b665e] mt-1">
                         {rec.qualifyingFactPrimary}
                       </div>
                     </td>
@@ -1171,30 +1170,30 @@ export function PowerTableExplorer() {
                     <td className="py-4 px-4 align-top max-w-sm">
                       <div className="flex flex-wrap items-center gap-1.5 mb-1">
                         <span
-                          className={`px-2 py-0.5 text-[9px] uppercase tracking-wider font-semibold ${
+                          className={`px-2 py-0.5 rounded-md text-[10px] font-medium ${
                             rec.urgencyTier === "Immediate (0-30d)"
-                              ? "bg-[#d9534f]/15 text-[#d9534f] border border-[#d9534f]/30"
-                              : "bg-[#f5f4ef] text-[#111111] border border-black/15"
+                              ? "bg-[#ecfdf5] text-[#2e6f40] border border-[#a7f3d0]"
+                              : "bg-[#f0eee6] text-[#3d3a34] border border-black/8"
                           }`}
                         >
                           {rec.urgencyTier}
                         </span>
-                        <span className="text-[11px] font-medium text-[#111111]">
+                        <span className="text-[11px] font-semibold text-[#141413]">
                           {rec.signalType}
                         </span>
                       </div>
-                      <p className="text-xs text-[#111111]/75 leading-relaxed">
+                      <p className="text-xs text-[#3d3a34] leading-relaxed">
                         {rec.signalHeadline}
                       </p>
                     </td>
 
-                    <td className="py-4 px-4 align-top whitespace-nowrap">
-                      <div className="text-lg font-serif font-medium text-[#111111]">
+                    <td className="py-4 px-4 align-top whitespace-nowrap tabular-nums">
+                      <div className="text-lg font-serif font-medium text-[#141413]">
                         {rec.currentScore}
-                        <span className="text-xs text-[#111111]/45">/100</span>
+                        <span className="text-xs text-[#6b665e]">/100</span>
                       </div>
-                      <div className="text-[10px] font-mono text-[#111111]/50">
-                        W₀={rec.initialWeight} • -{rec.daysElapsed}d decay
+                      <div className="text-[10px] font-mono text-[#6b665e]">
+                        W₀={rec.initialWeight} · -{rec.daysElapsed}d
                       </div>
                     </td>
 
@@ -1204,14 +1203,14 @@ export function PowerTableExplorer() {
                     >
                       {primaryBuyer && (
                         <div>
-                          <div className="font-medium text-[#111111]">
+                          <div className="font-medium text-[#141413]">
                             {primaryBuyer.fullName}
                           </div>
-                          <div className="text-[11px] text-[#111111]/60">
+                          <div className="text-[11px] text-[#5c5852]">
                             {primaryBuyer.title}
                           </div>
                           <div className="mt-1.5 flex items-center gap-2">
-                            <span className="font-mono text-[11px] text-[#111111]">
+                            <span className="font-mono text-[11px] text-[#141413]">
                               {isUnlocked
                                 ? primaryBuyer.emailUnmasked
                                 : primaryBuyer.emailMasked}
@@ -1220,12 +1219,12 @@ export function PowerTableExplorer() {
                               <button
                                 type="button"
                                 onClick={() => handleUnlockAccount(rec.id)}
-                                className="px-2 py-0.5 bg-[#111111] hover:bg-[#333333] text-white text-[10px] uppercase tracking-wider inline-flex items-center gap-1 cursor-pointer"
+                                className="px-2 py-0.5 rounded-md bg-[#141413] hover:bg-[#2c2b28] text-[#faf9f5] text-[10px] font-medium inline-flex items-center gap-1 cursor-pointer"
                               >
                                 <Lock className="w-2.5 h-2.5" /> Unlock
                               </button>
                             ) : (
-                              <span className="px-1.5 py-0.5 bg-emerald-50 border border-emerald-300 text-emerald-900 text-[9px] uppercase font-medium">
+                              <span className="px-1.5 py-0.5 rounded-md bg-[#ecfdf5] border border-[#a7f3d0] text-[#065f46] text-[10px] font-medium">
                                 Verified
                               </span>
                             )}
@@ -1241,11 +1240,11 @@ export function PowerTableExplorer() {
                           e.stopPropagation();
                           setActiveDrawerRecord(rec);
                         }}
-                        className="px-3 py-2 border border-black/20 hover:border-black bg-[#fcfaf8] text-[11px] font-medium text-[#111111] inline-flex items-center gap-1 transition-colors cursor-pointer"
+                        className="px-3 py-2 rounded-xl border border-black/14 hover:bg-[#f0eee6] bg-white text-xs font-medium text-[#141413] inline-flex items-center gap-1.5 transition-colors cursor-pointer"
                       >
-                        <FileCheck2 className="w-3.5 h-3.5 text-[#d9534f]" />
+                        <FileCheck2 className="w-3.5 h-3.5 text-[#2e6f40]" />
                         Inspect Dossier
-                        <ArrowUpRight className="w-3 h-3" />
+                        <ArrowUpRight className="w-3 h-3 text-[#6b665e]" />
                       </button>
                     </td>
                   </tr>
@@ -1257,17 +1256,17 @@ export function PowerTableExplorer() {
       </div>
 
       {/* Bottom Status Bar */}
-      <div className="bg-[#f5f4ef] border-t border-black/10 px-6 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-[#111111]/65">
+      <div className="bg-[#f0eee6]/65 border-t border-black/8 px-6 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-[#5c5852]">
         <div className="flex items-center gap-2">
-          <SlidersHorizontal className="w-3.5 h-3.5 text-[#d9534f]" />
+          <SlidersHorizontal className="w-3.5 h-3.5 text-[#2e6f40]" />
           <span>
-            Showing <strong>{filteredRecords.length}</strong> of{" "}
-            <strong>{VERIFIED_VAULT_RECORDS.length}</strong> red-team-verified
-            records • Click any row to open the 3-Tab Signal &amp; SHA-256
+            Showing <strong className="text-[#141413]">{filteredRecords.length}</strong> of{" "}
+            <strong className="text-[#141413]">{VERIFIED_VAULT_RECORDS.length}</strong> sample
+            records · Click any row to open the 3-Tab Signal &amp; SHA-256
             Provenance Drawer.
           </span>
         </div>
-        <div className="font-mono text-[11px]">
+        <div className="font-mono text-[11px] text-[#6b665e]">
           Shared Backbone: SAM.gov (700K Domains) + DOL Form 5500 (650K EINs)
         </div>
       </div>

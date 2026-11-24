@@ -13,7 +13,7 @@ import {
   executeMcpVaultTool,
   WebhookDeliveryService,
   VerticalEngineId,
-} from '../../../../../services/compliance-engine';
+} from '../../../../services/compliance-engine';
 
 export const dynamic = 'force-dynamic';
 

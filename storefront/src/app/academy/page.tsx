@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { ArrowRight, Check, Layers } from "lucide-react";
 
 const DATA_PLAYS = [
   {
@@ -30,7 +31,7 @@ const DATA_PLAYS = [
     title: "30-Day BMC-35 Insurance Cancellations & Newly Opened OSHA Inspections",
     tagline: "FMCSA L&I Daily Feed + Federal OSHA OPEN_DATE + EPA ECHO + Form 5500",
     steps: [
-      "Ingest daily FMCSA Licensing & Insurance (L&I) active and pending feeds for 5–500+ truck fleets to catch Form BMC-35 30-day policy cancellation notices.",
+      "Ingest daily FMCSA Licensing & Insurance (L&I) active and pending feeds for 15–250+ truck fleets to catch Form BMC-35 30-day policy cancellation notices.",
       "Roll forward Form BMC-91X policy effective dates to flag 60-day and 90-day annual insurance renewal windows before brokers lock the account.",
       "Track newly opened Federal OSHA inspections (OPEN_DATE within 7 days), 30–90 day abatement deadlines, and repeat-violation Ex-Mod spike risk.",
       "Cross-join USDOT and EPA FRS plant IDs against DOL Form 5500 to deliver the internal CFO, VP of HR, and VP of Fleet Safety.",
@@ -38,12 +39,12 @@ const DATA_PLAYS = [
   },
   {
     num: "Play 04 · Engine 3 (Public Sector, Contractors & Permits Graph)",
-    title: "SAM.gov 30/60/90d Expirations, Recompetes & Permits >$100K",
+    title: "SAM.gov 30/60/90d Expirations, Recompetes & Permits >$250K",
     tagline: "SAM.gov API v3 + USAspending Delta + Socrata/ArcGIS Permit Portals",
     steps: [
       "Monitor SAM.gov registrationExpirationDate daily to surface federal and municipal contractors 30, 60, and 90 days before their bidding eligibility lapses.",
       "Join USAspending contract awards to flag first-time prime or sub-award winners and active contracts entering a 60-day recompete window.",
-      "Pull commercial and industrial building permits >$100K from Socrata and ArcGIS municipal portals and resolve subsidiary permit LLCs to parent accounts.",
+      "Pull commercial and industrial building permits >$250K from Socrata and ArcGIS municipal portals and resolve subsidiary permit LLCs to parent accounts.",
       "Verify the internal VP of Contracts, CISO, or VP of Procurement through our Hybrid Just-In-Time Catch-All SMTP pipeline (<2% bounce SLA).",
     ],
   },
@@ -62,75 +63,82 @@ const DATA_PLAYS = [
 
 export default function DataPlaysPage() {
   return (
-    <div className="min-h-screen bg-[#fcfaf8] text-[#111111]">
-      {/* Hero Section */}
-      <section className="pt-40 pb-20 px-6 md:px-12 max-w-4xl mx-auto text-center">
-        <div className="inline-block mb-8 px-4 py-1.5 rounded-full border border-black/10 text-[#111111]/70 text-sm font-medium tracking-wide">
-          Our Open-Book Vertical Data Engineering Architecture
-        </div>
-        <h1 className="text-5xl md:text-7xl font-serif tracking-tight mb-8 leading-[1.08]">
-          How we build the three engines
-          <br />
-          <span className="text-[#111111]/60 italic font-light">
-            you cannot buy from Apollo.
-          </span>
-        </h1>
-        <p className="text-xl md:text-2xl text-[#111111]/60 mb-12 max-w-3xl mx-auto font-light leading-relaxed">
-          Here are the exact five engineering plays that power our Healthcare, Industrial/Fleet, and Public Sector engines. Test our pre-cleaned records against your CRM in 7 days for $1,950, or plug straight into our API and managed CRM deployment.
-        </p>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Link
-            href="/hire/apply"
-            className="px-8 py-4 bg-[#111111] hover:bg-[#333333] text-white font-medium transition-colors text-base w-full sm:w-auto"
-          >
-            Start 7-Day Territory Pilot ($1,950)
-          </Link>
-          <Link
-            href="/portal/demo"
-            className="px-8 py-4 bg-white border border-black/20 hover:border-black text-[#111111] font-medium transition-colors text-base w-full sm:w-auto"
-          >
-            Inspect 12 Live Rows in PowerTable
-          </Link>
+    <div className="min-h-screen bg-[#faf9f5] text-[#141413]">
+      {/* Hero Section — buildaba.com left-aligned calm editorial style */}
+      <section className="pt-28 pb-16 md:pt-32 md:pb-20">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="max-w-3xl">
+            <p className="text-xs font-medium text-[#6b665e] mb-4">
+              Open-Book Vertical Data Engineering Architecture
+            </p>
+            <h1 className="text-4xl sm:text-5xl md:text-[3.5rem] font-serif tracking-tight mb-5 leading-[1.08] text-[#141413] font-medium">
+              How we build the three vertical databases you cannot buy from Apollo.
+            </h1>
+            <p className="text-base sm:text-lg text-[#5c5852] mb-8 leading-relaxed">
+              Here are the exact five engineering plays that power our Healthcare, Fleet &amp;
+              Industrial, and Commercial Permit vaults. Test our pre-cleaned records against your
+              CRM in 7 days for $1,950, or plug straight into our API and managed CRM deployment.
+            </p>
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+              <Link
+                href="/hire/apply"
+                className="min-h-[48px] px-6 py-3.5 rounded-xl bg-[#141413] hover:bg-[#2a2927] text-[#faf9f5] text-sm font-medium transition-colors flex items-center justify-center gap-2 shadow-sm"
+              >
+                Start 7-Day Territory Pilot ($1,950)
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link
+                href="/portal/demo"
+                className="min-h-[48px] px-6 py-3.5 rounded-xl bg-white border border-black/14 hover:bg-[#f0eee6] text-[#141413] text-sm font-medium transition-colors flex items-center justify-center"
+              >
+                Inspect 66 Live Rows in PowerTable
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* 5 Data Plays List */}
       <section className="py-16 px-6 max-w-6xl mx-auto border-t border-black/10">
-        <div className="space-y-10">
+        <div className="space-y-8">
           {DATA_PLAYS.map((play, idx) => (
             <div
               key={idx}
-              className="bg-white border border-black/10 p-8 md:p-12"
+              className="bg-white border border-black/10 rounded-2xl p-7 sm:p-9 shadow-[0_1px_2px_rgba(20,20,19,0.03)]"
             >
-              <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-8 border-b border-black/10">
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-black/8">
                 <div>
-                  <div className="text-xs uppercase tracking-[0.2em] text-[#d9534f] font-medium mb-2">
+                  <div className="inline-flex items-center gap-1.5 text-xs font-medium text-[#2e6f40] bg-[#ecfdf5] border border-[#a7f3d0] px-2.5 py-1 rounded-md mb-2.5">
+                    <Layers className="w-3.5 h-3.5" />
                     {play.num}
                   </div>
-                  <h2 className="text-3xl md:text-4xl font-serif text-[#111111]">
+                  <h2 className="text-2xl sm:text-3xl font-serif font-medium text-[#141413]">
                     {play.title}
                   </h2>
-                  <p className="text-xs font-mono uppercase tracking-[0.15em] text-[#111111]/50 mt-2">
-                    Stack: {play.tagline}
-                  </p>
+                  <p className="text-xs font-mono text-[#6b665e] mt-1.5">Stack: {play.tagline}</p>
                 </div>
                 <Link
                   href="/hire/apply"
-                  className="px-6 py-3 bg-[#111111] hover:bg-[#333333] text-white text-xs uppercase tracking-[0.15em] font-medium transition-colors self-start md:self-auto shrink-0"
+                  className="min-h-[42px] px-5 py-2.5 rounded-xl bg-[#141413] hover:bg-[#2a2927] text-[#faf9f5] text-xs sm:text-sm font-medium transition-colors self-start md:self-auto shrink-0 inline-flex items-center gap-2"
                 >
-                  Deploy This Engine →
+                  Deploy This Engine
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-px bg-black/10 border border-black/10 mt-8">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
                 {play.steps.map((step, sIdx) => (
-                  <div key={sIdx} className="bg-[#fcfaf8] p-6">
-                    <div className="text-[11px] uppercase tracking-[0.15em] text-[#d9534f] font-medium mb-2">
-                      Step 0{sIdx + 1}
+                  <div
+                    key={sIdx}
+                    className="bg-[#faf9f5] border border-black/8 rounded-xl p-5 flex flex-col justify-between"
+                  >
+                    <div>
+                      <div className="inline-flex items-center gap-1.5 text-xs font-medium text-[#2e6f40] mb-2">
+                        <Check className="w-3.5 h-3.5" />
+                        Step 0{sIdx + 1}
+                      </div>
+                      <p className="text-xs sm:text-sm text-[#5c5852] leading-relaxed">{step}</p>
                     </div>
-                    <p className="text-sm text-[#111111]/80 font-light leading-relaxed">
-                      {step}
-                    </p>
                   </div>
                 ))}
               </div>
@@ -140,19 +148,25 @@ export default function DataPlaysPage() {
       </section>
 
       {/* Bottom CTA */}
-      <section className="py-24 px-6 border-t border-black/10 bg-[#f5f4ef]">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-serif tracking-tight mb-6 text-[#111111]">
-            Ready to see how many physical-world buyers your CRM is missing?
+      <section className="py-20 px-6 border-t border-black/10 bg-[#f0eee6]/65">
+        <div className="max-w-4xl mx-auto">
+          <p className="text-xs font-medium text-[#2e6f40] mb-2">
+            7-Day Territory &amp; CRM Whitespace Pilot
+          </p>
+          <h2 className="text-3xl sm:text-4xl font-serif tracking-tight mb-4 text-[#141413] font-medium">
+            See how many physical-world buyers your CRM is missing.
           </h2>
-          <p className="text-lg text-[#111111]/70 font-light leading-relaxed mb-10 max-w-2xl mx-auto">
-            Start with our 7-Day Territory &amp; CRM Whitespace Pilot for $1,950 (100% credited toward full deployment), or subscribe to our PowerTable &amp; Credit-Metered API Plan for $799/mo.
+          <p className="text-base sm:text-lg text-[#5c5852] leading-relaxed mb-8 max-w-2xl">
+            Start with our 7-Day Territory &amp; CRM Whitespace Pilot for $1,950 (100% credited
+            toward full deployment), or subscribe to our PowerTable &amp; Credit-Metered API Plan
+            for $799/mo.
           </p>
           <Link
             href="/hire/apply"
-            className="inline-block px-8 py-4 bg-[#111111] text-white hover:bg-[#333333] font-medium transition-colors"
+            className="inline-flex items-center gap-2 min-h-[48px] px-6 py-3.5 rounded-xl bg-[#141413] text-[#faf9f5] hover:bg-[#2a2927] text-sm font-medium transition-colors shadow-sm"
           >
-            Scope Your 7-Day Territory Pilot →
+            Scope Your 7-Day Territory Pilot
+            <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
       </section>

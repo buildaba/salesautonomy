@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Check } from "lucide-react";
+import { ArrowRight, Check, Sparkles } from "lucide-react";
 
 const ENGINE_TEMPLATES: Record<
   string,
@@ -25,7 +25,7 @@ const ENGINE_TEMPLATES: Record<
     companyName: "PulseFlow Health SaaS",
     verticalEngine: "Engine 1: Healthcare & Multi-Site Clinic Graph",
     targetMarket:
-      "U.S. Multi-Site Orthopedic, Dermatology, Dental & SNF Groups (3 to 45 Locations)",
+      "U.S. Multi-Site Orthopedic, Dermatology, Dental & Behavioral Clinic Groups (3 to 45 Locations)",
     tierChoice:
       "Wedge Pilot: 7-Day Territory & CRM Whitespace Pilot ($1,950 • 100% Rollover Credit)",
     qualifyingFact1:
@@ -46,7 +46,7 @@ const ENGINE_TEMPLATES: Record<
     companyName: "GridShield Fleet & EHS Tech",
     verticalEngine: "Engine 2: Industrial, Fleet & Facility Risk Graph",
     targetMarket:
-      "U.S. 5–500+ Truck Fleets, Refrigerated Carriers & Multi-Plant Manufacturers",
+      "U.S. 15–250+ Truck Fleets, Refrigerated Carriers & Multi-Plant Manufacturers",
     tierChoice:
       "Tier 2: Managed CRM Deployment & Signal Sync ($9,500 Build + $1,950/mo • $7,550 After Pilot)",
     qualifyingFact1:
@@ -77,7 +77,7 @@ const ENGINE_TEMPLATES: Record<
     publicSources:
       "SAM.gov Entity API v3 + USAspending Award Delta + Socrata/ArcGIS Municipal Permits + Form 5500",
     triggerSignal:
-      "30/60/90-day SAM.gov registration expiration, contract recompete window, or commercial permit >$100K",
+      "30/60/90-day SAM.gov registration expiration, contract recompete window, or commercial permit >$250K",
     buyerTitles:
       "SAM.gov Government Business POC (CPA-Filtered), CFO, CISO, VP Preconstruction",
     deliveryTarget:
@@ -87,6 +87,7 @@ const ENGINE_TEMPLATES: Record<
 
 export default function RequestSandboxPage() {
   const [submitted, setSubmitted] = useState(false);
+  const [activePreset, setActivePreset] = useState("engine1");
 
   const [companyName, setCompanyName] = useState(
     ENGINE_TEMPLATES.engine1.companyName
@@ -126,6 +127,7 @@ export default function RequestSandboxPage() {
   const loadSample = (key: string) => {
     const s = ENGINE_TEMPLATES[key];
     if (!s) return;
+    setActivePreset(key);
     setCompanyName(s.companyName);
     setVerticalEngine(s.verticalEngine);
     setTargetMarket(s.targetMarket);
@@ -145,139 +147,154 @@ export default function RequestSandboxPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fcfaf8] text-[#111111] pt-36 pb-24 px-6">
+    <div className="min-h-screen bg-[#faf9f5] text-[#141413] pt-28 pb-24 px-6">
       <div className="max-w-6xl mx-auto">
-        {/* Top Header */}
+        {/* Top Header — buildaba.com left-aligned calm editorial style */}
         <div className="mb-12 pb-8 border-b border-black/10">
-          <div className="inline-block mb-4 px-3.5 py-1 rounded-full border border-black/10 text-[#111111]/70 text-xs uppercase tracking-[0.15em] font-medium">
-            7-Day Territory &amp; CRM Whitespace Pilot ($1,950 • Fits on a Corporate Card • 100% Rollover Credit)
-          </div>
+          <p className="text-xs font-medium text-[#6b665e] mb-3">
+            7-Day Territory &amp; CRM Whitespace Pilot · $1,950 One-Time · 100% Rollover Credit
+          </p>
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
-              <h1 className="text-4xl md:text-6xl font-serif tracking-tight text-[#111111] leading-[1.08]">
-                Scope Your Vertical Pilot or Deployment
+              <h1 className="text-4xl sm:text-5xl font-serif tracking-tight text-[#141413] font-medium leading-[1.08]">
+                Scope your vertical pilot or deployment.
               </h1>
-              <p className="text-lg text-[#111111]/60 max-w-2xl font-light mt-3 leading-relaxed">
-                Pick one of our three pre-cleaned vertical engines below. Within 24 hours, we will send your free territory row count and launch link for your 7-day, 2,500-account Whitespace Pilot.
+              <p className="text-base sm:text-lg text-[#5c5852] max-w-2xl mt-3 leading-relaxed">
+                Pick one of our three pre-cleaned vertical engines below. Within 24 hours, we send
+                your free territory row count and launch link for your 7-day, 2,500-account
+                Whitespace Pilot.
               </p>
             </div>
             <Link
               href="/portal/demo"
-              className="text-xs uppercase tracking-[0.15em] text-[#d9534f] font-medium hover:underline shrink-0"
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-[#2e6f40] hover:underline shrink-0"
             >
-              Inspect PowerTable Explorer →
+              Inspect PowerTable Explorer (66 Live Rows)
+              <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </div>
 
         {submitted ? (
-          <div className="max-w-3xl mx-auto bg-white border border-black/10 p-8 md:p-12 space-y-8">
+          <div className="max-w-3xl mx-auto bg-white border border-black/10 rounded-2xl p-8 sm:p-10 space-y-7 shadow-[0_1px_2px_rgba(20,20,19,0.03)]">
             <div>
-              <div className="text-xs uppercase tracking-[0.2em] text-[#d9534f] mb-2">
-                ✓ Territory Pilot &amp; Engine Scope Received
+              <div className="inline-flex items-center gap-1.5 text-xs font-medium text-[#2e6f40] bg-[#ecfdf5] border border-[#a7f3d0] px-2.5 py-1 rounded-md mb-3">
+                <Check className="w-3.5 h-3.5" />
+                Territory Pilot &amp; Engine Scope Received
               </div>
-              <h2 className="text-3xl font-serif text-[#111111] mb-2">
+              <h2 className="text-2xl sm:text-3xl font-serif font-medium text-[#141413] mb-2">
                 We are running your territory count for {companyName}.
               </h2>
-              <p className="text-[#111111]/65 font-light leading-relaxed">
-                Within 24 hours, our data engineers will send your exact vertical row count, CRM whitespace match instructions, and 7-day Pilot launch link to{" "}
-                <span className="text-[#111111] font-medium">
+              <p className="text-sm sm:text-base text-[#5c5852] leading-relaxed">
+                Within 24 hours, our data engineers will send your exact vertical row count, CRM
+                whitespace match instructions, and 7-day Pilot launch link to{" "}
+                <span className="text-[#141413] font-medium">
                   {contactEmail || "your work email"}
                 </span>
                 .
               </p>
             </div>
 
-            <div className="p-6 bg-[#fcfaf8] border border-black/10 space-y-4">
-              <div className="text-xs uppercase tracking-[0.2em] text-[#111111]/50 font-medium">
-                What Happens Next
-              </div>
-              <ul className="space-y-2.5 text-sm text-[#111111]/80 font-light">
+            <div className="p-6 bg-[#faf9f5] border border-black/8 rounded-xl space-y-3">
+              <div className="text-xs font-medium text-[#6b665e]">What Happens Next</div>
+              <ul className="space-y-2.5 text-sm text-[#141413]">
                 <li className="flex items-start gap-2.5">
-                  <Check className="w-4 h-4 text-[#d9534f] shrink-0 mt-0.5" />
+                  <Check className="w-4 h-4 text-[#2e6f40] shrink-0 mt-0.5" />
                   <span>
-                    <strong>Free Territory Count (24 Hours):</strong> We query{" "}
-                    {verticalEngine} plus our SAM.gov + DOL Form 5500 backbone to confirm your exact addressable account and trigger volume.
+                    <strong className="font-medium">Free Territory Count (24 Hours):</strong> We
+                    query {verticalEngine} plus our SAM.gov + DOL Form 5500 backbone to confirm your
+                    exact addressable account and trigger volume.
                   </span>
                 </li>
                 <li className="flex items-start gap-2.5">
-                  <Check className="w-4 h-4 text-[#d9534f] shrink-0 mt-0.5" />
+                  <Check className="w-4 h-4 text-[#2e6f40] shrink-0 mt-0.5" />
                   <span>
-                    <strong>7-Day Territory &amp; CRM Whitespace Pilot ($1,950):</strong> We match your CRM export and deliver 2,500 enriched accounts, 5,000 CPA-filtered buyers, active 30/60/90d triggers, and a TAM Whitespace Gap Report.
+                    <strong className="font-medium">
+                      7-Day Territory &amp; CRM Whitespace Pilot ($1,950):
+                    </strong>{" "}
+                    We match your CRM export and deliver 2,500 enriched accounts, 5,000
+                    CPA-filtered buyers, active 30/60/90d triggers, and a TAM Whitespace Gap Report.
                   </span>
                 </li>
                 <li className="flex items-start gap-2.5">
-                  <Check className="w-4 h-4 text-[#d9534f] shrink-0 mt-0.5" />
+                  <Check className="w-4 h-4 text-[#2e6f40] shrink-0 mt-0.5" />
                   <span>
-                    <strong>100% Rollover Credit:</strong> Roll all $1,950 directly into Tier 2 Managed CRM Deployment ($9,500 → $7,550 net) or Tier 3 Private Warehouse Vault ($18,000 → $16,050 net).
+                    <strong className="font-medium">100% Rollover Credit:</strong> Roll all $1,950
+                    directly into Tier 2 Managed CRM Deployment ($9,500 → $7,550 net) or Tier 3
+                    Private Warehouse Vault ($18,000 → $16,050 net).
                   </span>
                 </li>
               </ul>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 pt-2">
+            <div className="flex flex-col sm:flex-row gap-3 pt-2">
               <Link
                 href="/portal/demo"
-                className="flex-1 bg-[#111111] hover:bg-[#333333] text-white font-medium py-4 text-center transition-colors text-xs uppercase tracking-[0.15em]"
+                className="flex-1 min-h-[46px] rounded-xl bg-[#141413] hover:bg-[#2a2927] text-[#faf9f5] font-medium py-3 text-center transition-colors text-sm flex items-center justify-center gap-2"
               >
-                Explore Live PowerTable →
+                Explore Live PowerTable
+                <ArrowRight className="w-4 h-4" />
               </Link>
               <button
                 type="button"
                 onClick={() => setSubmitted(false)}
-                className="px-6 py-4 border border-black/15 text-xs uppercase tracking-[0.15em] text-[#111111]/70 hover:text-[#111111] cursor-pointer"
+                className="min-h-[46px] px-6 py-3 rounded-xl bg-white border border-black/15 text-sm font-medium text-[#141413] hover:bg-[#f0eee6] cursor-pointer"
               >
                 Edit Pilot Scope
               </button>
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             {/* LEFT COLUMN: Pilot & Engine Specification Builder */}
-            <form onSubmit={handleSubmit} className="lg:col-span-7 space-y-8">
+            <form onSubmit={handleSubmit} className="lg:col-span-7 space-y-6">
               {/* Step 0: Quick-Fill Vertical Engine Templates */}
-              <div className="bg-white border border-black/10 p-8">
+              <div className="bg-white border border-black/10 rounded-2xl p-6 sm:p-7 shadow-[0_1px_2px_rgba(20,20,19,0.03)]">
                 <div className="mb-4">
-                  <div className="text-xs uppercase tracking-[0.2em] text-[#d9534f] font-medium">
+                  <p className="text-xs font-medium text-[#2e6f40] mb-1">
                     Select One of Our 3 Pre-Cleaned Vertical Engines
-                  </div>
-                  <h2 className="text-xl font-serif text-[#111111] mt-1">
-                    Load a red-team-verified vertical engine preset below
+                  </p>
+                  <h2 className="text-xl font-serif font-medium text-[#141413]">
+                    Load a verified vertical engine preset below
                   </h2>
                 </div>
 
-                <div className="flex flex-wrap gap-2">
+                <div className="inline-flex flex-wrap p-1 rounded-xl bg-[#f0eee6] border border-black/8 gap-1">
                   {[
-                    { key: "engine1", label: "Engine 1: Healthcare & Clinics" },
-                    { key: "engine2", label: "Engine 2: Industrial & Fleet Risk" },
-                    { key: "engine3", label: "Engine 3: Public Sector & Permits" },
+                    { key: "engine1", label: "01 · Healthcare Clinics" },
+                    { key: "engine2", label: "02 · Fleet & Industrial Risk" },
+                    { key: "engine3", label: "03 · Commercial Permits" },
                   ].map((s) => (
                     <button
                       key={s.key}
                       type="button"
                       onClick={() => loadSample(s.key)}
-                      className="text-xs px-3.5 py-2 border border-black/15 bg-[#fcfaf8] hover:border-black transition-colors cursor-pointer font-medium"
+                      className={`text-xs px-3.5 py-2 rounded-lg transition-colors cursor-pointer font-medium ${
+                        activePreset === s.key
+                          ? "bg-[#141413] text-[#faf9f5] shadow-xs"
+                          : "text-[#5c5852] hover:text-[#141413]"
+                      }`}
                     >
-                      Load {s.label}
+                      {s.label}
                     </button>
                   ))}
                 </div>
               </div>
 
               {/* Part 01: Your Team & Commercial Tier */}
-              <div className="bg-white border border-black/10 p-8 space-y-5">
-                <div className="border-b border-black/10 pb-3">
-                  <div className="text-xs uppercase tracking-[0.2em] text-[#111111]/45">
+              <div className="bg-white border border-black/10 rounded-2xl p-6 sm:p-7 space-y-5 shadow-[0_1px_2px_rgba(20,20,19,0.03)]">
+                <div className="border-b border-black/8 pb-3">
+                  <div className="text-xs font-medium text-[#6b665e]">
                     01 · Your GTM Team &amp; Commercial Tier
                   </div>
-                  <p className="text-xs text-[#111111]/55 mt-1">
+                  <p className="text-xs text-[#5c5852] mt-1">
                     Where should we send your free territory count and 7-day Whitespace Pilot link?
                   </p>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs uppercase tracking-wider text-[#111111]/60 mb-1.5">
+                    <label className="block text-xs font-medium text-[#5c5852] mb-1.5">
                       Your Name *
                     </label>
                     <input
@@ -286,11 +303,11 @@ export default function RequestSandboxPage() {
                       value={contactName}
                       onChange={(e) => setContactName(e.target.value)}
                       placeholder="Alex Mercer, VP Sales / RevOps"
-                      className="w-full bg-[#fcfaf8] border border-black/15 px-3.5 py-2.5 text-sm focus:outline-none focus:border-black"
+                      className="w-full bg-[#faf9f5] border border-black/12 rounded-xl px-3.5 py-2.5 text-sm text-[#141413] focus:outline-none focus:border-black/40"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs uppercase tracking-wider text-[#111111]/60 mb-1.5">
+                    <label className="block text-xs font-medium text-[#5c5852] mb-1.5">
                       Work Email *
                     </label>
                     <input
@@ -299,14 +316,14 @@ export default function RequestSandboxPage() {
                       value={contactEmail}
                       onChange={(e) => setContactEmail(e.target.value)}
                       placeholder="alex@yourcompany.com"
-                      className="w-full bg-[#fcfaf8] border border-black/15 px-3.5 py-2.5 text-sm focus:outline-none focus:border-black"
+                      className="w-full bg-[#faf9f5] border border-black/12 rounded-xl px-3.5 py-2.5 text-sm text-[#141413] focus:outline-none focus:border-black/40"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs uppercase tracking-wider text-[#111111]/60 mb-1.5">
+                    <label className="block text-xs font-medium text-[#5c5852] mb-1.5">
                       Your Company Name *
                     </label>
                     <input
@@ -314,17 +331,17 @@ export default function RequestSandboxPage() {
                       required
                       value={companyName}
                       onChange={(e) => setCompanyName(e.target.value)}
-                      className="w-full bg-[#fcfaf8] border border-black/15 px-3.5 py-2.5 text-sm focus:outline-none focus:border-black"
+                      className="w-full bg-[#faf9f5] border border-black/12 rounded-xl px-3.5 py-2.5 text-sm text-[#141413] focus:outline-none focus:border-black/40"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs uppercase tracking-wider text-[#111111]/60 mb-1.5">
+                    <label className="block text-xs font-medium text-[#5c5852] mb-1.5">
                       Pre-Cleaned Vertical Engine
                     </label>
                     <select
                       value={verticalEngine}
                       onChange={(e) => setVerticalEngine(e.target.value)}
-                      className="w-full bg-[#fcfaf8] border border-black/15 px-3.5 py-2.5 text-sm focus:outline-none focus:border-black"
+                      className="w-full bg-[#faf9f5] border border-black/12 rounded-xl px-3.5 py-2.5 text-sm text-[#141413] focus:outline-none focus:border-black/40"
                     >
                       <option value="Engine 1: Healthcare & Multi-Site Clinic Graph">
                         Engine 1: Healthcare &amp; Multi-Site Clinic Graph
@@ -343,13 +360,13 @@ export default function RequestSandboxPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs uppercase tracking-wider text-[#111111]/60 mb-1.5">
+                  <label className="block text-xs font-medium text-[#5c5852] mb-1.5">
                     Commercial Entry Point
                   </label>
                   <select
                     value={tierChoice}
                     onChange={(e) => setTierChoice(e.target.value)}
-                    className="w-full bg-[#fcfaf8] border border-black/15 px-3.5 py-2.5 text-sm focus:outline-none focus:border-black"
+                    className="w-full bg-[#faf9f5] border border-black/12 rounded-xl px-3.5 py-2.5 text-sm text-[#141413] focus:outline-none focus:border-black/40"
                   >
                     <option value="Wedge Pilot: 7-Day Territory & CRM Whitespace Pilot ($1,950 • 100% Rollover Credit)">
                       Wedge Pilot: 7-Day Territory &amp; CRM Whitespace Pilot ($1,950 One-Time • 100% Rollover)
@@ -367,7 +384,7 @@ export default function RequestSandboxPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs uppercase tracking-wider text-[#111111]/60 mb-1.5">
+                  <label className="block text-xs font-medium text-[#5c5852] mb-1.5">
                     Target Territory &amp; ICP Slice *
                   </label>
                   <input
@@ -376,37 +393,38 @@ export default function RequestSandboxPage() {
                     value={targetMarket}
                     onChange={(e) => setTargetMarket(e.target.value)}
                     placeholder="e.g. 20–250 truck fleets in Midwest/South, or multi-site clinics in TX/FL"
-                    className="w-full bg-[#fcfaf8] border border-black/15 px-3.5 py-2.5 text-sm focus:outline-none focus:border-black"
+                    className="w-full bg-[#faf9f5] border border-black/12 rounded-xl px-3.5 py-2.5 text-sm text-[#141413] focus:outline-none focus:border-black/40"
                   />
                 </div>
               </div>
 
               {/* Part 02: Qualifying Facts, Forward Triggers & CRM Sync */}
-              <div className="bg-white border border-black/10 p-8 space-y-5">
-                <div className="border-b border-black/10 pb-3">
-                  <div className="text-xs uppercase tracking-[0.2em] text-[#d9534f] font-medium">
+              <div className="bg-white border border-black/10 rounded-2xl p-6 sm:p-7 space-y-5 shadow-[0_1px_2px_rgba(20,20,19,0.03)]">
+                <div className="border-b border-black/8 pb-3">
+                  <div className="text-xs font-medium text-[#2e6f40]">
                     02 · Qualifying Facts &amp; Forward-Looking Triggers
                   </div>
-                  <p className="text-xs text-[#111111]/55 mt-1">
-                    Confirm the exact federal/municipal columns and 30/60/90-day triggers for your territory slice.
+                  <p className="text-xs text-[#5c5852] mt-1">
+                    Confirm the exact federal/municipal columns and 30/60/90-day triggers for your
+                    territory slice.
                   </p>
                 </div>
 
                 <div>
-                  <label className="block text-xs uppercase tracking-wider text-[#111111]/60 mb-1.5">
-                    Primary Vertical Fact (e.g. Power Units &amp; BMC-35 Status, NPPES Site Count &amp; EHR)
+                  <label className="block text-xs font-medium text-[#5c5852] mb-1.5">
+                    Primary Vertical Fact (e.g. Power Units &amp; BMC-35 Status, NPPES Site Count)
                   </label>
                   <input
                     type="text"
                     required
                     value={qualifyingFact1}
                     onChange={(e) => setQualifyingFact1(e.target.value)}
-                    className="w-full bg-[#fcfaf8] border border-black/15 px-3.5 py-2.5 text-sm focus:outline-none focus:border-black"
+                    className="w-full bg-[#faf9f5] border border-black/12 rounded-xl px-3.5 py-2.5 text-sm text-[#141413] focus:outline-none focus:border-black/40"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs uppercase tracking-wider text-[#111111]/60 mb-1.5">
+                  <label className="block text-xs font-medium text-[#5c5852] mb-1.5">
                     Corporate Backbone Join (SAM.gov Domain + DOL Form 5500 Headcount &amp; Signer)
                   </label>
                   <input
@@ -414,12 +432,12 @@ export default function RequestSandboxPage() {
                     required
                     value={qualifyingFact2}
                     onChange={(e) => setQualifyingFact2(e.target.value)}
-                    className="w-full bg-[#fcfaf8] border border-black/15 px-3.5 py-2.5 text-sm focus:outline-none focus:border-black"
+                    className="w-full bg-[#faf9f5] border border-black/12 rounded-xl px-3.5 py-2.5 text-sm text-[#141413] focus:outline-none focus:border-black/40"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs uppercase tracking-wider text-[#111111]/60 mb-1.5">
+                  <label className="block text-xs font-medium text-[#5c5852] mb-1.5">
                     30/60/90-Day Forward-Looking Trigger to Route to SDRs
                   </label>
                   <input
@@ -427,13 +445,13 @@ export default function RequestSandboxPage() {
                     required
                     value={triggerSignal}
                     onChange={(e) => setTriggerSignal(e.target.value)}
-                    className="w-full bg-[#fcfaf8] border border-black/15 px-3.5 py-2.5 text-sm focus:outline-none focus:border-black"
+                    className="w-full bg-[#faf9f5] border border-black/12 rounded-xl px-3.5 py-2.5 text-sm text-[#141413] focus:outline-none focus:border-black/40"
                   />
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs uppercase tracking-wider text-[#111111]/60 mb-1.5">
+                    <label className="block text-xs font-medium text-[#5c5852] mb-1.5">
                       Primary Statutory Sources
                     </label>
                     <input
@@ -441,11 +459,11 @@ export default function RequestSandboxPage() {
                       required
                       value={publicSources}
                       onChange={(e) => setPublicSources(e.target.value)}
-                      className="w-full bg-[#fcfaf8] border border-black/15 px-3.5 py-2.5 text-sm focus:outline-none focus:border-black"
+                      className="w-full bg-[#faf9f5] border border-black/12 rounded-xl px-3.5 py-2.5 text-sm text-[#141413] focus:outline-none focus:border-black/40"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs uppercase tracking-wider text-[#111111]/60 mb-1.5">
+                    <label className="block text-xs font-medium text-[#5c5852] mb-1.5">
                       CPA-Filtered Buying Committee Titles
                     </label>
                     <input
@@ -453,13 +471,13 @@ export default function RequestSandboxPage() {
                       required
                       value={buyerTitles}
                       onChange={(e) => setBuyerTitles(e.target.value)}
-                      className="w-full bg-[#fcfaf8] border border-black/15 px-3.5 py-2.5 text-sm focus:outline-none focus:border-black"
+                      className="w-full bg-[#faf9f5] border border-black/12 rounded-xl px-3.5 py-2.5 text-sm text-[#141413] focus:outline-none focus:border-black/40"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs uppercase tracking-wider text-[#111111]/60 mb-1.5">
+                  <label className="block text-xs font-medium text-[#5c5852] mb-1.5">
                     Delivery Output (PowerTable, HubSpot, Salesforce, Clay, Snowflake)
                   </label>
                   <input
@@ -467,52 +485,54 @@ export default function RequestSandboxPage() {
                     required
                     value={deliveryTarget}
                     onChange={(e) => setDeliveryTarget(e.target.value)}
-                    className="w-full bg-[#fcfaf8] border border-black/15 px-3.5 py-2.5 text-sm focus:outline-none focus:border-black"
+                    className="w-full bg-[#faf9f5] border border-black/12 rounded-xl px-3.5 py-2.5 text-sm text-[#141413] focus:outline-none focus:border-black/40"
                   />
                 </div>
               </div>
 
               <button
                 type="submit"
-                className="w-full bg-[#111111] hover:bg-[#333333] text-white font-medium py-4 transition-colors text-xs uppercase tracking-[0.2em] cursor-pointer"
+                className="w-full min-h-[50px] rounded-xl bg-[#141413] hover:bg-[#2a2927] text-[#faf9f5] font-medium py-3.5 px-6 transition-colors text-sm cursor-pointer flex items-center justify-center gap-2 shadow-sm"
               >
-                Get Free Territory Count &amp; Launch $1,950 Pilot →
+                Get Free Territory Count &amp; Launch $1,950 Pilot
+                <ArrowRight className="w-4 h-4" />
               </button>
             </form>
 
             {/* RIGHT COLUMN: Live Pilot & Engine Specification Preview */}
             <div className="lg:col-span-5 lg:sticky lg:top-28">
               <div className="mb-3 flex items-center justify-between">
-                <span className="text-xs uppercase tracking-[0.2em] text-[#111111]/50 font-medium">
+                <span className="text-xs font-medium text-[#6b665e]">
                   Live Pilot &amp; Vault Specification
                 </span>
-                <span className="text-xs text-[#d9534f] font-medium">
+                <span className="text-xs font-medium text-[#2e6f40]">
                   6-Table Canonical Schema
                 </span>
               </div>
 
-              <div className="bg-white border border-black/15 p-7 space-y-6 shadow-xs">
+              <div className="bg-white border border-black/10 rounded-2xl p-6 sm:p-7 space-y-6 shadow-[0_1px_2px_rgba(20,20,19,0.03)]">
                 {/* Header */}
-                <div className="border-b border-black/10 pb-5">
-                  <div className="flex flex-wrap items-center gap-2 mb-2.5">
-                    <span className="px-2.5 py-0.5 bg-[#111111] text-white text-[10px] uppercase tracking-[0.15em] font-medium">
+                <div className="border-b border-black/8 pb-5">
+                  <div className="flex flex-wrap items-center gap-2 mb-3">
+                    <span className="px-2.5 py-1 rounded-md bg-[#141413] text-[#faf9f5] text-xs font-medium">
                       {verticalEngine}
                     </span>
-                    <span className="px-2.5 py-0.5 border border-black/15 text-[#111111]/70 text-[10px] uppercase tracking-[0.15em]">
-                      ✓ SHA-256 Receipts
+                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-[#ecfdf5] border border-[#a7f3d0] text-[#2e6f40] text-xs font-medium">
+                      <Sparkles className="w-3 h-3" />
+                      SHA-256 Receipts
                     </span>
                   </div>
-                  <h3 className="text-2xl font-serif text-[#111111]">
+                  <h3 className="text-2xl font-serif font-medium text-[#141413]">
                     {companyName || "Your Company"} — Vertical Deployment
                   </h3>
-                  <p className="text-xs text-[#111111]/60 mt-1">
-                    Target Slice: <strong className="text-[#111111]">{targetMarket}</strong>
+                  <p className="text-xs text-[#5c5852] mt-1">
+                    Target Slice: <strong className="text-[#141413]">{targetMarket}</strong>
                   </p>
                 </div>
 
                 {/* Spec Blocks */}
                 <div>
-                  <div className="text-[10px] uppercase tracking-[0.2em] text-[#111111]/45 font-medium mb-2">
+                  <div className="text-xs font-medium text-[#6b665e] mb-2.5">
                     Pre-Cleaned Columns &amp; Signal Routing
                   </div>
                   <div className="space-y-2">
@@ -526,29 +546,25 @@ export default function RequestSandboxPage() {
                     ].map((b) => (
                       <div
                         key={b.label}
-                        className="bg-[#fcfaf8] border border-black/10 p-3"
+                        className="bg-[#faf9f5] border border-black/8 rounded-xl p-3"
                       >
-                        <div className="text-[9px] uppercase tracking-[0.12em] text-[#111111]/45">
-                          {b.label}
-                        </div>
-                        <div className="text-xs font-serif text-[#111111] mt-0.5">
-                          {b.value}
-                        </div>
+                        <div className="text-[11px] text-[#6b665e]">{b.label}</div>
+                        <div className="text-xs font-medium text-[#141413] mt-0.5">{b.value}</div>
                       </div>
                     ))}
                   </div>
                 </div>
 
                 {/* Rollover Math Box */}
-                <div className="p-4 bg-[#f5f4ef] border border-black/10 space-y-1.5">
-                  <div className="text-[10px] uppercase tracking-[0.15em] text-[#d9534f] font-medium">
+                <div className="p-4 bg-[#f0eee6] border border-black/10 rounded-xl space-y-1.5">
+                  <div className="text-xs font-medium text-[#2e6f40]">
                     Selected Commercial Option
                   </div>
-                  <div className="text-xs font-medium text-[#111111]">
-                    {tierChoice}
-                  </div>
-                  <p className="text-[11px] text-[#111111]/65 font-light leading-relaxed">
-                    Start with the $1,950 7-Day Territory &amp; CRM Whitespace Pilot (2,500 accounts + 5,000 verified contacts + TAM Whitespace Gap Report). 100% of your $1,950 credits toward Tier 2 or Tier 3 deployment.
+                  <div className="text-xs font-medium text-[#141413]">{tierChoice}</div>
+                  <p className="text-xs text-[#5c5852] leading-relaxed">
+                    Start with the $1,950 7-Day Territory &amp; CRM Whitespace Pilot (2,500
+                    accounts + 5,000 verified contacts + TAM Whitespace Gap Report). 100% of your
+                    $1,950 credits toward Tier 2 or Tier 3 deployment.
                   </p>
                 </div>
               </div>
