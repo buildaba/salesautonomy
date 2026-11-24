@@ -335,7 +335,7 @@ function DemoContent() {
           </div>
           <div className="flex flex-col sm:flex-row gap-3 shrink-0 w-full md:w-auto">
             <Link
-              href="/hire/apply"
+              href="/pilot"
               className="min-h-[46px] px-6 py-3 rounded-xl bg-[#141413] hover:bg-[#2a2927] text-[#faf9f5] text-sm font-medium flex items-center justify-center gap-2 transition-colors"
             >
               Start 7-Day Pilot ($1,950)

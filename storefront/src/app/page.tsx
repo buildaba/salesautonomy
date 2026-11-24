@@ -138,7 +138,7 @@ const WHY_SWITCH_CARDS = [
     title: 'Official records always beat web scrapes',
     body: 'Other tools overwrite good facts with bad scrapes and list outside accountants as owners. We verify real executives straight from government filings.',
     cta: 'See how we check data',
-    href: '/credibility',
+    href: '/accuracy',
     icon: ShieldCheck,
   },
   {
@@ -205,7 +205,7 @@ export default function HomePage() {
                 <ArrowRight className="w-4 h-4" />
               </a>
               <Link
-                href="/hire/apply"
+                href="/pilot"
                 className="w-full sm:w-auto min-h-[48px] px-6 py-3.5 rounded-xl text-sm font-medium bg-white border border-black/14 hover:bg-[#f0eee6] text-[#141413] transition-colors flex items-center justify-center gap-2"
               >
                 Start a 7-Day Pilot — $1,950
@@ -391,7 +391,7 @@ export default function HomePage() {
                 </div>
 
                 <Link
-                  href="/hire/apply"
+                  href="/pilot"
                   className="w-full min-h-[44px] px-4 py-2.5 rounded-xl bg-[#141413] text-[#faf9f5] text-xs sm:text-sm font-medium hover:bg-[#2a2927] transition-colors flex items-center justify-center gap-2"
                 >
                   Start 7-Day Pilot ($1,950)
@@ -564,7 +564,7 @@ export default function HomePage() {
                 </ul>
               </div>
               <Link
-                href="/hire/apply"
+                href="/pilot"
                 className="w-full min-h-[46px] py-3 px-5 rounded-xl bg-white hover:bg-[#f0eee6] text-[#141413] border border-black/15 font-medium text-sm transition-colors flex items-center justify-center gap-2"
               >
                 Start 7-Day Pilot ($1,950)

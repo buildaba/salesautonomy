@@ -61,12 +61,12 @@ curl -s "${origin}/api/v1/signals?engine=HEALTHCARE_NPPES&format=csv" -o monday_
 
 ### B. Grokbot "Learn by Demonstration" Browser Mode (Deterministic URL Params)
 
-When automating the web UI at \`${origin}/\` or \`${origin}/portal/demo\`, navigate directly via deterministic URL query parameters rather than clicking dropdowns:
+When automating the web UI at \`${origin}/\` or \`${origin}/sample\`, navigate directly via deterministic URL query parameters rather than clicking dropdowns:
 
-- All Engines: \`${origin}/portal/demo?engine=ALL\`
-- Healthcare Clinics (TX, 0-30d): \`${origin}/portal/demo?engine=healthcare&state=TX&urgency=0-30\`
-- Fleet & Industrial Risk: \`${origin}/portal/demo?engine=fleet&urgency=0-30\`
-- Commercial Permits & GovCon: \`${origin}/portal/demo?engine=permits\`
+- All Engines: \`${origin}/sample?engine=ALL\`
+- Healthcare Clinics (TX, 0-30d): \`${origin}/sample?engine=healthcare&state=TX&urgency=0-30\`
+- Fleet & Industrial Risk: \`${origin}/sample?engine=fleet&urgency=0-30\`
+- Commercial Permits & GovCon: \`${origin}/sample?engine=permits\`
 
 ---
 

@@ -139,7 +139,7 @@ export default function PricingPage() {
               or Enterprise ($18,000 → $16,050).
             </div>
             <Link
-              href="/hire/apply"
+              href="/pilot"
               className="min-h-[46px] px-6 py-3 rounded-xl bg-[#141413] text-[#faf9f5] text-sm font-medium hover:bg-[#2a2927] transition-colors inline-flex items-center justify-center gap-2 shrink-0 shadow-sm"
             >
               Start 7-Day Pilot ($1,950)
@@ -214,7 +214,7 @@ export default function PricingPage() {
               </div>
 
               <Link
-                href="/hire/apply"
+                href="/pilot"
                 className={`w-full min-h-[46px] py-3 px-5 rounded-xl text-sm font-medium text-center transition-colors flex items-center justify-center gap-2 ${
                   plan.featured
                     ? "bg-[#141413] text-[#faf9f5] hover:bg-[#2a2927] shadow-sm"

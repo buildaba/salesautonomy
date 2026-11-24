@@ -65,7 +65,7 @@ export function GrokbotMcpModal({
   if (stateFilter !== "ALL") browserDemoParams.set("state", stateFilter);
   if (urgencyFilter !== "ALL") browserDemoParams.set("urgency", urgencyFilter);
   if (searchQuery.trim()) browserDemoParams.set("q", searchQuery.trim());
-  const deterministicBrowserUrl = `${origin}/portal/demo${
+  const deterministicBrowserUrl = `${origin}/sample${
     browserDemoParams.toString() ? `?${browserDemoParams.toString()}` : ""
   }`;
 

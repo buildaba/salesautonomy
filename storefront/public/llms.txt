@@ -1,45 +1,48 @@
 # Sales Autonomy
 
-> Sales Autonomy (https://salesautonomy.com) provides 3 Pre-Cleaned Vertical Market Databases for B2B SaaS, Vertical Tech, Mid-Market GTM Teams (5–50 reps), and Clay/Outbound Agencies whose SDRs are starving because Apollo and ZoomInfo miss physical-world facilities, fleet insurance cancellations, clinic owners, and government filings. Every vertical engine is cross-joined against our Shared Corporate Backbone: 700,000+ SAM.gov verified corporate domains (`entityUrl`) and 650,000+ DOL Form 5500 filings (EIN, exact active employee headcount, and CPA-filtered CFO/HR signatories).
+> Sales Autonomy (https://salesautonomy.com) turns public government filings into ready-to-call sales leads for B2B sales teams and outbound agencies. We watch federal, state, and city filings daily—truck insurance cancellations, OSHA safety inspections, clinic expansions, building permits, and expiring government contracts—and deliver verified decision-makers with direct proof links.
 
-## The 3 Pre-Cleaned Vertical Market Engines
+## Industries We Cover
 
-1. **Engine 1: Healthcare & Multi-Site Clinic Graph**
-   - NPPES Organization Type-2 multi-site groups, extracted `Authorized Official` (Owner/Managing Partner/CMO), state license expansion deltas, patient booking-widget EHR DOM detection (Athenahealth, ModMed EMA, Dentrix), CMS Care Compare F-tag deficiency citations (45-day Plan of Correction windows), and OIG LEIE exclusion flags.
-2. **Engine 2: Industrial, Fleet & Facility Risk Graph**
-   - FMCSA 5–500+ truck fleets with 100% forward-looking 30-day Form BMC-35 insurance cancellation notices and 60/90-day Form BMC-91X policy renewal anniversaries; newly opened Federal OSHA inspections (`OPEN_DATE`) with 30–90 day abatement deadlines and Repeat-Violation Ex-Mod spike risk; and EPA ECHO enforcement facilities—all cross-joined with our DOL Form 5500 EIN, exact active employee headcount, and CFO/HR Signatory backbone.
-3. **Engine 3: Public Sector, Contractors & Permits Graph**
-   - SAM.gov daily forward-looking 30/60/90-day `registrationExpirationDate` countdowns, 700K native `entityUrl` verified corporate domains, USAspending contract awards and 60-day recompete windows, and Socrata/ArcGIS commercial building permits >$100K resolved from subsidiary LLCs to parent accounts.
+1. **Healthcare & Multi-Site Clinics**
+   - Multi-location medical, dental, and nursing groups expanding locations, switching patient booking software (Athenahealth, ModMed, Dentrix), or facing 45-day Medicare inspection correction deadlines.
+   - Decision-makers: Clinic Owner, Managing Partner, COO, CFO.
 
-## Commercial Ladder & Pricing
+2. **Trucking, Fleets & Factories**
+   - Commercial fleets (15–500+ trucks; 1-truck operators filtered out) facing 30-day insurance cancellation notices or 60-day annual policy renewals, plus manufacturing plants hit with newly opened federal OSHA inspections or EPA compliance schedules.
+   - Decision-makers: CFO, VP of Fleet Safety, VP of HR & Risk, VP of Plant Operations.
 
-- **Wedge Offer — The 7-Day Territory & CRM Whitespace Pilot ($1,950 One-Time • Fits on a VP's Corporate Card • 100% Credited Toward Full Deployment):** Match your existing CRM export against 1 of our 3 vertical engines. Delivers 2,500 net-new/enriched accounts + 5,000 verified contacts + active 30/60/90-day forward-looking triggers in a live `PowerTable` & CRM sandbox, plus a TAM Whitespace Gap Report.
-- **Tier 1 (Self-Serve & Clay Agencies) — PowerTable & Credit-Metered API Plan ($799/mo Paid Quarterly):** Full PowerTable UI search across 1 Vertical Engine, 1,250 unique company contact unlocks/month (~2,500 verified decision-makers), weekly delta CSV/Parquet & webhook digest, and read-only REST/MCP API access.
-- **Tier 2 (Most Popular — Mid-Market GTM Teams) — Managed CRM Deployment & Signal Sync ($9,500 One-Time Deployment [$7,550 net after $1,950 Pilot Rollover] + $1,950/mo):** Full national vertical database deployed and wired bi-directionally into HubSpot, Salesforce, or Clay; custom ICP win-rate scoring; weekly forward-looking trigger routing into SDR queues; continuous 3%/mo contact-decay replacement & champion job-change alerts; 3,500 company unlocks/mo.
-- **Tier 3 (Enterprise / Multi-Engine) — Private Warehouse & All-3-Engines Vault ($18,000 One-Time + $3,950/mo):** Direct Snowflake, BigQuery, or dedicated single-tenant Supabase VPC sync across all 3 Vertical Engines with 10,000 company unlocks/mo, custom SLA, DPA, and human exception QA.
+3. **Gov Contractors & Commercial Builders**
+   - Federal contractors with bidding registrations expiring in 30, 60, or 90 days, active government contracts entering re-bid, and builders pulling $100K+ commercial permits (matched from project LLCs back to the real parent company).
+   - Decision-makers: VP of Contracts, VP of Preconstruction & Procurement, CISO, CFO.
 
-## Universal 6-Table Canonical Postgres / Supabase Schema
+## Plans & Pricing
 
-Every vault ships with six relational tables guarded by our atomic source-hierarchy trigger (`fn_provenance_update`):
-1. `sources_provenance`: 5-tier authority ranking (Tier 1 Federal Statutory > Tier 2 State/Municipal > Tier 3 First-Party DOM > Tier 4 Trade Directories > Tier 5 Web), SHA-256 payload hash receipts, capture timestamps, and verbatim excerpts.
-2. `entities`: Canonical corporate spine linking UEI, EIN, NPI-2, USDOT, verified domain, Form 5500 active employee headcount, and `field_provenance_jsonb`.
-3. `facilities_sites`: Every physical clinic location, manufacturing plant, fleet terminal, or permitted job site linked to `entity_id`.
-4. `compliance_filings`: Dated regulatory filings, Form BMC-35/91X insurance policies, OSHA open inspections, CMS F-tags, SAM expirations, and building permits.
-5. `signals_deltas`: DuckDB SHA-256 delta triggers with daily exponential half-life decay `W(t) = W0 * 0.5^(t / half_life)` via `pg_cron`.
-6. `contacts`: Corporate officers filtered through our 50-keyword CPA/registered-agent exclusion gate and verified Just-In-Time through Catch-All SMTP to guarantee `<2%` email bounce rate.
+- **7-Day Territory Pilot ($1,950 one-time · 100% credited toward upgrade):** Match your current CRM account list against 1 industry. Includes 2,500 target accounts, 5,000 verified executive emails (<2% bounce guarantee), active 30/60/90-day deadlines, and a Missing Accounts Report.
+- **Self-Serve Portal & API ($799/mo, billed quarterly):** Live search across 1 industry, 1,250 company unlocks/month (~2,500 verified buyers), weekly Monday CSV digest, webhooks, and REST/MCP API access.
+- **Managed CRM Sync ($9,500 setup [$7,550 after Pilot credit] + $1,950/mo):** Full national industry synced directly into HubSpot, Salesforce, or Clay; 3,500 company unlocks/month (~7,000 verified buyers); weekly rep routing; monthly contact refresh; never overwrites rep notes.
+- **Enterprise — All 3 Industries ($18,000 setup [$16,050 after Pilot credit] + $3,950/mo):** All 3 industries unlocked, direct Snowflake/BigQuery/Postgres warehouse sync, 10,000 company unlocks/month, human QA, custom DPA, and 99.5% uptime SLA.
+- **Territory Protection:** Maximum 5 active subscribers per industry and regional territory.
 
-## 4 Standardized Delivery Outputs
+## Accuracy Guarantees
 
-1. Weekly Digest CSV / Parquet export
-2. Isolated Supabase RLS View & PowerTable UI
-3. Bi-directional CRM & Clay Webhook push (HubSpot, Salesforce, Clay)
-4. Read-only REST API & MCP Server
+- **Official records always beat web scrapes:** Federal and state filings outrank web directories and can never be overwritten by lower-trust scrapes.
+- **Real executives only:** Outside accountants, tax preparers, lawyers, and registered agents are filtered out before delivery.
+- **<2% email bounce guarantee:** Work emails are verified live on unlock, backed by 2-for-1 credit replacement.
+- **Direct proof on every fact:** Every key field links straight back to the public government record.
+
+## Delivery & Developer Access
+
+- Weekly Monday CSV digests
+- Live search portal
+- Direct CRM sync (HubSpot, Salesforce, Clay)
+- REST & MCP JSON-RPC API at `https://salesautonomy.com/api/vault`
 
 ## Main Pages
 
 - Homepage: https://salesautonomy.com/
-- Live PowerTable Explorer & 6-Table Canonical Schema: https://salesautonomy.com/portal/demo
-- 5 Vertical Data Engineering Plays: https://salesautonomy.com/academy
-- How We Verify Data (Atomic Provenance, 50-Keyword CPA Filter & JIT Verification): https://salesautonomy.com/credibility
-- Commercial Ladder & Pricing: https://salesautonomy.com/pricing
-- Scope Your 7-Day $1,950 Territory Pilot: https://salesautonomy.com/hire/apply
+- Live Sample Leads & How the Data Works: https://salesautonomy.com/sample
+- How It Works: https://salesautonomy.com/how-it-works
+- Data Accuracy & Proof: https://salesautonomy.com/accuracy
+- Plans & Pricing: https://salesautonomy.com/pricing
+- Start 7-Day Territory Pilot: https://salesautonomy.com/pilot

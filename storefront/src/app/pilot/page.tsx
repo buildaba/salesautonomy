@@ -90,7 +90,7 @@ export default function StartPilotPage() {
               </p>
             </div>
             <Link
-              href="/portal/demo"
+              href="/sample"
               className="text-sm font-medium text-[#141413] underline underline-offset-4 hover:text-[#2e6f40] shrink-0"
             >
               Browse live sample leads →
@@ -148,7 +148,7 @@ export default function StartPilotPage() {
 
             <div className="flex flex-col sm:flex-row gap-3 pt-2">
               <Link
-                href="/portal/demo"
+                href="/sample"
                 className="flex-1 min-h-[46px] bg-[#141413] hover:bg-[#2a2927] text-[#faf9f5] font-medium py-3 px-5 rounded-xl text-center transition-colors text-sm flex items-center justify-center gap-2"
               >
                 Browse Live Sample Leads

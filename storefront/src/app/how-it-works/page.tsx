@@ -78,14 +78,14 @@ export default function HowItWorksPage() {
           </p>
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
             <Link
-              href="/hire/apply"
+              href="/pilot"
               className="min-h-[46px] px-6 py-3 rounded-xl bg-[#141413] hover:bg-[#2a2927] text-[#faf9f5] text-sm font-medium inline-flex items-center justify-center gap-2 transition-colors shadow-sm"
             >
               Start 7-Day Pilot ($1,950)
               <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
-              href="/portal/demo"
+              href="/sample"
               className="min-h-[46px] px-6 py-3 rounded-xl bg-white border border-black/14 hover:bg-[#f0eee6] text-[#141413] text-sm font-medium inline-flex items-center justify-center transition-colors"
             >
               Browse Live Sample Leads
@@ -144,7 +144,7 @@ export default function HowItWorksPage() {
                   </p>
                 </div>
                 <Link
-                  href="/hire/apply"
+                  href="/pilot"
                   className="min-h-[42px] px-5 py-2.5 rounded-xl bg-[#141413] hover:bg-[#2a2927] text-[#faf9f5] text-xs font-medium transition-colors inline-flex items-center gap-1.5 self-start md:self-auto shrink-0"
                 >
                   Run Pilot in This Industry
@@ -196,14 +196,14 @@ export default function HowItWorksPage() {
             </div>
             <div className="md:col-span-4 flex flex-col gap-3">
               <Link
-                href="/hire/apply"
+                href="/pilot"
                 className="min-h-[46px] px-6 py-3 rounded-xl bg-[#141413] hover:bg-[#2a2927] text-[#faf9f5] text-sm font-medium inline-flex items-center justify-center gap-2 transition-colors"
               >
                 Get Free Territory Count
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <Link
-                href="/credibility"
+                href="/accuracy"
                 className="min-h-[46px] px-6 py-3 rounded-xl bg-white border border-black/14 hover:bg-[#faf9f5] text-[#141413] text-sm font-medium inline-flex items-center justify-center transition-colors"
               >
                 Read Our Data Accuracy Rules

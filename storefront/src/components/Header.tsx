@@ -59,31 +59,31 @@ const INDUSTRIES_DROPDOWN_ITEMS = [
   {
     label: 'Healthcare & Clinics',
     desc: 'Multi-site clinics opening locations or fixing Medicare citations',
-    to: '/portal/demo?industry=healthcare',
+    to: '/sample?industry=healthcare',
     icon: Building2,
   },
   {
     label: 'Trucking & Factories',
     desc: 'Fleets facing insurance cancellations and fresh OSHA inspections',
-    to: '/portal/demo?industry=fleet',
+    to: '/sample?industry=fleet',
     icon: Truck,
   },
   {
     label: 'Gov Contractors & Builders',
     desc: 'Expiring federal registrations, contract re-bids, and $100K+ permits',
-    to: '/portal/demo?industry=contractors',
+    to: '/sample?industry=contractors',
     icon: Landmark,
   },
   {
     label: 'How It Works',
     desc: 'How we turn public filings into ready-to-call buyer lists',
-    to: '/academy',
+    to: '/how-it-works',
     icon: FileCheck2,
   },
   {
     label: 'Data Accuracy',
     desc: 'Why official records beat web scrapes every time',
-    to: '/credibility',
+    to: '/accuracy',
     icon: ShieldCheck,
   },
 ];
@@ -122,9 +122,9 @@ export function Header() {
     }, 130);
   }, [clearCloseTimer]);
 
-  const isSampleActive = pathname.startsWith('/portal/demo');
-  const isHowItWorksActive = pathname.startsWith('/academy');
-  const isAccuracyActive = pathname.startsWith('/credibility');
+  const isSampleActive = pathname.startsWith('/sample');
+  const isHowItWorksActive = pathname.startsWith('/how-it-works');
+  const isAccuracyActive = pathname.startsWith('/accuracy');
   const isPricingActive = pathname.startsWith('/pricing');
 
   return (
@@ -222,7 +222,7 @@ export function Header() {
                     })}
                   </div>
                   <Link
-                    href="/portal/demo"
+                    href="/sample"
                     onClick={() => setOpenDropdown(false)}
                     className="flex items-center justify-between px-4 py-2.5 bg-[#f5f4ef] hover:bg-[#ece9df] border-t border-black/[0.08] text-xs font-semibold text-[#141413] transition-colors group"
                   >
@@ -235,7 +235,7 @@ export function Header() {
 
             {/* 2. How It Works Pill */}
             <Link
-              href="/academy"
+              href="/how-it-works"
               onMouseEnter={() => {
                 clearCloseTimer();
                 setOpenDropdown(false);
@@ -251,7 +251,7 @@ export function Header() {
 
             {/* 3. Live Sample Pill */}
             <Link
-              href="/portal/demo"
+              href="/sample"
               onMouseEnter={() => {
                 clearCloseTimer();
                 setOpenDropdown(false);
@@ -286,7 +286,7 @@ export function Header() {
           <div className="flex items-center gap-1.5 sm:gap-2 z-50 relative shrink-0">
             <button
               type="button"
-              onClick={() => router.push('/portal/demo')}
+              onClick={() => router.push('/sample')}
               className="hidden md:inline-flex items-center gap-1.5 h-9 px-2.5 xl:px-3 rounded-full bg-[#f0eee6] hover:bg-[#e6e3d8] border border-black/10 text-xs text-[#5c5852] hover:text-[#141413] transition-all cursor-pointer whitespace-nowrap shrink-0 group"
             >
               <Search className="w-3.5 h-3.5 text-[#6b665e] group-hover:text-[#141413] transition-colors shrink-0" />
@@ -304,7 +304,7 @@ export function Header() {
             </Link>
 
             <Link
-              href="/hire/apply"
+              href="/pilot"
               className="group min-h-[40px] lg:min-h-0 lg:h-9 bg-[#141413] hover:bg-[#2c2b28] active:scale-[0.99] text-[#faf9f5] px-3.5 xl:px-4 rounded-full text-[12px] sm:text-[12.5px] font-medium tracking-[-0.01em] shadow-[0_1px_2px_rgba(0,0,0,0.14),0_4px_12px_rgba(20,20,19,0.10)] transition-all shrink-0 whitespace-nowrap inline-flex items-center gap-1.5"
             >
               <span className="sm:hidden">7-Day Pilot</span>
@@ -329,7 +329,7 @@ export function Header() {
         <div className="fixed inset-x-0 top-16 bottom-0 bg-[#faf9f5] z-[90] lg:hidden flex flex-col border-t border-black/10 p-4 sm:p-5 space-y-3 overflow-y-auto">
           <div className="bg-white border border-black/10 rounded-xl divide-y divide-black/6 overflow-hidden">
             <Link
-              href="/portal/demo"
+              href="/sample"
               onClick={() => setIsOpen(false)}
               className="px-4 py-3.5 flex items-center justify-between gap-3"
             >
@@ -340,7 +340,7 @@ export function Header() {
               <ArrowRight size={14} className="text-[#6b665e] shrink-0" />
             </Link>
             <Link
-              href="/academy"
+              href="/how-it-works"
               onClick={() => setIsOpen(false)}
               className="px-4 py-3.5 flex items-center justify-between gap-3"
             >
@@ -351,7 +351,7 @@ export function Header() {
               <ArrowRight size={14} className="text-[#6b665e] shrink-0" />
             </Link>
             <Link
-              href="/credibility"
+              href="/accuracy"
               onClick={() => setIsOpen(false)}
               className="px-4 py-3.5 flex items-center justify-between gap-3"
             >
@@ -388,7 +388,7 @@ export function Header() {
               Client Login
             </Link>
             <Link
-              href="/hire/apply"
+              href="/pilot"
               onClick={() => setIsOpen(false)}
               className="flex-1 py-3.5 rounded-xl bg-[#141413] text-[#faf9f5] text-xs font-semibold hover:bg-[#2c2b28] transition-colors flex items-center justify-center gap-1.5"
             >

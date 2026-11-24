@@ -89,22 +89,22 @@ export default function RootLayout({
                   </h3>
                   <ul className="flex flex-col gap-2.5 text-sm text-[#5c5852]">
                     <li>
-                      <Link href="/portal/demo?industry=healthcare" className="hover:text-[#141413] transition-colors">
+                      <Link href="/sample?industry=healthcare" className="hover:text-[#141413] transition-colors">
                         Healthcare &amp; Multi-Site Clinics
                       </Link>
                     </li>
                     <li>
-                      <Link href="/portal/demo?industry=fleet" className="hover:text-[#141413] transition-colors">
+                      <Link href="/sample?industry=fleet" className="hover:text-[#141413] transition-colors">
                         Trucking, Fleets &amp; Factories
                       </Link>
                     </li>
                     <li>
-                      <Link href="/portal/demo?industry=contractors" className="hover:text-[#141413] transition-colors">
+                      <Link href="/sample?industry=contractors" className="hover:text-[#141413] transition-colors">
                         Gov Contractors &amp; Commercial Builders
                       </Link>
                     </li>
                     <li>
-                      <Link href="/academy" className="hover:text-[#141413] transition-colors">
+                      <Link href="/how-it-works" className="hover:text-[#141413] transition-colors">
                         How It Works
                       </Link>
                     </li>
@@ -117,7 +117,7 @@ export default function RootLayout({
                   </h3>
                   <ul className="flex flex-col gap-2.5 text-sm text-[#5c5852]">
                     <li>
-                      <Link href="/hire/apply" className="hover:text-[#141413] transition-colors">
+                      <Link href="/pilot" className="hover:text-[#141413] transition-colors">
                         7-Day Territory Pilot ($1,950)
                       </Link>
                     </li>
@@ -127,7 +127,7 @@ export default function RootLayout({
                       </Link>
                     </li>
                     <li>
-                      <Link href="/credibility" className="hover:text-[#141413] transition-colors">
+                      <Link href="/accuracy" className="hover:text-[#141413] transition-colors">
                         Data Accuracy &amp; Proof
                       </Link>
                     </li>

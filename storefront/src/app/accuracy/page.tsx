@@ -200,7 +200,7 @@ export default function CredibilityPage() {
               Want the Postgres tables, SHA-256 verification specs, or API endpoints for your data
               team?{" "}
               <Link
-                href="/portal/demo"
+                href="/sample"
                 className="text-[#141413] font-medium underline underline-offset-4 hover:text-[#2e6f40]"
               >
                 Open How the Data Works → Technical Specs
@@ -223,14 +223,14 @@ export default function CredibilityPage() {
             </p>
             <div className="pt-2 flex flex-col gap-3">
               <Link
-                href="/hire/apply"
+                href="/pilot"
                 className="min-h-[46px] px-6 py-3 rounded-xl bg-[#141413] hover:bg-[#2a2927] text-[#faf9f5] text-sm font-medium flex items-center justify-center gap-2 transition-colors"
               >
                 Start 7-Day Pilot ($1,950)
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <Link
-                href="/portal/demo"
+                href="/sample"
                 className="min-h-[46px] px-6 py-3 rounded-xl bg-white border border-black/14 hover:bg-[#faf9f5] text-[#141413] text-sm font-medium flex items-center justify-center transition-colors"
               >
                 Browse Live Sample Leads
