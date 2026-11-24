@@ -1,6 +1,6 @@
 # Sales Autonomy
 
-> Sales Autonomy (https://salesautonomy.com) turns public government filings into ready-to-call sales leads for B2B sales teams and outbound agencies. We watch federal, state, and city filings daily—truck insurance cancellations, OSHA safety inspections, clinic expansions, building permits, and expiring government contracts—and deliver verified decision-makers with direct proof links.
+> Sales Autonomy (https://salesautonomy.com) gives B2B sales reps, RevOps teams, and AI agents full autonomy to research verified buyer signals from public government filings. We watch federal, state, and city filings daily—truck insurance cancellations, OSHA safety inspections, clinic expansions, building permits, and expiring government contracts—and deliver verified decision-makers with direct proof links.
 
 ## Industries We Cover
 

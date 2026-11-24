@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 import {
   ArrowRight,
   Check,
@@ -21,6 +22,7 @@ import { PowerTableExplorer } from '@/components/vault/PowerTableExplorer';
 
 interface IndustryMarket {
   id: 'healthcare' | 'fleet' | 'contractors';
+  stepNumber: string;
   tabLabel: string;
   badge: string;
   title: string;
@@ -43,7 +45,8 @@ interface IndustryMarket {
 const INDUSTRY_MARKETS: IndustryMarket[] = [
   {
     id: 'healthcare',
-    tabLabel: '01 · Healthcare & Clinics',
+    stepNumber: '01',
+    tabLabel: 'Healthcare & Clinics',
     badge: 'Healthcare & Multi-Site Clinics',
     title: 'Reach clinic groups expanding locations or fixing inspection issues.',
     subtitle:
@@ -70,7 +73,8 @@ const INDUSTRY_MARKETS: IndustryMarket[] = [
   },
   {
     id: 'fleet',
-    tabLabel: '02 · Trucking & Factories',
+    stepNumber: '02',
+    tabLabel: 'Trucking & Factories',
     badge: 'Trucking Fleets & Industrial Plants',
     title: 'Catch fleets before insurance cancels and plants after OSHA arrives.',
     subtitle:
@@ -97,7 +101,8 @@ const INDUSTRY_MARKETS: IndustryMarket[] = [
   },
   {
     id: 'contractors',
-    tabLabel: '03 · Gov Contractors & Builders',
+    stepNumber: '03',
+    tabLabel: 'Gov Contractors & Builders',
     badge: 'Government Contractors & Commercial Builders',
     title: 'Spot expiring federal registrations, re-bids, and $100K+ permits.',
     subtitle:
@@ -126,9 +131,9 @@ const INDUSTRY_MARKETS: IndustryMarket[] = [
 
 const WHY_SWITCH_CARDS = [
   {
-    eyebrow: 'For Founders & Sales Leaders',
-    title: 'Stop paying reps to clean spreadsheets',
-    body: 'Your reps lose hours every week hunting down parent companies and guessing emails. We deliver a clean, ready-to-call account list every Monday morning.',
+    eyebrow: 'For RevOps & Sales Leaders',
+    title: 'Give reps autonomy without RevOps tickets',
+    body: 'Reps lose hours chasing parent LLCs and asking RevOps for lists. Give them verified signals, official proof links, and clean contacts on demand.',
     cta: 'Browse live sample leads',
     href: '#live-explorer',
     icon: Target,
@@ -154,7 +159,7 @@ const WHY_SWITCH_CARDS = [
 const FAQS = [
   {
     q: 'Why use Sales Autonomy instead of Apollo or ZoomInfo?',
-    a: 'Apollo and ZoomInfo scrape social profiles and sell the same cold lists to thousands of reps. In healthcare, trucking, and construction, real buying triggers show up in public government filings weeks first. We clean those filings, match the parent company, and give you verified executive emails.',
+    a: 'Apollo and ZoomInfo hand reps stale social scrapes and endless list-building work. In healthcare, trucking, and construction, real buying triggers show up in public government filings weeks first. We clean those filings, match the parent company, and give reps and AI agents verified decision-makers with proof links.',
   },
   {
     q: 'How do you keep email bounces under 2%?',
@@ -182,7 +187,7 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="max-w-3xl">
             <p className="text-xs font-medium text-[#6b665e] mb-4">
-              For B2B Sales Teams &amp; Outbound Agencies · Updated Daily · &lt;2% Bounce Guarantee
+              Sales Autonomy for RevOps &amp; B2B Sales Teams · Updated Daily · &lt;2% Bounce Guarantee
             </p>
 
             <h1 className="text-4xl sm:text-5xl md:text-[3.65rem] font-serif tracking-tight mb-5 leading-[1.08] text-[#141413] font-medium">
@@ -190,10 +195,10 @@ export default function HomePage() {
             </h1>
 
             <p className="text-base sm:text-lg text-[#5c5852] max-w-2xl mb-8 leading-relaxed">
-              Apollo and ZoomInfo tell you who exists, not who needs to buy. We watch public
-              government filings every day—insurance cancellations, safety inspections, clinic
-              expansions, and expiring contracts. Your reps get the exact executive to call before
-              the deadline hits.
+              Give reps full autonomy to research accounts and spot real urgency—without waiting on
+              RevOps tickets. We watch public government filings every day: insurance cancellations,
+              safety inspections, clinic expansions, and expiring contracts. Your reps and AI agents
+              get the exact executive to call before the deadline hits.
             </p>
 
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-12">
@@ -246,35 +251,118 @@ export default function HomePage() {
       {/* 2. THE 3 INDUSTRIES WE COVER */}
       <section className="py-20 bg-[#f0eee6]/55 border-t border-black/10">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
-            <div>
-              <p className="text-xs font-medium text-[#6b665e] mb-2">
-                Three Real-World Markets Standard Tools Miss
-              </p>
-              <h2 className="text-3xl sm:text-4xl font-serif tracking-tight text-[#141413] font-medium">
-                Pick your industry. Get buyers with active deadlines.
-              </h2>
-            </div>
-
-            <div className="inline-flex flex-wrap p-1 rounded-xl bg-white border border-black/10 self-start">
-              {INDUSTRY_MARKETS.map((market) => (
-                <button
-                  key={market.id}
-                  type="button"
-                  onClick={() => setActiveIndustryId(market.id)}
-                  className={`px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors cursor-pointer ${
-                    activeIndustryId === market.id
-                      ? 'bg-[#141413] text-[#faf9f5]'
-                      : 'text-[#5c5852] hover:text-[#141413]'
-                  }`}
-                >
-                  {market.tabLabel}
-                </button>
-              ))}
-            </div>
+          <div className="max-w-2xl mb-8">
+            <p className="text-xs font-medium text-[#6b665e] mb-2">
+              Three Real-World Markets Standard Tools Miss
+            </p>
+            <h2 className="text-3xl sm:text-4xl font-serif tracking-tight text-[#141413] font-medium">
+              Pick your industry. Get buyers with active deadlines.
+            </h2>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+          <div
+            role="tablist"
+            aria-label="Industries covered"
+            className="grid grid-cols-1 md:grid-cols-3 gap-1.5 p-1.5 rounded-2xl bg-white border border-black/10 shadow-[0_1px_2px_rgba(20,20,19,0.03)] mb-6"
+          >
+            {INDUSTRY_MARKETS.map((market, index) => {
+              const Icon = market.icon;
+              const isActive = activeIndustryId === market.id;
+              return (
+                <button
+                  key={market.id}
+                  id={`industry-tab-${market.id}`}
+                  role="tab"
+                  type="button"
+                  aria-selected={isActive}
+                  aria-controls="industry-market-panel"
+                  tabIndex={isActive ? 0 : -1}
+                  onClick={() => setActiveIndustryId(market.id)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                      e.preventDefault();
+                      const next = INDUSTRY_MARKETS[(index + 1) % INDUSTRY_MARKETS.length];
+                      setActiveIndustryId(next.id);
+                      document.getElementById(`industry-tab-${next.id}`)?.focus();
+                    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                      e.preventDefault();
+                      const prev =
+                        INDUSTRY_MARKETS[
+                          (index - 1 + INDUSTRY_MARKETS.length) % INDUSTRY_MARKETS.length
+                        ];
+                      setActiveIndustryId(prev.id);
+                      document.getElementById(`industry-tab-${prev.id}`)?.focus();
+                    } else if (e.key === 'Home') {
+                      e.preventDefault();
+                      setActiveIndustryId(INDUSTRY_MARKETS[0].id);
+                      document.getElementById(`industry-tab-${INDUSTRY_MARKETS[0].id}`)?.focus();
+                    } else if (e.key === 'End') {
+                      e.preventDefault();
+                      const last = INDUSTRY_MARKETS[INDUSTRY_MARKETS.length - 1];
+                      setActiveIndustryId(last.id);
+                      document.getElementById(`industry-tab-${last.id}`)?.focus();
+                    }
+                  }}
+                  className={`group relative flex items-center gap-3.5 px-3.5 lg:px-4 py-3 rounded-[10px] text-left transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#141413]/30 ${
+                    isActive
+                      ? 'text-[#faf9f5]'
+                      : 'text-[#5c5852] hover:text-[#141413] hover:bg-[#f5f4ef]/85'
+                  }`}
+                >
+                  {isActive && (
+                    <motion.span
+                      layoutId="active-industry-tab"
+                      transition={{ type: 'spring', stiffness: 460, damping: 36 }}
+                      className="absolute inset-0 rounded-[10px] bg-[#141413] shadow-[0_1px_2px_rgba(20,20,19,0.12),0_4px_12px_rgba(20,20,19,0.08)]"
+                    />
+                  )}
+                  <span
+                    className={`relative z-10 flex md:hidden lg:flex w-9 h-9 rounded-lg shrink-0 items-center justify-center transition-colors ${
+                      isActive
+                        ? 'bg-white/12 text-[#faf9f5]'
+                        : 'bg-[#f5f4ef] border border-black/[0.06] text-[#5c5852] group-hover:text-[#141413] group-hover:bg-white'
+                    }`}
+                  >
+                    <Icon className="w-4 h-4" />
+                  </span>
+                  <span className="relative z-10 min-w-0 flex-1">
+                    <span className="flex items-center gap-1.5 text-[11px] font-medium tabular-nums">
+                      <span className={isActive ? 'text-[#faf9f5]/65' : 'text-[#6b665e]'}>
+                        {market.stepNumber}
+                      </span>
+                      <span
+                        aria-hidden="true"
+                        className={isActive ? 'text-[#faf9f5]/55' : 'text-[#6b665e]/60'}
+                      >
+                        ·
+                      </span>
+                      <span
+                        className={`truncate ${
+                          isActive ? 'text-[#faf9f5]/75' : 'text-[#6b665e]'
+                        }`}
+                      >
+                        {market.totalEntities}
+                      </span>
+                    </span>
+                    <span
+                      className={`block text-[13.5px] lg:text-sm font-medium tracking-[-0.01em] truncate mt-0.5 ${
+                        isActive ? 'text-[#faf9f5]' : 'text-[#141413]'
+                      }`}
+                    >
+                      {market.tabLabel}
+                    </span>
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          <div
+            id="industry-market-panel"
+            role="tabpanel"
+            aria-labelledby={`industry-tab-${activeMarket.id}`}
+            className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch"
+          >
             <div className="lg:col-span-7 bg-white border border-black/10 rounded-2xl p-7 sm:p-8 flex flex-col justify-between shadow-[0_1px_2px_rgba(20,20,19,0.03)]">
               <div>
                 <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
@@ -428,14 +516,14 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="max-w-2xl mb-12">
             <p className="text-xs font-medium text-[#6b665e] mb-2">
-              Built for Busy Sales Teams
+              Built for RevOps &amp; Self-Sufficient Reps
             </p>
             <h2 className="text-3xl sm:text-4xl font-serif tracking-tight text-[#141413] font-medium mb-3">
-              Clean accounts. Four easy ways to use them.
+              True sales autonomy. Four easy ways to deliver it.
             </h2>
             <p className="text-sm sm:text-base text-[#5c5852] leading-relaxed">
-              Whether your reps work from a Monday spreadsheet or your ops team syncs leads straight
-              into HubSpot, Salesforce, or Clay, every account arrives clean and ready to call.
+              Reps can inspect live accounts on their own, or RevOps can sync every signal straight
+              into HubSpot, Salesforce, Clay, or AI agents.
             </p>
           </div>
 

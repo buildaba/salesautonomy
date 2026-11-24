@@ -25,11 +25,11 @@ export const metadata: Metadata = {
     template: "%s | Sales Autonomy",
   },
   description:
-    "Turn public government filings into ready-to-call sales leads across healthcare clinics, trucking fleets, factories, and government contractors. Verified decision-makers and <2% bounce guarantee.",
+    "Give sales reps and AI agents autonomy to research verified buyer signals from public government filings across healthcare clinics, trucking fleets, factories, and contractors.",
   openGraph: {
     title: "Sales Autonomy — Call Buyers Who Have a Deadline Right Now",
     description:
-      "Verified sales leads built from public government filings. Synced straight into HubSpot, Salesforce, and Clay.",
+      "Give reps verified buyer signals from public government filings—no RevOps ticket queues. Synced into HubSpot, Salesforce, Clay, and MCP agents.",
     url: "https://salesautonomy.com",
     siteName: "Sales Autonomy",
     locale: "en_US",
@@ -75,7 +75,7 @@ export default function RootLayout({
                     </span>
                   </Link>
                   <p className="text-[#5c5852] text-sm mb-5 max-w-sm leading-relaxed">
-                    We turn public government filings into ready-to-call sales leads. Every account includes verified decision-makers and a direct link to the official record.
+                    We turn public government filings into verified buyer signals. Reps and AI agents get real decision-makers and official proof links without waiting on RevOps.
                   </p>
                   <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#f0eee6] border border-black/8 text-xs text-[#3d3a34] font-medium">
                     <span className="w-2 h-2 rounded-full bg-[#2e6f40]" />

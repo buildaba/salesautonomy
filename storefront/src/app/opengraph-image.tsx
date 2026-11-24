@@ -54,8 +54,8 @@ export default async function Image() {
               maxWidth: "880px",
             }}
           >
-            Verified sales leads built from public government filings across healthcare clinics,
-            trucking fleets, factories, and government contractors.
+            Give sales reps and RevOps verified buyer signals from public government filings across
+            healthcare clinics, trucking fleets, factories, and contractors.
           </div>
         </div>
 

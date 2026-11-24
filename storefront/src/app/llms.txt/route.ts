@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
 
   const content = `# Sales Autonomy — Pre-Cleaned Vertical Market Databases (2026 Agent & MCP Spec)
 
-> Pre-cleaned, SHA-256 provenance-locked vertical compliance databases for B2B revenue teams, RevOps engineers, and autonomous GTM agents (xAI Grokbot, Claude MCP, Cursor, Clay, HubSpot MCP).
+> Sales Autonomy gives B2B sales reps, RevOps engineers, and autonomous GTM agents (xAI Grokbot, Claude MCP, Cursor, Clay, HubSpot MCP) full autonomy to research SHA-256 provenance-locked buyer signals from public government filings.
 
 ## 1. Three Pre-Cleaned Flagship Vertical Engines
 
