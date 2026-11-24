@@ -152,7 +152,7 @@ export function SignalDossierDrawer({
                     Deadline: {record.forwardWindowDays} Days Left
                   </span>
                   <span className="px-2.5 py-1 rounded-md bg-[#141413] text-[#faf9f5] text-[11px] font-medium">
-                    {(record.stackedAgencies?.length || 3)} Federal Agencies Stacked
+                    Verified Across {(record.stackedAgencies?.length || 3)} Public Sources
                   </span>
                 </div>
                 <h2 className="text-2xl md:text-3xl font-serif font-medium text-[#141413] tracking-tight">
@@ -164,12 +164,12 @@ export function SignalDossierDrawer({
                 {record.stackedAgencies && record.stackedAgencies.length > 0 && (
                   <div className="flex flex-wrap items-center gap-1.5 mt-2.5">
                     <span className="text-[11px] text-[#6b665e] font-medium">
-                      Cross-Walked Agencies:
+                      Matched Sources:
                     </span>
                     {record.stackedAgencies.map((ag) => (
                       <span
                         key={ag}
-                        className="px-2 py-0.5 rounded-md bg-white border border-black/10 text-[10px] font-mono text-[#141413]"
+                        className="px-2 py-0.5 rounded-md bg-white border border-black/10 text-[10px] font-medium text-[#141413]"
                       >
                         {ag}
                       </span>
@@ -311,7 +311,7 @@ export function SignalDossierDrawer({
                         className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#ecfdf5] border border-[#a7f3d0] hover:bg-[#d1fae5] text-xs font-medium text-[#2e6f40] cursor-pointer transition-colors"
                       >
                         <Copy className="w-3.5 h-3.5" />
-                        {copiedGrokbotBrief ? "Copied Agent Brief" : "Copy Grokbot / Clay Brief"}
+                        {copiedGrokbotBrief ? "Copied Agent Brief" : "Copy Clay / AI Brief"}
                       </button>
                       <button
                         type="button"

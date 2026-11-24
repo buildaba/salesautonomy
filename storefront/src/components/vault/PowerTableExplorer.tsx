@@ -806,23 +806,23 @@ function getDefaultStackedAgencies(rec: {
   const sig = rec.signalType.toUpperCase();
   if (rec.industryKey === "healthcare") {
     if (sig.includes("FDA") || sig.includes("510")) {
-      return ["FDA 510(k)", "DOL Form 5500", "SAM.gov", "DOL H-1B LCA"];
+      return ["FDA Approvals", "Benefits & Headcount", "Federal Contractors", "Hiring Filings"];
     }
     if (sig.includes("PERMIT")) {
-      return ["CMS NPPES", "DOL Form 5500", "Socrata Permits", "SBA 504 Loan"];
+      return ["Clinic Registry", "Benefits & Headcount", "Building Permits", "SBA Loans"];
     }
-    return ["CMS NPPES", "DOL Form 5500", "HHS OIG LEIE", "CMS Care Compare"];
+    return ["Clinic Registry", "Benefits & Headcount", "Compliance Watchlist", "Medicare Inspections"];
   }
   if (rec.industryKey === "fleet") {
     if (sig.includes("OSHA") || sig.includes("EPA")) {
-      return ["Federal OSHA", "EPA ECHO", "DOL Form 5500", "SBA 504 Loan"];
+      return ["OSHA Safety", "EPA Filings", "Benefits & Headcount", "SBA Loans"];
     }
-    return ["DOT FMCSA", "DOL Form 5500", "Federal OSHA", "FAA Registry"];
+    return ["DOT Fleet & Insurance", "Benefits & Headcount", "OSHA Safety", "FAA Aircraft"];
   }
   if (sig.includes("PERMIT")) {
-    return ["Socrata Permits", "DOL Form 5500", "SBA 504 Loan", "SEC Form D"];
+    return ["Building Permits", "Benefits & Headcount", "SBA Loans", "Private Funding"];
   }
-  return ["SAM.gov", "USAspending", "DOL Form 5500", "DOL H-1B LCA"];
+  return ["Federal Contractors", "Federal Awards", "Benefits & Headcount", "Hiring Filings"];
 }
 
 function mapInitialIndustry(raw?: string): string {
@@ -958,7 +958,7 @@ export function PowerTableExplorer({ initialIndustry }: PowerTableExplorerProps)
                 .toLowerCase()
                 .replace(/\b\w/g, (c) => c.toUpperCase()),
               signalHeadline: String(
-                s.signal_title || s.signal_summary || "Verified compliance filing delta."
+                s.signal_title || s.signal_summary || "New public filing detected."
               ),
               forwardWindowDays: daysLeft,
               urgencyTier,
@@ -966,38 +966,39 @@ export function PowerTableExplorer({ initialIndustry }: PowerTableExplorerProps)
               daysElapsed: 3,
               halfLifeDays: 45,
               currentScore: Number(s.urgency?.urgency_score ?? 86),
-              qualifyingFactPrimary: `Source: ${s.provenance?.source_system || "Federal Filing"} · ${s.filing?.external_filing_id || ""}`,
+              qualifyingFactPrimary: `Source: ${s.provenance?.source_system || "Public Filing"} · ${s.filing?.external_filing_id || ""}`,
               qualifyingFactSecondary: `${entityName} · ${city}, ${state}`,
-              repOpenerLine: `Saw ${entityName} filed ${s.filing?.external_filing_id || "a new compliance update"} (${s.signal_title || ""}) in ${city}, ${state}.`,
+              repOpenerLine: `Saw ${entityName} filed ${s.filing?.external_filing_id || "a new public update"} (${s.signal_title || ""}) in ${city}, ${state}.`,
               stackedAgencies: Array.isArray(s.stacked_agencies)
                 ? s.stacked_agencies.map((code: string) =>
                     code
-                      .replace("FDA_OPENFDA_510K", "FDA 510(k)")
-                      .replace("SEC_EDGAR_FORM_D", "SEC Form D")
-                      .replace("SBA_7A_504", "SBA 504 Loan")
-                      .replace("DOL_LCA_H1B", "DOL H-1B LCA")
-                      .replace("DOL_5500", "DOL Form 5500")
-                      .replace("CMS_NPPES", "CMS NPPES")
-                      .replace("HHS_OIG_LEIE", "HHS OIG LEIE")
-                      .replace("CMS_QCOR", "CMS Care Compare")
-                      .replace("SOCRATA_PERMITS", "Socrata Permits")
-                      .replace("OSHA_ITA", "Federal OSHA")
-                      .replace("OSHA_EPA", "OSHA / EPA")
-                      .replace("EPA_ECHO", "EPA ECHO")
-                      .replace("FAA_REGISTRY", "FAA Registry")
-                      .replace("SAM_GOV", "SAM.gov")
-                      .replace("USASPENDING", "USAspending")
+                      .replace("FDA_OPENFDA_510K", "FDA Approvals")
+                      .replace("SEC_EDGAR_FORM_D", "Private Funding")
+                      .replace("SBA_7A_504", "SBA Loans")
+                      .replace("DOL_LCA_H1B", "Hiring Filings")
+                      .replace("DOL_5500", "Benefits & Headcount")
+                      .replace("CMS_NPPES", "Clinic Registry")
+                      .replace("HHS_OIG_LEIE", "Compliance Watchlist")
+                      .replace("CMS_QCOR", "Medicare Inspections")
+                      .replace("SOCRATA_PERMITS", "Building Permits")
+                      .replace("OSHA_ITA", "OSHA Safety")
+                      .replace("OSHA_EPA", "OSHA & EPA")
+                      .replace("EPA_ECHO", "EPA Filings")
+                      .replace("FAA_REGISTRY", "FAA Aircraft")
+                      .replace("SAM_GOV", "Federal Contractors")
+                      .replace("USASPENDING", "Federal Awards")
+                      .replace("FMCSA_LI", "DOT Fleet & Insurance")
                   )
                 : undefined,
               provenanceReceipts: [
                 {
-                  fieldName: String(s.filing?.filing_type || "statutory_filing"),
+                  fieldName: String(s.filing?.filing_type || "public_filing"),
                   fieldLabel: String(s.signal_title || "Official Government Filing"),
                   fieldValue: String(
                     s.filing?.external_filing_id || s.signal_category || "Verified"
                   ),
                   sourceName: String(
-                    s.provenance?.source_system || "Federal Statutory Feed"
+                    s.provenance?.source_system || "Official Public Filing"
                   ),
                   sourceTier: 1,
                   sourceUrl: String(
@@ -1053,7 +1054,7 @@ export function PowerTableExplorer({ initialIndustry }: PowerTableExplorerProps)
                         fullName: "Authorized Corporate Officer",
                         title: "Managing Director / Principal",
                         roleTier: "Executive Buyer",
-                        sourceOrigin: "Federal Statutory Registry",
+                        sourceOrigin: "Official Public Filing",
                         cpaFilterStatus: "Real Executive",
                         emailMasked: `a***@${domain}`,
                         emailUnmasked: `admin@${domain}`,
@@ -1249,7 +1250,7 @@ export function PowerTableExplorer({ initialIndustry }: PowerTableExplorerProps)
             className="px-3.5 py-2 rounded-xl border border-[#a7f3d0] bg-[#ecfdf5] hover:bg-[#d1fae5] text-xs font-medium text-[#2e6f40] inline-flex items-center gap-1.5 transition-colors cursor-pointer"
           >
             <Terminal className="w-3.5 h-3.5" />
-            Connect Grokbot / MCP
+            Connect API / AI Agent
           </button>
           <button
             type="button"
@@ -1328,9 +1329,9 @@ export function PowerTableExplorer({ initialIndustry }: PowerTableExplorerProps)
           href="/llms.txt"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-xs font-mono text-[#2e6f40] hover:underline hidden md:inline-block"
+          className="text-xs font-medium text-[#2e6f40] hover:underline hidden md:inline-block"
         >
-          /llms.txt · /api/mcp · /api/v1/signals →
+          API &amp; Agent Docs →
         </a>
       </div>
 
@@ -1505,12 +1506,12 @@ export function PowerTableExplorer({ initialIndustry }: PowerTableExplorerProps)
                       </p>
                       <div className="flex flex-wrap items-center gap-1 mt-2">
                         <span className="text-[10px] font-medium text-[#2e6f40] mr-0.5">
-                          Stacked ({getDefaultStackedAgencies(rec).length} Agencies):
+                          Confirmed by {getDefaultStackedAgencies(rec).length} sources:
                         </span>
                         {getDefaultStackedAgencies(rec).map((agency) => (
                           <span
                             key={agency}
-                            className="px-1.5 py-0.5 rounded bg-[#faf9f5] border border-black/10 text-[10px] font-mono text-[#5c5852]"
+                            className="px-1.5 py-0.5 rounded bg-[#faf9f5] border border-black/10 text-[10px] font-medium text-[#5c5852]"
                           >
                             {agency}
                           </span>
@@ -1592,7 +1593,7 @@ export function PowerTableExplorer({ initialIndustry }: PowerTableExplorerProps)
           <SlidersHorizontal className="w-3.5 h-3.5 text-[#2e6f40]" />
           <span>
             Showing <strong className="text-[#141413]">{filteredRecords.length}</strong> of{" "}
-            <strong className="text-[#141413]">{liveVaultRecords.length}</strong> canonical
+            <strong className="text-[#141413]">{liveVaultRecords.length}</strong> verified
             accounts · Click any row to see proof links and call openers.
           </span>
         </div>

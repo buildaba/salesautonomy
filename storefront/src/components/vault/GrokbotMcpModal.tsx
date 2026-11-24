@@ -390,22 +390,22 @@ Every Monday at 6:00 AM:
                   {
                     name: "search_compliance_signals",
                     cost: "0 Credits (Free Discovery)",
-                    desc: "Filter all 66+ live canonical compliance signals by vertical_engine, state, and min_urgency_score.",
+                    desc: "Filter 76+ live buyer signals by industry, state, and urgency score.",
                   },
                   {
                     name: "get_entity_compliance_dossier",
-                    cost: "0 Credits (Free Provenance)",
-                    desc: "Inspect full 6-table entity dossier, physical facilities, and SHA-256 government filing receipts by EIN, NPI, UEI, or USDOT.",
+                    cost: "0 Credits (Free Proof)",
+                    desc: "Pull the full company profile, physical locations, and official government proof links by EIN, NPI, UEI, or USDOT.",
                   },
                   {
                     name: "get_verified_buying_committee",
-                    cost: "1 Credit / Entity Unlock",
-                    desc: "Unmasks 50-keyword CPA-filtered corporate officers with <2% bounce SLA verification.",
+                    cost: "1 Credit / Company Unlock",
+                    desc: "Unlocks real company executives (outside accountants screened out) with <2% bounce verification.",
                   },
                   {
                     name: "generate_grokbot_outbound_brief",
-                    cost: "1 Credit / Entity Unlock",
-                    desc: "Generates turnkey Grokbot / Clay outbound execution briefs with verified emails and statutory citation first lines.",
+                    cost: "1 Credit / Company Unlock",
+                    desc: "Builds a ready-to-send Clay or AI agent brief with verified emails and proof-backed call openers.",
                   },
                 ].map((tool) => (
                   <div
