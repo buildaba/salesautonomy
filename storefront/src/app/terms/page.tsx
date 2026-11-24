@@ -1,80 +1,105 @@
+import Link from "next/link";
+
 export default function TermsPage() {
   return (
-    <article className="cove-prose animate-in" style={{ padding: '80px 0 96px' }}>
-      <h1>Terms of Service</h1>
-      <p className="rail-label" style={{ marginBottom: '40px' }}>Last Updated: April 3, 2026</p>
-
-      <section className="stack-lg">
-        <div>
-          <h3>1. Acceptance of Terms</h3>
-          <p>
-            By accessing or using the Sales Autonomy platform (the "Service"), you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our Service.
+    <div className="min-h-screen bg-[#faf9f5] text-[#141413] pt-28 pb-24 px-6">
+      <div className="max-w-4xl mx-auto">
+        <div className="pb-10 mb-10 border-b border-black/10">
+          <p className="text-xs font-medium text-[#2e6f40] mb-3">
+            Commercial Licensing Terms · Strict Non-FCRA Covenant · Public-Record Attribution
           </p>
+          <h1 className="text-4xl sm:text-5xl font-serif font-medium tracking-tight text-[#141413] mb-3">
+            Terms of Service &amp; Data License Agreement
+          </h1>
+          <p className="text-sm text-[#6b665e]">Last Updated: November 24, 2026</p>
         </div>
 
-        <div>
-          <h3>2. Description of Service</h3>
-          <p>
-            Sales Autonomy provides infrastructure for autonomous revenue generation, including API-based billing, usage metering, and account management. We grant you a limited, non-exclusive, non-transferable license to use the Service as specified in your subscription plan.
-          </p>
-        </div>
+        <div className="space-y-6">
+          <div className="bg-white border border-black/10 rounded-2xl p-6 sm:p-7">
+            <h3 className="text-lg font-serif font-medium text-[#141413] mb-2">
+              1. Scope of Service &amp; B2B Territory License
+            </h3>
+            <p className="text-sm text-[#5c5852] leading-relaxed">
+              Sales Autonomy (&ldquo;Provider&rdquo;) grants Customer a limited, non-exclusive,
+              non-transferable, credit-metered license to access our 15-Agency Federal Statutory
+              Graph, Vertical Market Packs, PowerTable UI, CRM Webhooks, REST API (
+              <code className="font-mono text-xs">/api/v1/signals</code>), and Remote MCP Server (
+              <code className="font-mono text-xs">/api/mcp</code>) solely for Customer&apos;s
+              internal B2B sales, marketing, and revenue operations. Bulk resale, syndication, or
+              redistribution of raw or enriched records to third parties is strictly prohibited.
+            </p>
+          </div>
 
-        <div>
-          <h3>3. User Accounts</h3>
-          <p>
-            You are responsible for maintaining the security of your account and API keys. We use PBKDF2 hashing for API keys, but you must prevent unauthorized access to your secrets. You are liable for all activity under your account.
-          </p>
-        </div>
+          <div className="bg-white border border-black/10 rounded-2xl p-6 sm:p-7">
+            <h3 className="text-lg font-serif font-medium text-[#141413] mb-2">
+              2. Strict Non-FCRA Notice &amp; Prohibited Eligibility Uses (15 U.S.C. § 1681)
+            </h3>
+            <p className="text-sm text-[#5c5852] leading-relaxed">
+              Sales Autonomy is <strong>NOT</strong> a &ldquo;Consumer Reporting Agency&rdquo; as
+              defined by the Fair Credit Reporting Act (15 U.S.C. § 1681 et seq.) (&ldquo;FCRA&rdquo;),
+              and the data, urgency scores, and compliance signals provided do{" "}
+              <strong>NOT</strong> constitute &ldquo;Consumer Reports.&rdquo; Customer expressly
+              covenants that it will never use any Sales Autonomy data, signal, or score in whole or
+              in part as a factor in determining any individual natural person&apos;s or sole
+              proprietor&apos;s eligibility for: (a) personal or consumer credit or lending; (b)
+              insurance underwriting, pricing, or policy cancellation; (c) employment, hiring, or
+              background screening; (d) tenant housing; or (e) any other purpose regulated under the
+              FCRA.
+            </p>
+          </div>
 
-        <div>
-          <h3>4. API Usage and Limits</h3>
-          <p>
-            API usage is subjected to rate limits and quotas defined by your current plan. We reserve the right to throttle or block access if your usage patterns are deemed abusive or harmful to the infrastructure.
-          </p>
-        </div>
+          <div className="bg-white border border-black/10 rounded-2xl p-6 sm:p-7">
+            <h3 className="text-lg font-serif font-medium text-[#141413] mb-2">
+              3. Federal &amp; Municipal Public-Record Attribution &amp; Non-Endorsement
+            </h3>
+            <p className="text-sm text-[#5c5852] leading-relaxed">
+              Underlying statutory records are sourced from public U.S. federal and municipal data
+              feeds (including GSA SAM.gov, DOL EFAST2 Form 5500, DOL OFLC LCA, CMS NPPES, HHS OIG
+              LEIE, CMS QCOR, FDA OpenFDA, U.S. DOT FMCSA, DOL OSHA, U.S. EPA ECHO, FAA, SEC EDGAR,
+              SBA, Treasury USAspending, and Municipal Socrata portals) pursuant to 17 U.S.C. § 105
+              and the OPEN Government Data Act. Sales Autonomy is an independent commercial entity
+              resolving, cross-walking, and enriching public filings; our platform is not affiliated
+              with, endorsed by, or sponsored by any federal, state, or municipal government agency.
+            </p>
+          </div>
 
-        <div>
-          <h3>5. Payments and Subscriptions</h3>
-          <p>
-            All paid plans are billed in advance on a recurring monthly or annual basis. Payments are processed via Stripe. You can cancel at any time, but no refunds will be issued for partial periods except as stated in our Refund Policy.
-          </p>
-        </div>
+          <div className="bg-white border border-black/10 rounded-2xl p-6 sm:p-7">
+            <h3 className="text-lg font-serif font-medium text-[#141413] mb-2">
+              4. Outbound Compliance (CAN-SPAM, TCPA &amp; Opt-Out Propagation)
+            </h3>
+            <p className="text-sm text-[#5c5852] leading-relaxed">
+              When Customer initiates commercial email or telephone outreach using contacts unlocked
+              through Sales Autonomy, Customer acts as the independent sender/initiator and is
+              solely responsible for complying with the CAN-SPAM Act (15 U.S.C. § 7701), the
+              Telephone Consumer Protection Act (47 U.S.C. § 227), and applicable state telemarketing
+              laws. Customer agrees not to use automated dialing systems, pre-recorded voice blasts,
+              or SMS text messaging to direct-dial numbers without documented prior express consent,
+              and agrees to honor all recipient opt-out requests and{" "}
+              <Link
+                href="/privacy#opt-out"
+                className="text-[#2e6f40] font-medium underline underline-offset-4"
+              >
+                Sales Autonomy suppression flags
+              </Link>{" "}
+              immediately.
+            </p>
+          </div>
 
-        <div>
-          <h3>6. Intellectual Property</h3>
-          <p>
-            The Sales Autonomy platform, including its code, design, and branding (the "Golden UI"), is the property of Sales Autonomy. You retain all rights to your data processed through our platform.
-          </p>
+          <div className="bg-white border border-black/10 rounded-2xl p-6 sm:p-7">
+            <h3 className="text-lg font-serif font-medium text-[#141413] mb-2">
+              5. Credit-Metered Agent Firewall, Bounce SLA &amp; Billing
+            </h3>
+            <p className="text-sm text-[#5c5852] leading-relaxed">
+              API, MCP, and PowerTable unlocks are metered according to Customer&apos;s active tier
+              (e.g., 1,250 unique company unlocks/month on Tier 1; 3,500/month on Tier 2). Any
+              verified executive email that hard-bounces above our &lt;2.0% contractual SLA is
+              automatically replaced 2-for-1 on the next weekly territory sync. The $1,950 7-Day
+              Territory Pilot fee is 100% credited toward Tier 2 or Tier 3 deployment when upgraded
+              within 30 days.
+            </p>
+          </div>
         </div>
-
-        <div>
-          <h3>7. Disclaimer of Warranty</h3>
-          <p>
-            THE SERVICE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND. WE DO NOT GUARANTEE 100% UPTIME, THOUGH WE STRIVE FOR HIGH AVAILABILITY.
-          </p>
-        </div>
-
-        <div>
-          <h3>8. Limitation of Liability</h3>
-          <p>
-            SALES AUTONOMY SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, OR CONSEQUENTIAL DAMAGES ARISING FROM YOUR USE OF THE SERVICE.
-          </p>
-        </div>
-
-        <div>
-          <h3>9. Governing Law</h3>
-          <p>
-            These terms are governed by the laws of the jurisdiction in which Sales Autonomy is registered, without regard to conflict of law principles.
-          </p>
-        </div>
-
-        <div>
-          <h3>10. Contact</h3>
-          <p>
-            For any questions, contact us at <a href="mailto:legal@salesautonomy.com" style={{ color: '#a5b4fc' }}>legal@salesautonomy.com</a>.
-          </p>
-        </div>
-      </section>
-    </article>
+      </div>
+    </div>
   );
 }
