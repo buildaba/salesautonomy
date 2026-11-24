@@ -21,15 +21,15 @@ const newsreader = Newsreader({
 export const metadata: Metadata = {
   metadataBase: new URL("https://salesautonomy.com"),
   title: {
-    default: "Sales Autonomy — Pre-Cleaned Vertical Market Databases for B2B GTM Teams",
+    default: "Sales Autonomy — Call Buyers Who Have a Deadline Right Now",
     template: "%s | Sales Autonomy",
   },
   description:
-    "Pre-cleaned vertical market databases for B2B SaaS, mid-market GTM teams, and Clay agencies. 750,000+ physical facilities, fleet policy cancellations, multi-site clinics, and government filings synced to your CRM.",
+    "Turn public government filings into ready-to-call sales leads across healthcare clinics, trucking fleets, factories, and government contractors. Verified decision-makers and <2% bounce guarantee.",
   openGraph: {
-    title: "Sales Autonomy — Pre-Cleaned Vertical Market Databases for B2B GTM Teams",
+    title: "Sales Autonomy — Call Buyers Who Have a Deadline Right Now",
     description:
-      "Own a private database of every buyer in your market. Synced to HubSpot, Salesforce & Clay.",
+      "Verified sales leads built from public government filings. Synced straight into HubSpot, Salesforce, and Clay.",
     url: "https://salesautonomy.com",
     siteName: "Sales Autonomy",
     locale: "en_US",
@@ -75,37 +75,37 @@ export default function RootLayout({
                     </span>
                   </Link>
                   <p className="text-[#5c5852] text-sm mb-5 max-w-sm leading-relaxed">
-                    Pre-cleaned vertical market databases for B2B GTM teams and Clay agencies. Backed by SAM.gov, DOL Form 5500, CMS NPPES, FMCSA, and OSHA/EPA public filings with SHA-256 source receipts.
+                    We turn public government filings into ready-to-call sales leads. Every account includes verified decision-makers and a direct link to the official record.
                   </p>
                   <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#f0eee6] border border-black/8 text-xs text-[#3d3a34] font-medium">
                     <span className="w-2 h-2 rounded-full bg-[#2e6f40]" />
-                    <span>66 Live Federal Signals Synced · &lt;2% Bounce SLA</span>
+                    <span>Updated Daily · &lt;2% Email Bounce Guarantee</span>
                   </div>
                 </div>
 
                 <div className="md:col-span-4">
                   <h3 className="text-xs font-semibold text-[#141413] mb-4">
-                    3 Vertical Market Engines
+                    Industries We Cover
                   </h3>
                   <ul className="flex flex-col gap-2.5 text-sm text-[#5c5852]">
                     <li>
-                      <Link href="/portal/demo?engine=HEALTHCARE_NPPES" className="hover:text-[#141413] transition-colors">
-                        01 · Healthcare &amp; Multi-Site Clinics (184K Orgs)
+                      <Link href="/portal/demo?industry=healthcare" className="hover:text-[#141413] transition-colors">
+                        Healthcare &amp; Multi-Site Clinics
                       </Link>
                     </li>
                     <li>
-                      <Link href="/portal/demo?engine=INDUSTRIAL_FLEET_OSHA" className="hover:text-[#141413] transition-colors">
-                        02 · Industrial, Fleet &amp; Facility Risk (246K Sites)
+                      <Link href="/portal/demo?industry=fleet" className="hover:text-[#141413] transition-colors">
+                        Trucking, Fleets &amp; Factories
                       </Link>
                     </li>
                     <li>
-                      <Link href="/portal/demo?engine=PUBLIC_SECTOR_SAM" className="hover:text-[#141413] transition-colors">
-                        03 · Public Sector, Contractors &amp; Permits (319K Entities)
+                      <Link href="/portal/demo?industry=contractors" className="hover:text-[#141413] transition-colors">
+                        Gov Contractors &amp; Commercial Builders
                       </Link>
                     </li>
                     <li>
                       <Link href="/academy" className="hover:text-[#141413] transition-colors">
-                        5 Open-Book Data Engineering Plays
+                        How It Works
                       </Link>
                     </li>
                   </ul>
@@ -113,7 +113,7 @@ export default function RootLayout({
 
                 <div className="md:col-span-3">
                   <h3 className="text-xs font-semibold text-[#141413] mb-4">
-                    Pilot &amp; Architecture
+                    Get Started
                   </h3>
                   <ul className="flex flex-col gap-2.5 text-sm text-[#5c5852]">
                     <li>
@@ -123,17 +123,17 @@ export default function RootLayout({
                     </li>
                     <li>
                       <Link href="/pricing" className="hover:text-[#141413] transition-colors">
-                        Pricing &amp; 100% Rollover Credit
+                        Plans &amp; Pricing
                       </Link>
                     </li>
                     <li>
                       <Link href="/credibility" className="hover:text-[#141413] transition-colors">
-                        6-Table Schema &amp; Provenance Lock
+                        Data Accuracy &amp; Proof
                       </Link>
                     </li>
                     <li>
                       <Link href="/api/vault" className="hover:text-[#141413] transition-colors">
-                        Live REST &amp; MCP API (/api/vault)
+                        Developers &amp; API (/api/vault)
                       </Link>
                     </li>
                   </ul>
@@ -141,7 +141,7 @@ export default function RootLayout({
               </div>
 
               <div className="pt-8 border-t border-black/10 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-[#6b665e]">
-                <p>&copy; {new Date().getFullYear()} Sales Autonomy. Public-record commercial intelligence · Non-FCRA.</p>
+                <p>&copy; {new Date().getFullYear()} Sales Autonomy. Commercial B2B public-record data · Non-FCRA.</p>
                 <div className="flex items-center gap-6">
                   <Link href="/llms.txt" className="hover:text-[#141413] transition-colors">
                     llms.txt

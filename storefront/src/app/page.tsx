@@ -11,17 +11,16 @@ import {
   FileSpreadsheet,
   Webhook,
   Code2,
-  Building2,
   Truck,
   HeartPulse,
   HardHat,
   Target,
-  Layers,
+  Clock,
 } from 'lucide-react';
 import { PowerTableExplorer } from '@/components/vault/PowerTableExplorer';
 
-interface MarketEngine {
-  id: 'healthcare' | 'logistics' | 'construction';
+interface IndustryMarket {
+  id: 'healthcare' | 'fleet' | 'contractors';
   tabLabel: string;
   badge: string;
   title: string;
@@ -41,160 +40,160 @@ interface MarketEngine {
   };
 }
 
-const MARKET_ENGINES: MarketEngine[] = [
+const INDUSTRY_MARKETS: IndustryMarket[] = [
   {
     id: 'healthcare',
-    tabLabel: '01 · Healthcare Clinics (NPPES)',
-    badge: 'Engine 01 · Healthcare & Medical Clinics',
-    title: 'Multi-Site Medical & Behavioral Clinic Expansion Vault',
+    tabLabel: '01 · Healthcare & Clinics',
+    badge: 'Healthcare & Multi-Site Clinics',
+    title: 'Reach clinic groups expanding locations or fixing inspection issues.',
     subtitle:
-      'Every week, thousands of medical, dental, and behavioral health groups register a new location or appoint a new Medical Director in CMS NPPES. Raw federal exports bury the real parent company under messy LLC names and call-center phone numbers. We resolve the actual operating group, clinic domain, and verified executive inbox.',
-    sourceLabel: 'CMS NPPES v2.1 + State Licensing Boards',
-    cadence: 'Weekly SHA-256 Delta Sync',
-    totalEntities: '142,800+ Multi-Site Clinic Groups',
-    avgDealValue: '$18k – $85k ACV Buyers',
+      'Apollo often lists a 14-clinic orthopedic group as 12 employees and hides the true owner. We group every branch under the real parent company, detect their live patient booking software, and flag new permits or Medicare inspection deadlines.',
+    sourceLabel: 'Federal clinic registries, Medicare surveys & city permits',
+    cadence: 'Updated Weekly',
+    totalEntities: '142,800+ Clinic Groups',
+    avgDealValue: '3 to 50+ Locations',
     icon: HeartPulse,
     whoBuys:
-      'Built for Healthcare SaaS, RCM billing platforms, EHR vendors, medical device reps, and clinical staffing agencies.',
+      'Healthcare SaaS, billing platforms, EHR vendors, medical equipment teams, and clinical staffing firms.',
     whatWeClean: [
-      'Links individual Type-2 NPIs back to their true multi-site parent group',
-      'Strips generic front-desk reception numbers and resolves the real clinic web domain',
-      'Identifies newly appointed Authorized Officials, Medical Directors, and Practice Managers',
-      'Flags taxonomy switches and brand-new secondary clinic openings within 7 days of filing',
+      'Links every branch clinic back to the single parent group that signs contracts',
+      'Finds the real clinic owner, COO, or CFO—never an outside billing firm',
+      'Detects live patient booking software like Athenahealth, ModMed, and Dentrix',
+      'Alerts reps when a group pulls a build-out permit or gets a 45-day Medicare deadline',
     ],
     sampleTrigger: {
-      entity: 'Apex Behavioral Health Partners LLC',
-      location: 'Austin, TX · Taxonomy 103K00000X',
-      signal: 'New Secondary Clinic NPI Registered + New Authorized Official Appointed',
-      buyerAction: 'Pitch EHR, RCM billing, and credentialing before opening day',
+      entity: 'Summit Orthopedic & Spine Partners',
+      location: 'Frisco, TX · 14 Clinics · 184 Staff',
+      signal: 'Filed a $1.42M surgical suite build-out permit while running Athenahealth',
+      buyerAction: 'Call the COO and Managing Partner before the new clinic opens',
     },
   },
   {
-    id: 'logistics',
-    tabLabel: '02 · Fleet & Carriers (FMCSA)',
-    badge: 'Engine 02 · Commercial Fleet & Freight',
-    title: 'Mid-Market Fleet & Hazmat Carrier Trigger Vault',
+    id: 'fleet',
+    tabLabel: '02 · Trucking & Factories',
+    badge: 'Trucking Fleets & Industrial Plants',
+    title: 'Catch fleets before insurance cancels and plants after OSHA arrives.',
     subtitle:
-      'The U.S. DOT FMCSA census tracks over 750,000 active motor carriers, but 80% are single-truck owner-operators using personal Gmail accounts. We isolate commercial fleets operating 15 to 250+ power units, track MCS-150 fleet expansion filings, and surface carriers within 90 days of insurance or safety renewal.',
-    sourceLabel: 'U.S. DOT FMCSA Census + Biennial MCS-150 Filings',
-    cadence: 'Daily DOT Delta Sync',
-    totalEntities: '68,400+ Commercial Fleets (15–250+ Trucks)',
-    avgDealValue: '$25k – $120k ACV Buyers',
+      'Standard lead tools have no idea when a 118-truck carrier gets a 30-day insurance cancellation notice or an OSHA safety visit. We track federal fleet, safety, and plant filings daily and filter out 1-truck operators.',
+    sourceLabel: 'DOT fleet insurance feeds, OSHA inspections & benefit filings',
+    cadence: 'Updated Daily',
+    totalEntities: '68,400+ Fleets & Plants',
+    avgDealValue: '15–500+ Trucks or Multi-Plant',
     icon: Truck,
     whoBuys:
-      'Built for Fleet Telematics, ELD & dashcam vendors, commercial trucking insurance brokers, fuel card issuers, and freight factoring firms.',
+      'Commercial insurance brokers, fleet dashcam and ELD vendors, safety consultants, fuel cards, and industrial suppliers.',
     whatWeClean: [
-      'Filters out 1-truck owner-operators so your reps only call 15–250+ unit commercial fleets',
-      'Replaces free webmail addresses from DOT filings with verified corporate fleet domains',
-      'Tracks power-unit and CDL driver headcount jumps across biennial MCS-150 updates',
-      'Maps direct contact records for VP of Fleet Operations, Safety Directors, and Carrier Principals',
+      'Filters out 1-truck owner-operators so reps only call commercial fleets',
+      'Catches 30-day truck insurance cancellation notices and 60-day renewal dates',
+      'Flags newly opened OSHA safety inspections within days—not months later',
+      'Strips outside accountants from filings so you reach the real CFO and Safety VP',
     ],
     sampleTrigger: {
-      entity: 'Heartland Cold Chain Logistics Inc.',
-      location: 'Dallas, TX · USDOT #3849201',
-      signal: 'MCS-150 Amendment: +28 Power Units Added (74 Total Trucks) + Hazmat Active',
-      buyerAction: 'Outreach to Safety Director & Fleet VP for ELD, telematics, and fleet coverage',
+      entity: 'Heartland Cold Logistics & Freight',
+      location: 'Joliet, IL · 118 Trucks · 148 Staff',
+      signal: 'Primary $1M fleet insurance policy set to cancel in 24 days',
+      buyerAction: 'Reach the CFO and VP of Fleet Safety before coverage lapses',
     },
   },
   {
-    id: 'construction',
-    tabLabel: '03 · Commercial Permits & Industrial',
-    badge: 'Engine 03 · Commercial Construction & Industrial',
-    title: 'High-Value Commercial Permit & Facility Expansion Vault',
+    id: 'contractors',
+    tabLabel: '03 · Gov Contractors & Builders',
+    badge: 'Government Contractors & Commercial Builders',
+    title: 'Spot expiring federal registrations, re-bids, and $100K+ permits.',
     subtitle:
-      'When a company files a $250,000+ commercial tenant buildout, warehouse expansion, or industrial equipment permit, they buy everything from HVAC and security systems to waste management and commercial lending in the next 45 days. We unify municipal Socrata permit feeds and resolve the tenant and general contractor.',
-    sourceLabel: 'Municipal Socrata Building Permits + OSHA / EPA ECHO',
-    cadence: 'Daily Municipal Permit Sync',
-    totalEntities: '94,200+ Active Commercial Buildouts ($250k+)',
-    avgDealValue: '$30k – $250k Project Buyers',
+      'City permits and federal contract files hide behind project LLCs and agency codes. We tie every permit and expiring contract back to the real parent company, verified employee count, and executive buyer.',
+    sourceLabel: 'Federal contractor records, contract awards & city building permits',
+    cadence: 'Updated Daily',
+    totalEntities: '94,200+ Active Contractors',
+    avgDealValue: '$100K+ Permits & Federal Awards',
     icon: HardHat,
     whoBuys:
-      'Built for Commercial HVAC & MEP suppliers, construction tech SaaS, equipment rental fleets, commercial insurance, and B2B facility services.',
+      'Commercial HVAC and construction suppliers, cybersecurity teams, bonding brokers, equipment rentals, and govcon advisors.',
     whatWeClean: [
-      'Filters out residential deck/roof permits to isolate $250,000+ commercial and industrial buildouts',
-      'Resolves both the expanding corporate tenant and the licensed General Contractor of record',
-      'Pairs municipal permit valuations with facility square footage and inspection milestones',
-      'Verifies Project Executives, Facilities Directors, and Operations VPs with <2% bounce guarantee',
+      'Tracks federal contractor registrations expiring in the next 30, 60, or 90 days',
+      'Flags active government contracts entering a 60-day re-bid window',
+      'Matches local project LLCs on $100K+ commercial permits to the parent builder',
+      'Delivers verified direct emails for the VP of Contracts, Procurement Lead, or CFO',
     ],
     sampleTrigger: {
-      entity: 'Vanguard Cold Storage & Distribution',
-      location: 'Phoenix, AZ · Valuation $2,450,000',
-      signal: 'Commercial Industrial Permit Issued: 85,000 SqFt Refrigerated Warehouse Buildout',
-      buyerAction: 'Immediate outreach to Director of Facilities & GC Project Executive',
+      entity: 'Precision Aerospace & Defense Systems',
+      location: 'Reston, VA · 215 Staff · $14.8M Active Awards',
+      signal: 'Federal bidding registration expires in 26 days with active Air Force contracts',
+      buyerAction: 'Contact the VP of Contracts before bidding eligibility lapses',
     },
   },
 ];
 
-const BUYER_PROFILES = [
+const WHY_SWITCH_CARDS = [
   {
-    eyebrow: 'Vertical SaaS & Revenue Teams',
-    title: 'Stop paying your AEs to clean spreadsheets',
-    body: 'Your account executives lose 8 hours a week hunting down parent companies, checking websites, and guessing emails from raw government CSVs. We hand your team a pre-cleaned territory table ready for outbound on Monday morning.',
-    cta: 'Explore live rows',
+    eyebrow: 'For Founders & Sales Leaders',
+    title: 'Stop paying reps to clean spreadsheets',
+    body: 'Your reps lose hours every week hunting down parent companies and guessing emails. We deliver a clean, ready-to-call account list every Monday morning.',
+    cta: 'Browse live sample leads',
     href: '#live-explorer',
     icon: Target,
   },
   {
-    eyebrow: 'RevOps & GTM Engineers',
-    title: 'Drop-in canonical schema with weekly SHA-256 deltas',
-    body: 'Every vertical engine shares our 6-table canonical schema. Pull clean weekly deltas via CSV/Parquet, query an isolated Supabase RLS view, or stream triggers straight into HubSpot, Salesforce, or Clay.',
-    cta: 'View delivery specs',
+    eyebrow: 'Built for Accuracy',
+    title: 'Official records always beat web scrapes',
+    body: 'Other tools overwrite good facts with bad scrapes and list outside accountants as owners. We verify real executives straight from government filings.',
+    cta: 'See how we check data',
     href: '/credibility',
-    icon: Layers,
+    icon: ShieldCheck,
   },
   {
-    eyebrow: 'Commercial Brokers & Agencies',
-    title: 'Exclusive territory caps so your leads stay fresh',
-    body: 'Apollo and ZoomInfo sell the exact same static contact to 10,000 seats. We cap every vertical territory at 5 active subscribers so your outreach lands in uncrowded decision-maker inboxes.',
-    cta: 'Check territory availability',
+    eyebrow: 'Protected Territories',
+    title: 'Never oversold to 10,000 other reps',
+    body: 'Big databases sell the exact same contact to thousands of buyers. We cap every regional territory at 5 active customers so your emails get answered.',
+    cta: 'See plans and territory caps',
     href: '/pricing',
-    icon: ShieldCheck,
+    icon: Clock,
   },
 ];
 
 const FAQS = [
   {
-    q: 'Why buy a pre-cleaned vertical database instead of using Apollo or ZoomInfo?',
-    a: 'Horizontal contact tools scrape LinkedIn and sell the same static titles to tens of thousands of users. In regulated industries like healthcare clinics, commercial fleets, and industrial buildouts, the real buying trigger happens in public compliance filings first—weeks before anyone updates a social profile. We clean those filings, link the parent entity, and verify the executive email.',
+    q: 'Why use Sales Autonomy instead of Apollo or ZoomInfo?',
+    a: 'Apollo and ZoomInfo scrape social profiles and sell the same cold lists to thousands of reps. In healthcare, trucking, and construction, real buying triggers show up in public government filings weeks first. We clean those filings, match the parent company, and give you verified executive emails.',
   },
   {
-    q: 'How do you guarantee a <2% email bounce rate?',
-    a: 'Every decision-maker email passes a three-stage verification gate before entering the vault: DNS/MX record validation, catch-all domain heuristics, and live SMTP handshake status. If any contact in your territory digest bounces above 2%, we replace it 2-for-1 on your next weekly sync.',
+    q: 'How do you keep email bounces under 2%?',
+    a: 'We check every executive email right before you unlock it—not six months earlier. If more than 2% of your list ever bounces, we replace every bounced contact 2-for-1 on your next sync.',
   },
   {
-    q: 'What does the 5-seat territory cap mean?',
-    a: 'To protect outreach conversion rates, we allow a maximum of 5 active licensing organizations per vertical + regional territory slice. Once a slice reaches 5 subscribers, new buyers join a waitlist or select an adjacent region.',
+    q: 'What does the 5-customer territory cap mean?',
+    a: 'Only 5 active customers can subscribe to the same industry and region at one time. Once 5 seats fill, new buyers join a waitlist or pick another territory.',
   },
   {
-    q: 'How is the data delivered to our team?',
-    a: 'You choose the delivery lane that fits your stack: (1) Weekly clean CSV/Parquet territory digests, (2) Direct read-only Supabase Postgres RLS view, (3) Automated CRM webhooks into HubSpot, Salesforce, or Clay, or (4) REST & MCP API access for AI agents.',
+    q: 'How does the data reach our sales team?',
+    a: 'Pick whatever fits your workflow: a clean Monday spreadsheet, our live search portal, automatic sync into HubSpot, Salesforce, or Clay, or a direct API for your data team.',
   },
 ];
 
 export default function HomePage() {
-  const [activeEngineId, setActiveEngineId] = useState<MarketEngine['id']>('healthcare');
-  const activeEngine =
-    MARKET_ENGINES.find((engine) => engine.id === activeEngineId) ?? MARKET_ENGINES[0];
+  const [activeIndustryId, setActiveIndustryId] = useState<IndustryMarket['id']>('healthcare');
+  const activeMarket =
+    INDUSTRY_MARKETS.find((market) => market.id === activeIndustryId) ?? INDUSTRY_MARKETS[0];
 
   return (
     <div className="min-h-screen bg-[#faf9f5] text-[#141413]">
-      {/* 1. HERO — Calm left-aligned editorial layout matching buildaba.com */}
+      {/* 1. HERO — Clear, Simple, Deadline-First */}
       <section className="pt-28 pb-16 md:pt-32 md:pb-20">
         <div className="max-w-6xl mx-auto px-6">
           <div className="max-w-3xl">
             <p className="text-xs font-medium text-[#6b665e] mb-4">
-              Vertical Market Intelligence · Weekly SHA-256 Compliance Deltas · &lt;2% Bounce SLA
+              For B2B Sales Teams &amp; Outbound Agencies · Updated Daily · &lt;2% Bounce Guarantee
             </p>
 
             <h1 className="text-4xl sm:text-5xl md:text-[3.65rem] font-serif tracking-tight mb-5 leading-[1.08] text-[#141413] font-medium">
-              Pre-cleaned vertical market databases for B2B revenue teams.
+              Call buyers who have a deadline right now.
             </h1>
 
             <p className="text-base sm:text-lg text-[#5c5852] max-w-2xl mb-8 leading-relaxed">
-              Public federal and municipal filings know who is expanding, hiring, or renewing weeks
-              before LinkedIn does—but the raw files are unusable. We turn messy CMS NPPES, U.S. DOT
-              FMCSA, and Municipal Permit records into deduplicated accounts and SMTP-verified
-              decision makers.
+              Apollo and ZoomInfo tell you who exists, not who needs to buy. We watch public
+              government filings every day—insurance cancellations, safety inspections, clinic
+              expansions, and expiring contracts. Your reps get the exact executive to call before
+              the deadline hits.
             </p>
 
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-12">
@@ -202,114 +201,112 @@ export default function HomePage() {
                 href="#live-explorer"
                 className="w-full sm:w-auto min-h-[48px] px-6 py-3.5 rounded-xl text-sm font-medium bg-[#141413] text-[#faf9f5] hover:bg-[#2a2927] transition-colors flex items-center justify-center gap-2 shadow-sm"
               >
-                Explore Live Vault (66 Verified Signals)
+                Browse Live Sample Leads
                 <ArrowRight className="w-4 h-4" />
               </a>
               <Link
-                href="/pricing"
+                href="/hire/apply"
                 className="w-full sm:w-auto min-h-[48px] px-6 py-3.5 rounded-xl text-sm font-medium bg-white border border-black/14 hover:bg-[#f0eee6] text-[#141413] transition-colors flex items-center justify-center gap-2"
               >
-                Launch a 7-Day Territory Pilot — $1,950
+                Start a 7-Day Pilot — $1,950
               </Link>
             </div>
           </div>
 
-          {/* Left-aligned 4-column hairline stat strip matching buildaba.com */}
+          {/* 4 Plain-English Proof Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-8 border-t border-black/10">
             <div>
-              <div className="text-2xl sm:text-3xl font-serif text-[#141413]">305,400+</div>
+              <div className="text-2xl sm:text-3xl font-serif text-[#141413]">7 Days</div>
               <div className="text-xs text-[#6b665e] mt-0.5">
-                Resolved multi-site entities across 3 flagship vertical packs
+                To get 2,500 ready-to-call accounts matched to your CRM
               </div>
             </div>
             <div>
-              <div className="text-2xl sm:text-3xl font-serif text-[#141413]">&lt; 2.0%</div>
+              <div className="text-2xl sm:text-3xl font-serif text-[#141413]">305,000+</div>
               <div className="text-xs text-[#6b665e] mt-0.5">
-                Contractual hard-bounce SLA with 2-for-1 credit replacement
+                Multi-site clinics, fleets, factories, and contractors tracked
+              </div>
+            </div>
+            <div>
+              <div className="text-2xl sm:text-3xl font-serif text-[#141413]">&lt; 2%</div>
+              <div className="text-xs text-[#6b665e] mt-0.5">
+                Email bounce guarantee with 2-for-1 credit replacement
               </div>
             </div>
             <div>
               <div className="text-2xl sm:text-3xl font-serif text-[#141413]">Max 5 Seats</div>
               <div className="text-xs text-[#6b665e] mt-0.5">
-                Strict anti-saturation cap per vertical territory slice
-              </div>
-            </div>
-            <div>
-              <div className="text-2xl sm:text-3xl font-serif text-[#141413]">6-Table Schema</div>
-              <div className="text-xs text-[#6b665e] mt-0.5">
-                Drop-in CSV/Parquet, Supabase RLS View, CRM Webhook, or API
+                Per industry and region so your leads stay uncrowded
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 2. THE 3 FLAGSHIP VERTICAL DATABASES — PracticePathShowcase style */}
+      {/* 2. THE 3 INDUSTRIES WE COVER */}
       <section className="py-20 bg-[#f0eee6]/55 border-t border-black/10">
         <div className="max-w-6xl mx-auto px-6">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
             <div>
               <p className="text-xs font-medium text-[#6b665e] mb-2">
-                Three Flagship Vertical Market Packs
+                Three Real-World Markets Standard Tools Miss
               </p>
               <h2 className="text-3xl sm:text-4xl font-serif tracking-tight text-[#141413] font-medium">
-                Pick your market. We handle the entity resolution.
+                Pick your industry. Get buyers with active deadlines.
               </h2>
             </div>
 
-            {/* White rounded-xl pill tab switcher matching buildaba.com */}
-            <div className="inline-flex p-1 rounded-xl bg-white border border-black/10 self-start">
-              {MARKET_ENGINES.map((engine) => (
+            <div className="inline-flex flex-wrap p-1 rounded-xl bg-white border border-black/10 self-start">
+              {INDUSTRY_MARKETS.map((market) => (
                 <button
-                  key={engine.id}
+                  key={market.id}
                   type="button"
-                  onClick={() => setActiveEngineId(engine.id)}
-                  className={`px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors ${
-                    activeEngineId === engine.id
+                  onClick={() => setActiveIndustryId(market.id)}
+                  className={`px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors cursor-pointer ${
+                    activeIndustryId === market.id
                       ? 'bg-[#141413] text-[#faf9f5]'
                       : 'text-[#5c5852] hover:text-[#141413]'
                   }`}
                 >
-                  {engine.tabLabel}
+                  {market.tabLabel}
                 </button>
               ))}
             </div>
           </div>
 
-          {/* Active Engine Showcase Card */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
             <div className="lg:col-span-7 bg-white border border-black/10 rounded-2xl p-7 sm:p-8 flex flex-col justify-between shadow-[0_1px_2px_rgba(20,20,19,0.03)]">
               <div>
                 <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
                   <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-[#2e6f40] bg-[#ecfdf5] border border-[#a7f3d0] px-2.5 py-1 rounded-md">
                     <Sparkles className="w-3 h-3" />
-                    {activeEngine.badge}
+                    {activeMarket.badge}
                   </span>
-                  <span className="text-xs font-mono text-[#6b665e]">
-                    {activeEngine.cadence}
+                  <span className="text-xs text-[#6b665e] font-medium">
+                    {activeMarket.cadence}
                   </span>
                 </div>
 
                 <h3 className="text-2xl sm:text-3xl font-serif text-[#141413] font-medium mb-3 leading-snug">
-                  {activeEngine.title}
+                  {activeMarket.title}
                 </h3>
 
                 <p className="text-sm sm:text-base text-[#5c5852] leading-relaxed mb-6">
-                  {activeEngine.subtitle}
+                  {activeMarket.subtitle}
                 </p>
 
                 <div className="p-4 rounded-xl bg-[#faf9f5] border border-black/8 mb-6">
-                  <div className="text-xs font-medium text-[#141413] mb-1">Ideal GTM Teams</div>
+                  <div className="text-xs font-medium text-[#141413] mb-1">Who Buys This</div>
                   <p className="text-xs sm:text-sm text-[#5c5852] leading-relaxed">
-                    {activeEngine.whoBuys}
+                    {activeMarket.whoBuys}
                   </p>
                 </div>
 
                 <div className="text-xs font-medium text-[#6b665e] mb-3">
-                  What our data pipeline cleans before delivery:
+                  What we clean before your reps see a single row:
                 </div>
                 <ul className="space-y-2.5 mb-6">
-                  {activeEngine.whatWeClean.map((bullet) => (
+                  {activeMarket.whatWeClean.map((bullet) => (
                     <li
                       key={bullet}
                       className="flex items-start gap-2.5 text-sm text-[#141413] leading-relaxed"
@@ -323,34 +320,33 @@ export default function HomePage() {
 
               <div className="pt-5 border-t border-black/8 flex flex-wrap items-center justify-between gap-4">
                 <div>
-                  <div className="text-[11px] text-[#6b665e]">Primary Federal / Municipal Feed</div>
+                  <div className="text-[11px] text-[#6b665e]">Official Public Sources</div>
                   <div className="text-xs font-medium text-[#141413] mt-0.5">
-                    {activeEngine.sourceLabel}
+                    {activeMarket.sourceLabel}
                   </div>
                 </div>
                 <a
                   href="#live-explorer"
                   className="inline-flex items-center gap-1.5 text-sm font-medium text-[#141413] hover:text-[#2e6f40] transition-colors"
                 >
-                  Inspect live rows below
+                  See sample accounts below
                   <ArrowRight className="w-4 h-4" />
                 </a>
               </div>
             </div>
 
-            {/* Right Column: Stats + Real Signal Preview Card */}
             <div className="lg:col-span-5 flex flex-col gap-6">
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-white border border-black/10 rounded-2xl p-5 shadow-[0_1px_2px_rgba(20,20,19,0.03)]">
-                  <div className="text-xs text-[#6b665e] mb-1">Clean Universe Size</div>
+                  <div className="text-xs text-[#6b665e] mb-1">Verified Accounts</div>
                   <div className="text-lg sm:text-xl font-serif text-[#141413] font-medium">
-                    {activeEngine.totalEntities}
+                    {activeMarket.totalEntities}
                   </div>
                 </div>
                 <div className="bg-white border border-black/10 rounded-2xl p-5 shadow-[0_1px_2px_rgba(20,20,19,0.03)]">
-                  <div className="text-xs text-[#6b665e] mb-1">Subscriber Target ACV</div>
+                  <div className="text-xs text-[#6b665e] mb-1">Typical Buyer Size</div>
                   <div className="text-lg sm:text-xl font-serif text-[#141413] font-medium">
-                    {activeEngine.avgDealValue}
+                    {activeMarket.avgDealValue}
                   </div>
                 </div>
               </div>
@@ -359,46 +355,46 @@ export default function HomePage() {
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-4">
                     <span className="text-xs font-medium text-[#6b665e]">
-                      Sample Verified Signal Delta
+                      Real Trigger Example
                     </span>
                     <span className="inline-flex items-center gap-1 text-[11px] font-medium text-[#2e6f40] bg-[#ecfdf5] border border-[#a7f3d0] px-2 py-0.5 rounded-md">
                       <Check className="w-3 h-3" />
-                      SMTP Verified
+                      Email Verified
                     </span>
                   </div>
 
                   <div className="p-4 rounded-xl bg-[#faf9f5] border border-black/8 space-y-3 mb-5">
                     <div>
-                      <div className="text-[11px] text-[#6b665e]">Resolved Operating Entity</div>
+                      <div className="text-[11px] text-[#6b665e]">Company</div>
                       <div className="text-sm font-medium text-[#141413]">
-                        {activeEngine.sampleTrigger.entity}
+                        {activeMarket.sampleTrigger.entity}
                       </div>
                       <div className="text-xs text-[#6b665e] mt-0.5">
-                        {activeEngine.sampleTrigger.location}
+                        {activeMarket.sampleTrigger.location}
                       </div>
                     </div>
 
                     <div className="pt-2.5 border-t border-black/8">
-                      <div className="text-[11px] text-[#6b665e]">Detected Filing Delta</div>
+                      <div className="text-[11px] text-[#6b665e]">What Just Happened</div>
                       <div className="text-xs font-medium text-[#141413] mt-0.5">
-                        {activeEngine.sampleTrigger.signal}
+                        {activeMarket.sampleTrigger.signal}
                       </div>
                     </div>
 
                     <div className="pt-2.5 border-t border-black/8">
-                      <div className="text-[11px] text-[#6b665e]">Immediate Revenue Play</div>
+                      <div className="text-[11px] text-[#6b665e]">Your Next Move</div>
                       <div className="text-xs text-[#2e6f40] font-medium mt-0.5">
-                        {activeEngine.sampleTrigger.buyerAction}
+                        {activeMarket.sampleTrigger.buyerAction}
                       </div>
                     </div>
                   </div>
                 </div>
 
                 <Link
-                  href="/pricing"
+                  href="/hire/apply"
                   className="w-full min-h-[44px] px-4 py-2.5 rounded-xl bg-[#141413] text-[#faf9f5] text-xs sm:text-sm font-medium hover:bg-[#2a2927] transition-colors flex items-center justify-center gap-2"
                 >
-                  Reserve Territory Slice (Max 5 Subscribers)
+                  Start 7-Day Pilot ($1,950)
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
@@ -407,20 +403,19 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 3. LIVE POWER-TABLE EXPLORER (Connected to Supabase 6-Table Vault) */}
+      {/* 3. LIVE SAMPLE EXPLORER */}
       <section id="live-explorer" className="py-20 border-t border-black/10">
         <div className="max-w-6xl mx-auto px-6">
           <div className="max-w-2xl mb-10">
             <p className="text-xs font-medium text-[#6b665e] mb-2">
-              Live Canonical Vault · 66 Production Federal &amp; Municipal Signals
+              Live Sample Explorer · 12 Verified Accounts Across 3 Industries
             </p>
             <h2 className="text-3xl sm:text-4xl font-serif tracking-tight text-[#141413] font-medium mb-3">
-              Inspect the actual rows before you buy.
+              Inspect real accounts before you spend a dollar.
             </h2>
             <p className="text-sm sm:text-base text-[#5c5852] leading-relaxed">
-              Click any row to open the full 3-tab Signal Dossier: inspect the raw government
-              filing, SHA-256 provenance hash, normalized parent entity, and verified decision-maker
-              contact record.
+              Click any company to see why they need to buy right now, view the official filing
+              proof, and unlock verified decision-maker contact info.
             </p>
           </div>
 
@@ -428,25 +423,24 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 4. WHO IS SALES AUTONOMY FOR — WhoIsBuildAbaFor 3-card layout */}
+      {/* 4. WHY SALES TEAMS SWITCH + 4 WAYS TO RECEIVE LEADS */}
       <section className="py-20 bg-[#f0eee6]/55 border-t border-black/10">
         <div className="max-w-6xl mx-auto px-6">
           <div className="max-w-2xl mb-12">
             <p className="text-xs font-medium text-[#6b665e] mb-2">
-              Built for High-ACV Outbound Teams
+              Built for Busy Sales Teams
             </p>
             <h2 className="text-3xl sm:text-4xl font-serif tracking-tight text-[#141413] font-medium mb-3">
-              One canonical data pipeline. Four ways to consume it.
+              Clean accounts. Four easy ways to use them.
             </h2>
             <p className="text-sm sm:text-base text-[#5c5852] leading-relaxed">
-              Whether your reps work out of a clean Monday morning spreadsheet or your RevOps team
-              pipes signals straight into Clay and Salesforce, every pack ships in the exact same
-              6-table schema.
+              Whether your reps work from a Monday spreadsheet or your ops team syncs leads straight
+              into HubSpot, Salesforce, or Clay, every account arrives clean and ready to call.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-10">
-            {BUYER_PROFILES.map((card) => {
+            {WHY_SWITCH_CARDS.map((card) => {
               const Icon = card.icon;
               return (
                 <Link
@@ -477,28 +471,27 @@ export default function HomePage() {
             })}
           </div>
 
-          {/* 4 Delivery Output Pills */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
               {
                 icon: FileSpreadsheet,
-                title: '1. Weekly Territory Digest',
-                desc: 'Clean CSV & Parquet files delivered every Monday at 6:00 AM EST.',
+                title: '1. Monday Spreadsheet',
+                desc: 'Clean CSV files with this week’s new triggers sent every Monday morning.',
               },
               {
                 icon: Database,
-                title: '2. Supabase RLS View',
-                desc: 'Direct read-only Postgres connection isolated to your licensed territory.',
+                title: '2. Live Search Portal',
+                desc: 'Filter by state, size, or deadline and unlock verified contacts on demand.',
               },
               {
                 icon: Webhook,
-                title: '3. CRM & Clay Webhooks',
-                desc: 'Signed JSON payloads pushed directly to HubSpot, Salesforce, or Clay.',
+                title: '3. Direct CRM Sync',
+                desc: 'Send fresh accounts straight to HubSpot, Salesforce, or Clay without overwriting rep notes.',
               },
               {
                 icon: Code2,
-                title: '4. REST & MCP Server API',
-                desc: 'Sub-50ms query endpoint for internal SDR agents and automated workflows.',
+                title: '4. Developer API',
+                desc: 'Clean REST and MCP endpoints for RevOps teams, data warehouses, and AI workflows.',
               },
             ].map((lane) => {
               const Icon = lane.icon;
@@ -519,94 +512,49 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 5. TRANSPARENT PRICING COMPARISON — buildaba.com side-by-side rounded-2xl cards */}
+      {/* 5. SIMPLE PRICING PREVIEW */}
       <section className="py-24 border-t border-black/10">
         <div className="max-w-5xl mx-auto px-6">
           <div className="max-w-2xl mb-14">
             <p className="text-xs font-medium text-[#6b665e] mb-2">
-              Simple, Credit-Capped Territory Licensing
+              Simple, Transparent Pricing
             </p>
             <h2 className="text-3xl sm:text-4xl font-serif tracking-tight text-[#141413] font-medium mb-3">
-              Start with a 7-day territory pilot or subscribe monthly.
+              Test us for 7 days first. Scale when your reps book meetings.
             </h2>
             <p className="text-base text-[#5c5852]">
-              No annual lock-in required to test our data quality. Every tier is protected by our
-              5-subscriber territory cap and &lt;2% hard-bounce replacement guarantee.
+              No long-term contract needed to prove data quality. Every plan includes our 5-customer
+              territory cap and &lt;2% email bounce guarantee.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
-            {/* Tier 1: Self-Serve Vertical Pack / 7-Day Pilot */}
+            {/* Option 1: 7-Day Pilot / Self-Serve */}
             <div className="p-7 sm:p-9 rounded-2xl bg-white border border-black/10 flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between mb-4">
                   <span className="text-xs font-medium text-[#6b665e]">
-                    Vertical Pack Subscription
+                    7-Day Territory Pilot
                   </span>
                   <span className="text-xs font-medium px-2.5 py-0.5 rounded-md bg-[#f0eee6] text-[#141413]">
-                    Most Popular
-                  </span>
-                </div>
-                <div className="flex items-baseline gap-2 mb-2">
-                  <span className="text-4xl font-serif text-[#141413]">$799</span>
-                  <span className="text-sm text-[#6b665e]">/ month · or $1,950 one-time pilot</span>
-                </div>
-                <p className="text-sm text-[#5c5852] mb-6 leading-relaxed">
-                  For focused GTM teams licensing 1 vertical database pack with weekly delta syncs
-                  and verified executive contacts.
-                </p>
-                <ul className="space-y-3 text-sm text-[#141413] mb-8">
-                  {[
-                    'Choose 1 Flagship Vertical (Healthcare, Fleet, or Permits)',
-                    'Up to 1,500 verified decision-maker contacts + signals / mo',
-                    'Weekly SHA-256 delta digests (CSV, Parquet, & Supabase View)',
-                    '<2.0% hard-bounce SLA with 2-for-1 automatic replacement',
-                    'Or start with a $1,950 7-Day Territory Pilot (2,500 rows)',
-                  ].map((item) => (
-                    <li key={item} className="flex items-start gap-2.5">
-                      <Check className="w-4 h-4 text-[#2e6f40] shrink-0 mt-0.5" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <Link
-                href="/pricing"
-                className="w-full min-h-[46px] py-3 px-5 rounded-xl bg-white hover:bg-[#f0eee6] text-[#141413] border border-black/15 font-medium text-sm transition-colors flex items-center justify-center gap-2"
-              >
-                Compare Self-Serve &amp; Pilot Tiers
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-
-            {/* Tier 2: Growth / Managed CRM Deployment (Featured warm sand card like buildaba.com) */}
-            <div className="p-7 sm:p-9 rounded-2xl bg-[#f0eee6] text-[#141413] border border-black/14 flex flex-col justify-between">
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs font-medium text-[#5c5852]">
-                    Growth &amp; Managed RevOps
-                  </span>
-                  <span className="text-xs font-medium px-2.5 py-0.5 rounded-md bg-[#2e6f40] text-white">
-                    Exclusive Territory Lock
+                    Best Place to Start
                   </span>
                 </div>
                 <div className="flex items-baseline gap-2 mb-2">
                   <span className="text-4xl font-serif text-[#141413]">$1,950</span>
-                  <span className="text-sm text-[#5c5852]">
-                    / month · or $9,500 turnkey CRM build
-                  </span>
+                  <span className="text-sm text-[#6b665e]">one-time · or $799/mo self-serve</span>
                 </div>
                 <p className="text-sm text-[#5c5852] mb-6 leading-relaxed">
-                  Full multi-territory signal ingestion wired directly into HubSpot, Salesforce, or
-                  Clay with custom ICP scoring rules.
+                  Send us your current CRM account list. In 7 days, we show you every qualified
+                  buyer and active deadline your CRM is missing.
                 </p>
                 <ul className="space-y-3 text-sm text-[#141413] mb-8">
                   {[
-                    'Up to 5,000 verified decision-maker contacts + signals / mo',
-                    'Access across all 3 Vertical Market Packs + custom filters',
-                    'Automated CRM & Clay webhooks + REST / MCP API access',
-                    'Dedicated Slack data engineering channel & custom fields',
-                    'Optional $9,500 Managed CRM Deployment & Territory Lock',
+                    '2,500 target accounts matched against your current CRM list',
+                    '5,000 verified executive emails (<2% bounce guarantee)',
+                    'Active 30, 60, and 90-day buying triggers with proof links',
+                    'Missing Accounts Report showing gaps in your territory',
+                    '100% of your $1,950 rolls into full CRM sync if you upgrade',
                   ].map((item) => (
                     <li key={item} className="flex items-start gap-2.5">
                       <Check className="w-4 h-4 text-[#2e6f40] shrink-0 mt-0.5" />
@@ -617,9 +565,54 @@ export default function HomePage() {
               </div>
               <Link
                 href="/hire/apply"
+                className="w-full min-h-[46px] py-3 px-5 rounded-xl bg-white hover:bg-[#f0eee6] text-[#141413] border border-black/15 font-medium text-sm transition-colors flex items-center justify-center gap-2"
+              >
+                Start 7-Day Pilot ($1,950)
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+
+            {/* Option 2: Managed CRM Sync */}
+            <div className="p-7 sm:p-9 rounded-2xl bg-[#f0eee6] text-[#141413] border border-black/14 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-xs font-medium text-[#5c5852]">
+                    Managed CRM Sync
+                  </span>
+                  <span className="text-xs font-medium px-2.5 py-0.5 rounded-md bg-[#2e6f40] text-white">
+                    Most Popular
+                  </span>
+                </div>
+                <div className="flex items-baseline gap-2 mb-2">
+                  <span className="text-4xl font-serif text-[#141413]">$1,950</span>
+                  <span className="text-sm text-[#5c5852]">
+                    / month + $9,500 setup ($7,550 after Pilot credit)
+                  </span>
+                </div>
+                <p className="text-sm text-[#5c5852] mb-6 leading-relaxed">
+                  For 5–50 rep sales teams that want an entire national industry wired straight into
+                  HubSpot, Salesforce, or Clay every week.
+                </p>
+                <ul className="space-y-3 text-sm text-[#141413] mb-8">
+                  {[
+                    'Full national industry database synced into your CRM',
+                    '3,500 company unlocks/month (~7,000 verified buyers)',
+                    'Fresh deadlines routed straight into rep queues each week',
+                    'Automatic monthly contact refresh and job-change alerts',
+                    'Never overwrites your reps’ existing notes or fields',
+                  ].map((item) => (
+                    <li key={item} className="flex items-start gap-2.5">
+                      <Check className="w-4 h-4 text-[#2e6f40] shrink-0 mt-0.5" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <Link
+                href="/pricing"
                 className="w-full min-h-[46px] py-3 px-5 rounded-xl bg-[#141413] hover:bg-[#2a2927] text-[#faf9f5] font-medium text-sm transition-colors flex items-center justify-center gap-2 shadow-sm"
               >
-                Reserve a Territory or Pilot
+                Compare All Plans &amp; Pricing
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
@@ -627,13 +620,13 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 6. FAQ — Calm rounded-2xl cards on warm sand section */}
+      {/* 6. PLAIN-ENGLISH FAQS */}
       <section className="py-20 bg-[#f0eee6]/55 border-t border-black/10">
         <div className="max-w-4xl mx-auto px-6">
           <div className="mb-10">
-            <p className="text-xs font-medium text-[#6b665e] mb-2">Frequently Asked Questions</p>
+            <p className="text-xs font-medium text-[#6b665e] mb-2">Common Questions</p>
             <h2 className="text-3xl font-serif tracking-tight text-[#141413] font-medium">
-              Clear answers on data quality, provenance, and compliance.
+              Straight answers on data quality, pricing, and delivery.
             </h2>
           </div>
 

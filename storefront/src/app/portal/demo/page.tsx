@@ -1,85 +1,125 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import Link from "next/link";
-import { ArrowRight, Check, Database, Sparkles } from "lucide-react";
+import { useSearchParams } from "next/navigation";
+import { ArrowRight, Check, ChevronDown, Code2, ShieldCheck } from "lucide-react";
 import { PowerTableExplorer } from "@/components/vault/PowerTableExplorer";
 
-const SIX_CANONICAL_TABLES = [
+const DATA_BUILDING_BLOCKS = [
   {
-    table: "01 · sources_provenance",
-    purpose: "SHA-256 payload receipts and 5-tier source authority ranking",
-    columns:
-      "source_id, source_name, authority_tier (1..5), source_url, filing_date, captured_at, payload_sha256, verbatim_excerpt",
-    whyItMatters:
-      "Every fact in the vault points to an immutable receipt. Tier 1 federal filings (SAM.gov, DOL Form 5500, FMCSA, CMS, OSHA, EPA) outrank Tier 4–5 web scrapes in code.",
+    step: "01 · Official Proof Link",
+    title: "Every fact links back to the original filing",
+    plainSummary:
+      "Your reps never guess where a number came from. Every employee count, permit value, and expiration date links straight to the public record.",
+    techTable: "sources_provenance",
+    techDetail:
+      "Stores source authority tier (1–5), filing date, capture timestamp, verbatim excerpt, and SHA-256 payload hash.",
   },
   {
-    table: "02 · entities",
-    purpose: "Canonical corporate spine cross-joined across UEI, EIN, NPI-2 & USDOT",
-    columns:
-      "entity_id, legal_name, normalized_name, domain, sam_uei, dol_ein, npi_org, usdot_number, form5500_active_participants, field_provenance_jsonb",
-    whyItMatters:
-      "Links 700,000 verified SAM.gov domains and 650,000 DOL Form 5500 employee headcounts to physical-world fleets, clinics, plants, and contractors.",
+    step: "02 · Real Parent Company",
+    title: "We merge messy LLC names into one clean account",
+    plainSummary:
+      "Government filings hide real companies behind dozens of local LLCs. We tie them back to the true parent company, real website, and verified staff count.",
+    techTable: "entities",
+    techDetail:
+      "Canonical corporate spine cross-joined across EIN, SAM.gov UEI, CMS NPI-2, and USDOT with field_provenance_jsonb locks.",
   },
   {
-    table: "03 · facilities_sites",
-    purpose: "Every physical clinic branch, plant, terminal, or permitted job site",
-    columns:
-      "facility_id, entity_id, site_name, street_address, city, state, zip5, epa_frs_id, ccn_id, booking_widget_tech, site_status",
-    whyItMatters:
-      "Resolves 20 local clinics or 4 manufacturing plants back to the 1 parent corporate buyer that signs the master contract.",
+    step: "03 · Every Physical Location",
+    title: "See every clinic, plant, or job site under one roof",
+    plainSummary:
+      "Know whether a prospect runs 2 locations or 22—plus what booking software their clinics use—before your rep dials.",
+    techTable: "facilities_sites",
+    techDetail:
+      "Links branch clinics, manufacturing plants, fleet terminals, and permitted sites back to parent entity_id.",
   },
   {
-    table: "04 · compliance_filings",
-    purpose: "Dated regulatory filings, policies, inspections, awards & permits",
-    columns:
-      "filing_id, entity_id, facility_id, engine_type, filing_code (BMC-35, F-880, OSHA_OPEN, SAM_EXP, PERMIT), effective_date, deadline_date, valuation_amount, source_id",
-    whyItMatters:
-      "Stores raw forward-looking compliance deadlines (30-day BMC-35 policy cancellations, 45-day CMS plans of correction, 30/60/90-day SAM renewals).",
+    step: "04 · Active Deadlines",
+    title: "Track real dates that force buyers to act",
+    plainSummary:
+      "We watch 30-day truck insurance cancellations, new OSHA inspections, Medicare correction deadlines, building permits, and expiring federal contracts.",
+    techTable: "compliance_filings",
+    techDetail:
+      "Structured filings across BMC-35, BMC-91X, OSHA OPEN_DATE, CMS F-Tags, SAM.gov expirations, and municipal permits.",
   },
   {
-    table: "05 · signals_deltas",
-    purpose: "DuckDB SHA-256 delta triggers with daily exponential half-life decay",
-    columns:
-      "signal_id, entity_id, filing_id, signal_type, urgency_tier, forward_window_days, initial_weight, half_life_days, current_decayed_score, last_decayed_at",
-    whyItMatters:
-      "Re-computes live urgency every 24 hours via W(t) = W0 * 0.5^(t / half_life). Old triggers drop out of SDR queues automatically if no new activity lands.",
+    step: "05 · Live Urgency Score",
+    title: "Old alerts drop off automatically",
+    plainSummary:
+      "Fresh deadlines stay at the top of your reps' list. Once a deadline gets old, it moves out of the way automatically.",
+    techTable: "signals_deltas",
+    techDetail:
+      "DuckDB SHA-256 delta detection with daily pg_cron exponential decay W(t) = W0 * 0.5^(t / half_life).",
   },
   {
-    table: "06 · contacts",
-    purpose: "CPA-filtered corporate officers with Hybrid Just-In-Time <2% bounce verification",
-    columns:
-      "contact_id, entity_id, full_name, title, role_tier, cpa_filter_passed, verified_email, direct_phone, smtp_catchall_status, last_verified_at, source_id",
-    whyItMatters:
-      "Strips third-party CPAs, law firms, and registered agents using a 50-keyword exclusion gate, then runs Just-In-Time Catch-All SMTP verification on unlock.",
+    step: "06 · Verified Decision-Makers",
+    title: "Real executives—never outside accountants",
+    plainSummary:
+      "Raw filings are full of outside CPAs and law firms. We strip third-party filers out and check executive emails right before unlock (<2% bounce).",
+    techTable: "contacts",
+    techDetail:
+      "55+ keyword CPA/registered-agent exclusion gate plus Just-In-Time Catch-All SMTP verification.",
   },
 ];
 
-export default function LiveDatabaseDemoPage() {
-  const [viewMode, setViewMode] = useState<"explorer" | "schema">("explorer");
+const SOURCE_RANKING = [
+  {
+    rank: "1",
+    label: "Federal Filings",
+    detail: "Highest trust — official U.S. government records (DOT, OSHA, Medicare, Labor, SAM.gov)",
+  },
+  {
+    rank: "2",
+    label: "State & City Permits",
+    detail: "State clinic licenses and local commercial building permits",
+  },
+  {
+    rank: "3",
+    label: "Company Websites",
+    detail: "Live patient booking tools and official company pages",
+  },
+  {
+    rank: "4",
+    label: "Industry Directories",
+    detail: "Trade lists and association databases",
+  },
+  {
+    rank: "5",
+    label: "General Web",
+    detail: "Lowest trust — can never overwrite facts from #1 through #4",
+  },
+];
+
+function DemoContent() {
+  const searchParams = useSearchParams();
+  const initialIndustry =
+    searchParams.get("industry") || searchParams.get("engine") || undefined;
+
+  const [viewMode, setViewMode] = useState<"explorer" | "howItWorks">("explorer");
+  const [showTechSpecs, setShowTechSpecs] = useState(false);
 
   return (
     <div className="min-h-screen bg-[#faf9f5] text-[#141413] pt-28 pb-24 px-6">
       <div className="max-w-6xl mx-auto">
-        {/* Top Header — buildaba.com editorial style */}
+        {/* Top Header */}
         <div className="mb-10 pb-8 border-b border-black/10">
           <p className="text-xs font-medium text-[#6b665e] mb-3">
-            Interactive Vault Sandbox · 66 Live Canonical Signals · 6-Table Schema
+            Live Sample Explorer · 12 Verified Accounts Across 3 Industries
           </p>
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
               <h1 className="text-4xl sm:text-5xl font-serif tracking-tight text-[#141413] font-medium leading-[1.08]">
-                Inspect our live vertical engines.
+                Browse live sample leads.
               </h1>
               <p className="text-base sm:text-lg text-[#5c5852] mt-3 max-w-2xl leading-relaxed">
-                Filter 66 live production compliance records across Healthcare Clinics, Fleet &amp;
-                Industrial Risk, and Commercial Permits. Click any row to open the 3-tab dossier,
-                SHA-256 receipts, and CPA-filtered buyers.
+                Filter real examples across healthcare clinics, trucking fleets, factories, and
+                government contractors. Click any account to inspect official proof and verified
+                buyers.
               </p>
             </div>
 
-            {/* White rounded-xl pill tab switcher matching buildaba.com */}
+            {/* Clean View Switcher */}
             <div className="inline-flex p-1 rounded-xl bg-white border border-black/10 self-start md:self-auto shrink-0">
               <button
                 type="button"
@@ -90,18 +130,18 @@ export default function LiveDatabaseDemoPage() {
                     : "text-[#5c5852] hover:text-[#141413]"
                 }`}
               >
-                PowerTable Explorer (66 Rows)
+                Live Sample Leads (12)
               </button>
               <button
                 type="button"
-                onClick={() => setViewMode("schema")}
+                onClick={() => setViewMode("howItWorks")}
                 className={`px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors cursor-pointer ${
-                  viewMode === "schema"
+                  viewMode === "howItWorks"
                     ? "bg-[#141413] text-[#faf9f5]"
                     : "text-[#5c5852] hover:text-[#141413]"
                 }`}
               >
-                6-Table Canonical Schema
+                How the Data Works
               </button>
             </div>
           </div>
@@ -109,130 +149,188 @@ export default function LiveDatabaseDemoPage() {
 
         {viewMode === "explorer" ? (
           <div className="space-y-8">
-            {/* Engine Summary Strip — buildaba.com rounded-2xl cards */}
+            {/* Industry Summary Strip */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               <div className="bg-white border border-black/10 rounded-2xl p-6 shadow-[0_1px_2px_rgba(20,20,19,0.03)]">
                 <div className="inline-flex items-center gap-1.5 text-[11px] font-medium text-[#2e6f40] bg-[#ecfdf5] border border-[#a7f3d0] px-2.5 py-0.5 rounded-md mb-3">
-                  Engine 01 · Healthcare &amp; Clinics
+                  01 · Healthcare &amp; Clinics
                 </div>
                 <h2 className="text-lg font-serif font-medium text-[#141413] mb-1.5">
-                  Multi-Site Clinic &amp; SNF Graph
+                  Expanding Clinic Groups
                 </h2>
                 <p className="text-xs sm:text-sm text-[#5c5852] leading-relaxed">
-                  NPPES Org Type-2 groups, Authorized Official owners/CMOs, state license additions,
-                  booking-widget EHR DOM detection, and CMS F-tag citations.
+                  Multi-site medical, dental, and nursing groups adding locations, switching booking
+                  software, or fixing Medicare inspection citations.
                 </p>
               </div>
               <div className="bg-white border border-black/10 rounded-2xl p-6 shadow-[0_1px_2px_rgba(20,20,19,0.03)]">
                 <div className="inline-flex items-center gap-1.5 text-[11px] font-medium text-[#2e6f40] bg-[#ecfdf5] border border-[#a7f3d0] px-2.5 py-0.5 rounded-md mb-3">
-                  Engine 02 · Industrial &amp; Fleet Risk
+                  02 · Trucking &amp; Factories
                 </div>
                 <h2 className="text-lg font-serif font-medium text-[#141413] mb-1.5">
-                  FMCSA, OSHA &amp; EPA Facility Graph
+                  Fleet &amp; Plant Deadlines
                 </h2>
                 <p className="text-xs sm:text-sm text-[#5c5852] leading-relaxed">
-                  15–250+ truck fleets with 30-day Form BMC-35 policy cancellations &amp; renewals,
-                  opened Federal OSHA inspections, and EPA ECHO schedules joined to DOL Form 5500.
+                  Commercial fleets facing 30-day insurance cancellations or renewals, plus factories
+                  hit with fresh OSHA or EPA inspections.
                 </p>
               </div>
               <div className="bg-white border border-black/10 rounded-2xl p-6 shadow-[0_1px_2px_rgba(20,20,19,0.03)]">
                 <div className="inline-flex items-center gap-1.5 text-[11px] font-medium text-[#2e6f40] bg-[#ecfdf5] border border-[#a7f3d0] px-2.5 py-0.5 rounded-md mb-3">
-                  Engine 03 · Commercial Permits
+                  03 · Gov Contractors &amp; Builders
                 </div>
                 <h2 className="text-lg font-serif font-medium text-[#141413] mb-1.5">
-                  SAM.gov, USAspending &amp; Permits
+                  Contracts &amp; Large Permits
                 </h2>
                 <p className="text-xs sm:text-sm text-[#5c5852] leading-relaxed">
-                  Daily 30/60/90-day SAM.gov registration expirations, 700K native entityUrl domains,
-                  and Socrata/ArcGIS commercial building permits over $250K.
+                  Contractors with expiring federal bidding registrations, contracts entering re-bid,
+                  and builders pulling $100K+ commercial permits.
                 </p>
               </div>
             </div>
 
-            {/* Interactive PowerTable + SignalDossierDrawer */}
-            <PowerTableExplorer />
+            {/* Interactive Explorer */}
+            <PowerTableExplorer initialIndustry={initialIndustry} />
           </div>
         ) : (
-          /* ── VIEW 2: 6-TABLE CANONICAL SCHEMA & ATOMIC PROVENANCE MERGER ── */
+          /* ── VIEW 2: PLAIN-ENGLISH DATA ARCHITECTURE (+ OPTIONAL DEV TOGGLE) ── */
           <div className="space-y-8">
+            {/* Hero Accuracy Card — Plain-English Rewrite of the Screenshot Card */}
+            <div className="bg-white border border-black/12 rounded-2xl p-7 sm:p-10 shadow-[0_1px_2px_rgba(20,20,19,0.03)]">
+              <div className="inline-flex items-center gap-1.5 text-xs font-medium text-[#2e6f40] bg-[#ecfdf5] border border-[#a7f3d0] px-2.5 py-1 rounded-md mb-4">
+                <ShieldCheck className="w-3.5 h-3.5" />
+                How We Keep Data Accurate
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-serif font-medium text-[#141413] mb-3">
+                Official records always beat web scrapes.
+              </h2>
+              <p className="text-sm sm:text-base text-[#5c5852] leading-relaxed max-w-3xl mb-6">
+                Most lead tools overwrite good data with bad web scrapes. We rank every source from
+                1 to 5. Once a federal filing confirms a company&apos;s staff count or owner, a
+                random web scrape can never replace it.
+              </p>
+
+              <div className="space-y-2.5">
+                {SOURCE_RANKING.map((item) => (
+                  <div
+                    key={item.rank}
+                    className="flex items-start sm:items-center gap-3.5 p-3.5 rounded-xl bg-[#faf9f5] border border-black/8"
+                  >
+                    <span className="w-7 h-7 rounded-lg bg-[#141413] text-[#faf9f5] text-xs font-semibold flex items-center justify-center shrink-0">
+                      {item.rank}
+                    </span>
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-0.5 sm:gap-2.5 text-sm">
+                      <span className="font-medium text-[#141413] shrink-0">{item.label}</span>
+                      <span className="hidden sm:inline text-[#6b665e]">—</span>
+                      <span className="text-[#5c5852] text-xs sm:text-sm">{item.detail}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* 6 Plain-English Building Blocks */}
             <div className="bg-white border border-black/10 rounded-2xl p-7 sm:p-10 shadow-[0_1px_2px_rgba(20,20,19,0.03)]">
-              <div className="max-w-3xl mb-8">
-                <p className="text-xs font-medium text-[#6b665e] mb-2">
-                  Universal 6-Table Canonical Postgres / Supabase Architecture
-                </p>
-                <h2 className="text-2xl sm:text-3xl font-serif font-medium text-[#141413] mb-3">
-                  Six relational tables guarded by atomic provenance locks.
-                </h2>
-                <p className="text-sm sm:text-base text-[#5c5852] leading-relaxed">
-                  Spreadsheets collapse when a company operates 14 clinics, files permits under
-                  subsidiary LLCs, and triggers multiple compliance events. Every client deployment
-                  uses this exact six-table schema with DuckDB SHA-256 delta ingestion.
-                </p>
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+                <div className="max-w-2xl">
+                  <p className="text-xs font-medium text-[#6b665e] mb-2">
+                    What Goes Into Every Account Record
+                  </p>
+                  <h2 className="text-2xl sm:text-3xl font-serif font-medium text-[#141413] mb-2">
+                    Six clean layers behind every lead.
+                  </h2>
+                  <p className="text-sm sm:text-base text-[#5c5852] leading-relaxed">
+                    Flat spreadsheets break when one company runs 14 clinics under different LLCs.
+                    We link every location, filing, deadline, and decision-maker into one clean
+                    view.
+                  </p>
+                </div>
+
+                {/* Optional Toggle for Technical / Data Teams */}
+                <button
+                  type="button"
+                  onClick={() => setShowTechSpecs((prev) => !prev)}
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-black/14 bg-[#faf9f5] hover:bg-[#f0eee6] text-xs font-medium text-[#141413] transition-colors cursor-pointer self-start md:self-auto shrink-0"
+                >
+                  <Code2 className="w-3.5 h-3.5 text-[#2e6f40]" />
+                  <span>
+                    {showTechSpecs
+                      ? "Hide Technical Specs"
+                      : "Technical Specs (For Data Teams)"}
+                  </span>
+                  <ChevronDown
+                    className={`w-3.5 h-3.5 transition-transform ${
+                      showTechSpecs ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
-                {SIX_CANONICAL_TABLES.map((t) => (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                {DATA_BUILDING_BLOCKS.map((block) => (
                   <div
-                    key={t.table}
+                    key={block.step}
                     className="bg-[#faf9f5] border border-black/8 rounded-2xl p-6 flex flex-col justify-between"
                   >
                     <div>
-                      <div className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-[#2e6f40] bg-[#ecfdf5] border border-[#a7f3d0] px-2.5 py-0.5 rounded-md mb-3">
-                        <Database className="w-3 h-3" />
-                        {t.table}
+                      <div className="inline-flex items-center gap-1.5 text-xs font-medium text-[#2e6f40] bg-[#ecfdf5] border border-[#a7f3d0] px-2.5 py-0.5 rounded-md mb-3">
+                        <Check className="w-3 h-3" />
+                        {block.step}
                       </div>
                       <h3 className="text-lg font-serif font-medium text-[#141413] mb-2">
-                        {t.purpose}
+                        {block.title}
                       </h3>
-                      <div className="p-3 bg-white border border-black/8 rounded-xl font-mono text-xs text-[#141413]/80 mb-3">
-                        {t.columns}
-                      </div>
-                      <p className="text-xs sm:text-sm text-[#5c5852] leading-relaxed">
-                        {t.whyItMatters}
+                      <p className="text-sm text-[#5c5852] leading-relaxed">
+                        {block.plainSummary}
                       </p>
+
+                      {showTechSpecs && (
+                        <div className="mt-4 pt-3 border-t border-black/8">
+                          <div className="text-[11px] font-mono font-medium text-[#141413] mb-1">
+                            Table: {block.techTable}
+                          </div>
+                          <p className="text-xs font-mono text-[#6b665e] leading-relaxed">
+                            {block.techDetail}
+                          </p>
+                        </div>
+                      )}
                     </div>
                   </div>
                 ))}
               </div>
 
-              {/* Atomic Provenance Merger Code Spec */}
-              <div className="bg-[#f0eee6] border border-black/10 rounded-2xl p-6 sm:p-7">
-                <div className="text-xs font-medium text-[#2e6f40] mb-1.5">
-                  Atomic Source-Hierarchy Merger · fn_provenance_update()
+              {showTechSpecs && (
+                <div className="mt-6 p-5 rounded-xl bg-[#f0eee6] border border-black/10 text-xs font-mono text-[#3d3a34] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <span>
+                    Postgres trigger <strong className="text-[#141413]">fn_provenance_update()</strong>{" "}
+                    enforces Tier 1–5 precedence inside{" "}
+                    <strong className="text-[#141413]">field_provenance_jsonb</strong>. Live JSON
+                    &amp; MCP endpoint available at <strong className="text-[#141413]">/api/vault</strong>.
+                  </span>
+                  <Link
+                    href="/api/vault"
+                    className="text-[#141413] underline underline-offset-4 font-sans font-medium shrink-0"
+                  >
+                    Inspect JSON API →
+                  </Link>
                 </div>
-                <h3 className="text-xl font-serif font-medium text-[#141413] mb-2">
-                  Why lower-tier web scrapes can never corrupt federal facts
-                </h3>
-                <p className="text-sm text-[#5c5852] leading-relaxed mb-4">
-                  Every column on <code className="font-mono text-[#141413]">entities</code> and{" "}
-                  <code className="font-mono text-[#141413]">contacts</code> tracks its authority
-                  rank inside <code className="font-mono text-[#141413]">field_provenance_jsonb</code>.
-                  When a new crawler run lands, Postgres evaluates authority rank before updating any
-                  value:
-                </p>
-                <div className="p-4 bg-white border border-black/10 rounded-xl font-mono text-xs text-[#141413] overflow-x-auto leading-relaxed">
-                  Tier 1 (Federal Statutory: SAM.gov, DOL Form 5500, FMCSA, CMS NPPES, OSHA, EPA)
-                  &gt; Tier 2 (State Licensing &amp; Municipal Socrata Permits) &gt; Tier 3 (First-Party
-                  Subdomain &amp; Booking DOM) &gt; Tier 4 (Trade Directories) &gt; Tier 5 (Third-Party Web)
-                </div>
-              </div>
+              )}
             </div>
           </div>
         )}
 
-        {/* Bottom Dual CTA Banner */}
+        {/* Bottom CTA Banner */}
         <div className="mt-14 bg-[#f0eee6] border border-black/12 rounded-2xl p-8 sm:p-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div>
             <p className="text-xs font-medium text-[#2e6f40] mb-1.5">
-              Test Us Against Your Current CRM Export First
+              Test Us Against Your Current CRM First
             </p>
             <h3 className="text-2xl sm:text-3xl font-serif font-medium text-[#141413]">
-              Run the 7-Day Territory &amp; CRM Whitespace Pilot for $1,950.
+              Start a 7-Day Territory Pilot for $1,950.
             </h3>
             <p className="text-sm text-[#5c5852] mt-1.5 max-w-2xl leading-relaxed">
-              Receive 2,500 enriched accounts, 5,000 verified buyers, active forward-looking
-              triggers, and a TAM Whitespace Gap Report. 100% of your $1,950 credits toward full
-              deployment.
+              Get 2,500 target accounts, 5,000 verified decision-makers, active deadlines, and a
+              Missing Accounts Report. Every dollar credits toward full CRM sync if you upgrade.
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 shrink-0 w-full md:w-auto">
@@ -240,18 +338,34 @@ export default function LiveDatabaseDemoPage() {
               href="/hire/apply"
               className="min-h-[46px] px-6 py-3 rounded-xl bg-[#141413] hover:bg-[#2a2927] text-[#faf9f5] text-sm font-medium flex items-center justify-center gap-2 transition-colors"
             >
-              Start $1,950 Territory Pilot
+              Start 7-Day Pilot ($1,950)
               <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
               href="/pricing"
               className="min-h-[46px] px-6 py-3 rounded-xl bg-white border border-black/14 hover:bg-[#faf9f5] text-[#141413] text-sm font-medium flex items-center justify-center transition-colors"
             >
-              View Commercial Ladder
+              See Plans &amp; Pricing
             </Link>
           </div>
         </div>
       </div>
     </div>
+  );
+}
+
+export default function LiveDatabaseDemoPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#faf9f5] text-[#141413] pt-28 pb-24 px-6">
+          <div className="max-w-6xl mx-auto text-sm text-[#5c5852]">
+            Loading sample leads…
+          </div>
+        </div>
+      }
+    >
+      <DemoContent />
+    </Suspense>
   );
 }

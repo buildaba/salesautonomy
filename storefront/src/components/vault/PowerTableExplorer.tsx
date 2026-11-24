@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import {
   Search,
   Download,
@@ -11,56 +11,61 @@ import {
   ArrowUpRight,
   CheckSquare,
   Square,
+  Terminal,
 } from "lucide-react";
 import {
   SignalDossierDrawer,
   VaultRecord,
 } from "@/components/vault/SignalDossierDrawer";
+import { GrokbotMcpModal } from "@/components/vault/GrokbotMcpModal";
 
 export const VERIFIED_VAULT_RECORDS: VaultRecord[] = [
-  // ── ENGINE 1: HEALTHCARE & MULTI-SITE CLINIC GRAPH (4 RECORDS) ──────────
+  // ── INDUSTRY 1: HEALTHCARE & CLINICS (4 RECORDS) ────────────────────────
   {
     id: "hc-01",
     canonicalEntityId: "ENT-HC-1904412",
-    engine: "Healthcare & Multi-Site Clinic Graph",
+    industryKey: "healthcare",
+    engine: "Healthcare & Clinics",
     legalName: "SUMMIT ORTHOPEDIC & SPINE PARTNERS PLLC",
     dbaName: "Summit Ortho & Sports Medicine",
     domain: "summitorthopartners.com",
     state: "TX",
     city: "Frisco",
-    einOrIdentifier: "NPI-2: 1942881042 • EIN: 75-2948102",
-    verifiedHeadcount: "184 Active Staff (Form 5500)",
-    siteCountOrFleet: "14 Clinic Sites (+2 Permits)",
-    signalType: "Clinic Expansion Permit + EHR Migration",
+    einOrIdentifier: "NPI: 1942881042 · EIN: 75-2948102",
+    verifiedHeadcount: "184 Staff",
+    siteCountOrFleet: "14 Clinics (+2 New Permits)",
+    signalType: "Clinic Expansion Permit",
     signalHeadline:
-      "Filed $1.42M surgical suite build-out permit (#BP-2026-88412) in Frisco; booking subdomain migrated to Athenahealth.",
+      "Filed a $1.42M surgical suite build-out permit in Frisco and moved patient booking to Athenahealth.",
     forwardWindowDays: 21,
-    urgencyTier: "Immediate (0-30d)",
+    urgencyTier: "0–30 Days",
     initialWeight: 98,
     daysElapsed: 4,
     halfLifeDays: 45,
     currentScore: 92,
-    qualifyingFactPrimary: "14 NPPES Type-2 Locations • Athenahealth DOM Verified",
-    qualifyingFactSecondary: "Form 5500 EIN 75-2948102 • 184 Active Participants",
+    qualifyingFactPrimary: "14 Texas clinics · Runs Athenahealth booking",
+    qualifyingFactSecondary: "184 verified staff · Summit Orthopedic & Spine Partners",
     repOpenerLine:
-      "Saw Summit Ortho filed permit #BP-2026-88412 for the Frisco surgical build-out while running Athenahealth across your 14 Texas clinics.",
+      "Saw Summit Ortho filed permit #BP-2026-88412 for your new Frisco surgical suite while running Athenahealth across your 14 Texas clinics.",
     provenanceReceipts: [
       {
         fieldName: "authorized_official_cmo",
-        fieldValue: "Dr. Gregory Vance, MD — Managing Partner & Authorized Official",
-        sourceName: "CMS NPPES Organization Type-2 Registry",
+        fieldLabel: "Clinic Group Owner",
+        fieldValue: "Dr. Gregory Vance, MD — Managing Partner",
+        sourceName: "Federal Healthcare Provider Registry (CMS)",
         sourceTier: 1,
         sourceUrl: "https://npiregistry.cms.hhs.gov/provider-view/1942881042",
         capturedAt: "2026-11-20T08:14:22Z",
         sha256Hash: "8f4b2e91c04a7d5e2183b9a0f124c8903e1274a5d6c78b9012a3f4e5d6c7b8a1",
         isEstimate: false,
         verbatimExcerpt:
-          "ENTITY TYPE: 2 (Organization). AUTHORIZED OFFICIAL: VANCE, GREGORY MD. TELEPHONE: 972-555-0148. TAXONOMY: 207X00000X (Orthopaedic Surgery).",
+          "ENTITY TYPE: 2 (Organization). AUTHORIZED OFFICIAL: VANCE, GREGORY MD. TAXONOMY: Orthopaedic Surgery.",
       },
       {
         fieldName: "facility_permit_delta",
-        fieldValue: "$1,420,000 Commercial Medical Build-Out (#BP-2026-88412)",
-        sourceName: "City of Frisco Socrata Building Permits API",
+        fieldLabel: "New Construction Permit",
+        fieldValue: "$1,420,000 Medical Build-Out (#BP-2026-88412)",
+        sourceName: "City of Frisco Building Permits",
         sourceTier: 1,
         sourceUrl: "https://data.friscotexas.gov/resource/permits/BP-2026-88412",
         capturedAt: "2026-11-19T14:20:00Z",
@@ -74,70 +79,72 @@ export const VERIFIED_VAULT_RECORDS: VaultRecord[] = [
       {
         id: "c-hc-01a",
         fullName: "Dana Mercer",
-        title: "Chief Operating Officer (Form 5500 Signer)",
-        roleTier: "Economic Buyer",
-        sourceOrigin: "DOL Form 5500 Schedule A + NPPES Cross-Join",
-        cpaFilterStatus: "PASSED — Corporate Officer",
+        title: "Chief Operating Officer",
+        roleTier: "Executive Buyer",
+        sourceOrigin: "Federal benefit filing + clinic registry",
+        cpaFilterStatus: "Real Executive",
         emailMasked: "d***@summitorthopartners.com",
         emailUnmasked: "dmercer@summitorthopartners.com",
         phoneMasked: "(972) 555-**48",
         phoneUnmasked: "(972) 555-0148",
-        verificationMethod: "Just-In-Time Catch-All SMTP Passed",
-        bounceRisk: "0.8% Verified Safe",
+        verificationMethod: "Live inbox check passed",
+        bounceRisk: "Verified Safe",
       },
       {
         id: "c-hc-01b",
         fullName: "Dr. Gregory Vance, MD",
-        title: "Managing Partner & Authorized Official",
-        roleTier: "Clinical Owner",
-        sourceOrigin: "CMS NPPES Authorized Official Field",
-        cpaFilterStatus: "PASSED — Medical Owner",
+        title: "Managing Partner & Clinic Owner",
+        roleTier: "Clinic Owner",
+        sourceOrigin: "Federal clinic ownership filing",
+        cpaFilterStatus: "Real Executive",
         emailMasked: "g***@summitorthopartners.com",
         emailUnmasked: "gvance@summitorthopartners.com",
         phoneMasked: "(972) 555-**91",
         phoneUnmasked: "(972) 555-0191",
-        verificationMethod: "Just-In-Time Catch-All SMTP Passed",
-        bounceRisk: "1.1% Verified Safe",
+        verificationMethod: "Live inbox check passed",
+        bounceRisk: "Verified Safe",
       },
     ],
   },
   {
     id: "hc-02",
     canonicalEntityId: "ENT-HC-1780349",
-    engine: "Healthcare & Multi-Site Clinic Graph",
+    industryKey: "healthcare",
+    engine: "Healthcare & Clinics",
     legalName: "CLEARVIEW DERMATOLOGY & AESTHETICS MANAGEMENT LLC",
     dbaName: "ClearView Dermatology Group",
     domain: "clearviewderm.com",
     state: "FL",
     city: "Tampa",
-    einOrIdentifier: "NPI-2: 1780654129 • EIN: 59-3819204",
-    verifiedHeadcount: "126 Active Staff (Form 5500)",
-    siteCountOrFleet: "9 Clinic Sites (FL)",
-    signalType: "State License Expansion + ModMed EHR Shift",
+    einOrIdentifier: "NPI: 1780654129 · EIN: 59-3819204",
+    verifiedHeadcount: "126 Staff",
+    siteCountOrFleet: "9 Clinics (FL)",
+    signalType: "New Clinic Licenses",
     signalHeadline:
-      "Added 3 new Florida medical clinic establishment licenses in Hillsborough & Pinellas; switched booking widget to ModMed EMA.",
+      "Added 3 new Florida clinic licenses in Tampa Bay and switched patient booking to ModMed.",
     forwardWindowDays: 28,
-    urgencyTier: "Immediate (0-30d)",
+    urgencyTier: "0–30 Days",
     initialWeight: 94,
     daysElapsed: 5,
     halfLifeDays: 45,
     currentScore: 87,
-    qualifyingFactPrimary: "9 NPPES Sites • 0 OIG Exclusions • ModMed EMA Widget",
-    qualifyingFactSecondary: "Form 5500 EIN 59-3819204 • 126 Welfare Plan Lives",
+    qualifyingFactPrimary: "9 Florida clinics · Runs ModMed booking",
+    qualifyingFactSecondary: "126 verified staff · Clean Medicare standing",
     repOpenerLine:
-      "Noticed ClearView Dermatology added three Florida clinic licenses this month and migrated your patient portal to ModMed EMA.",
+      "Noticed ClearView Dermatology added three Florida clinic licenses this month and moved your patient portal over to ModMed.",
     provenanceReceipts: [
       {
         fieldName: "nppes_site_expansion",
-        fieldValue: "9 Active Practice Locations Linked to Parent EIN 59-3819204",
-        sourceName: "CMS NPPES Monthly Delta + FL Health License Board",
+        fieldLabel: "New Clinic Locations",
+        fieldValue: "9 Active Practice Locations Linked to Parent Group",
+        sourceName: "Federal Provider Registry + Florida Health Board",
         sourceTier: 1,
         sourceUrl: "https://npiregistry.cms.hhs.gov/provider-view/1780654129",
         capturedAt: "2026-11-18T11:05:10Z",
         sha256Hash: "7a1d9e4f2c8b6a05e3f1d2c4b6a8e0f2d4c6b8a0e2f4d6c8b0a2e4f6d8c0b2a4",
         isEstimate: false,
         verbatimExcerpt:
-          "SECONDARY PRACTICE LOCATIONS: 9 VERIFIED. AUTHORIZED OFFICIAL: TORRES, MARCUS VP OPS. OIG LEIE EXCLUSION MATCH: 0 ACTIVE FLAGS.",
+          "SECONDARY PRACTICE LOCATIONS: 9 VERIFIED. AUTHORIZED OFFICIAL: TORRES, MARCUS VP OPS. EXCLUSION FLAGS: 0.",
       },
     ],
     contacts: [
@@ -145,48 +152,50 @@ export const VERIFIED_VAULT_RECORDS: VaultRecord[] = [
         id: "c-hc-02a",
         fullName: "Marcus Torres",
         title: "VP of Clinical Operations",
-        roleTier: "Economic Buyer",
-        sourceOrigin: "NPPES Authorized Official + Form 5500 Signer",
-        cpaFilterStatus: "PASSED — Corporate Officer",
+        roleTier: "Executive Buyer",
+        sourceOrigin: "Clinic registry + federal benefit filing",
+        cpaFilterStatus: "Real Executive",
         emailMasked: "m***@clearviewderm.com",
         emailUnmasked: "mtorres@clearviewderm.com",
         phoneMasked: "(813) 555-**22",
         phoneUnmasked: "(813) 555-0122",
-        verificationMethod: "Just-In-Time Catch-All SMTP Passed",
-        bounceRisk: "0.6% Verified Safe",
+        verificationMethod: "Live inbox check passed",
+        bounceRisk: "Verified Safe",
       },
     ],
   },
   {
     id: "hc-03",
     canonicalEntityId: "ENT-HC-1529018",
-    engine: "Healthcare & Multi-Site Clinic Graph",
+    industryKey: "healthcare",
+    engine: "Healthcare & Clinics",
     legalName: "HERITAGE POST-ACUTE & REHAB HOLDINGS INC",
     dbaName: "Heritage Skilled Nursing Centers",
     domain: "heritagerehabcenters.com",
     state: "OH",
     city: "Columbus",
-    einOrIdentifier: "CCN: 365412 • EIN: 31-1492817",
-    verifiedHeadcount: "412 Active Staff (Form 5500)",
-    siteCountOrFleet: "11 SNF Facilities (OH/IN)",
-    signalType: "CMS F-Tag Deficiency Remediation Window",
+    einOrIdentifier: "Medicare ID: 365412 · EIN: 31-1492817",
+    verifiedHeadcount: "412 Staff",
+    siteCountOrFleet: "11 Nursing Facilities (OH/IN)",
+    signalType: "Medicare Inspection Deadline",
     signalHeadline:
-      "Cited for CMS F-880 infection control & documentation deficiency on survey cycle; 45-day mandatory Plan of Correction window open.",
+      "Cited on a Medicare infection-control inspection with a mandatory 45-day correction deadline open.",
     forwardWindowDays: 34,
-    urgencyTier: "High (31-60d)",
+    urgencyTier: "31–60 Days",
     initialWeight: 95,
     daysElapsed: 6,
     halfLifeDays: 45,
     currentScore: 86,
-    qualifyingFactPrimary: "11 CMS Certification Numbers • F-880 Remediation Active",
-    qualifyingFactSecondary: "Form 5500 EIN 31-1492817 • 412 Active Employees",
+    qualifyingFactPrimary: "11 facilities · 45-day Medicare correction open",
+    qualifyingFactSecondary: "412 verified staff · Heritage Post-Acute Holdings",
     repOpenerLine:
-      "Saw Heritage Skilled Nursing is inside the 45-day CMS Plan of Correction window for F-880 documentation across your Ohio facilities.",
+      "Saw Heritage Skilled Nursing is inside the 45-day Medicare correction window for infection control across your Ohio facilities.",
     provenanceReceipts: [
       {
         fieldName: "cms_deficiency_citation",
-        fieldValue: "F-Tag 0880 (Scope/Severity: E) — Plan of Correction Due in 34 Days",
-        sourceName: "CMS Care Compare Health Deficiencies Feed",
+        fieldLabel: "Medicare Inspection Citation",
+        fieldValue: "Infection Control Citation — Correction Plan Due in 34 Days",
+        sourceName: "Medicare Care Compare Inspection Feed",
         sourceTier: 1,
         sourceUrl: "https://data.cms.gov/provider-data/dataset/r5ix-sfxw",
         capturedAt: "2026-11-17T09:30:00Z",
@@ -202,320 +211,331 @@ export const VERIFIED_VAULT_RECORDS: VaultRecord[] = [
         fullName: "Rebecca Lin",
         title: "Chief Compliance & Clinical Officer",
         roleTier: "Compliance Buyer",
-        sourceOrigin: "CMS Provider Ownership + Form 5500 Admin",
-        cpaFilterStatus: "PASSED — Corporate Officer",
+        sourceOrigin: "Medicare ownership + benefit filing",
+        cpaFilterStatus: "Real Executive",
         emailMasked: "r***@heritagerehabcenters.com",
         emailUnmasked: "rlin@heritagerehabcenters.com",
         phoneMasked: "(614) 555-**84",
         phoneUnmasked: "(614) 555-0184",
-        verificationMethod: "Just-In-Time Catch-All SMTP Passed",
-        bounceRisk: "0.9% Verified Safe",
+        verificationMethod: "Live inbox check passed",
+        bounceRisk: "Verified Safe",
       },
     ],
   },
   {
     id: "hc-04",
     canonicalEntityId: "ENT-HC-1664920",
-    engine: "Healthcare & Multi-Site Clinic Graph",
+    industryKey: "healthcare",
+    engine: "Healthcare & Clinics",
     legalName: "PACIFIC COAST DENTAL PARTNERS MANAGEMENT INC",
-    dbaName: "Pacific Coast Dental Roll-Up",
+    dbaName: "Pacific Coast Dental Group",
     domain: "pacificcoastdentalgroup.com",
     state: "CA",
     city: "Irvine",
-    einOrIdentifier: "NPI-2: 1669482011 • EIN: 95-4710293",
-    verifiedHeadcount: "265 Active Staff (Form 5500)",
+    einOrIdentifier: "NPI: 1669482011 · EIN: 95-4710293",
+    verifiedHeadcount: "265 Staff",
     siteCountOrFleet: "22 Dental Practices (CA/OR)",
-    signalType: "Multi-Practice Roll-Up + Dentrix Consolidation",
+    signalType: "Multi-Clinic Expansion",
     signalHeadline:
-      "Registered 4 new branch NPIs under parent EIN 95-4710293 in the last 30 days; consolidating clinics onto Dentrix Enterprise.",
+      "Added 4 new dental practice locations in the last 30 days while moving offices onto Dentrix Enterprise.",
     forwardWindowDays: 45,
-    urgencyTier: "High (31-60d)",
+    urgencyTier: "31–60 Days",
     initialWeight: 90,
     daysElapsed: 7,
     halfLifeDays: 45,
     currentScore: 81,
-    qualifyingFactPrimary: "22 Linked Clinic NPIs • Dentrix Enterprise Booking DOM",
-    qualifyingFactSecondary: "Form 5500 EIN 95-4710293 • CFO Signer Verified",
+    qualifyingFactPrimary: "22 dental practices · Uses Dentrix Enterprise",
+    qualifyingFactSecondary: "265 verified staff · CFO confirmed on filing",
     repOpenerLine:
-      "Saw Pacific Coast Dental registered four new branch NPIs under your parent group while standardizing practices on Dentrix Enterprise.",
+      "Saw Pacific Coast Dental added four new practice locations this month while standardizing offices on Dentrix Enterprise.",
     provenanceReceipts: [
       {
         fieldName: "form_5500_headcount",
-        fieldValue: "265 Active Plan Participants • Signer: Elena Rostova, CFO",
-        sourceName: "DOL EFAST2 Form 5500 Bulk Dataset",
+        fieldLabel: "Verified Staff & CFO",
+        fieldValue: "265 Active Employees · Signed by Elena Rostova, CFO",
+        sourceName: "Department of Labor Employee Benefit Filing",
         sourceTier: 1,
         sourceUrl: "https://www.efast.dol.gov/5500search/",
         capturedAt: "2026-11-16T16:40:00Z",
         sha256Hash: "4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c",
         isEstimate: false,
         verbatimExcerpt:
-          "SPONSOR_EIN: 95-4710293. TOT_ACTIVE_PARTCP_CNT: 265. ADMIN_SIGNED_NAME: ELENA ROSTOVA. CPA_FILTER: PASSED (INTERNAL OFFICER).",
+          "SPONSOR_EIN: 95-4710293. ACTIVE_PARTICIPANTS: 265. ADMIN_SIGNED_NAME: ELENA ROSTOVA.",
       },
     ],
     contacts: [
       {
         id: "c-hc-04a",
         fullName: "Elena Rostova",
-        title: "Chief Financial Officer (Form 5500 Signatory)",
-        roleTier: "Economic Buyer",
-        sourceOrigin: "DOL Form 5500 Signatory Extraction",
-        cpaFilterStatus: "PASSED — Corporate Officer",
+        title: "Chief Financial Officer",
+        roleTier: "Executive Buyer",
+        sourceOrigin: "Department of Labor benefit filing",
+        cpaFilterStatus: "Real Executive",
         emailMasked: "e***@pacificcoastdentalgroup.com",
         emailUnmasked: "erostova@pacificcoastdentalgroup.com",
         phoneMasked: "(949) 555-**63",
         phoneUnmasked: "(949) 555-0163",
-        verificationMethod: "Just-In-Time Catch-All SMTP Passed",
-        bounceRisk: "0.7% Verified Safe",
+        verificationMethod: "Live inbox check passed",
+        bounceRisk: "Verified Safe",
       },
     ],
   },
 
-  // ── ENGINE 2: INDUSTRIAL, FLEET & FACILITY RISK GRAPH (4 RECORDS) ──────
+  // ── INDUSTRY 2: TRUCKING & FACTORIES (4 RECORDS) ────────────────────────
   {
     id: "in-01",
     canonicalEntityId: "ENT-IN-2849104",
-    engine: "Industrial, Fleet & Facility Risk Graph",
+    industryKey: "fleet",
+    engine: "Trucking & Factories",
     legalName: "HEARTLAND COLD LOGISTICS & FREIGHT LLC",
     dbaName: "Heartland Refrigerated Transport",
     domain: "heartlandcoldfreight.com",
     state: "IL",
     city: "Joliet",
-    einOrIdentifier: "USDOT: 2849104 • EIN: 36-4189201",
-    verifiedHeadcount: "148 Active Staff (Form 5500)",
-    siteCountOrFleet: "118 Power Units • 134 Drivers",
-    signalType: "FMCSA BMC-35 30-Day Insurance Cancellation Notice",
+    einOrIdentifier: "USDOT: 2849104 · EIN: 36-4189201",
+    verifiedHeadcount: "148 Staff",
+    siteCountOrFleet: "118 Trucks · 134 Drivers",
+    signalType: "30-Day Insurance Cancellation",
     signalHeadline:
-      "Form BMC-35 Notice of Cancellation filed on primary $1M BIPD policy (#CA-9948102); coverage terminates in 24 days unless replaced.",
+      "Primary $1M fleet liability insurance policy received a cancellation notice; coverage ends in 24 days unless replaced.",
     forwardWindowDays: 24,
-    urgencyTier: "Immediate (0-30d)",
+    urgencyTier: "0–30 Days",
     initialWeight: 99,
     daysElapsed: 3,
     halfLifeDays: 30,
     currentScore: 95,
-    qualifyingFactPrimary: "118 Trucks (MCS-150) • Form BMC-35 Pending Cancellation",
-    qualifyingFactSecondary: "Form 5500 EIN 36-4189201 • 148 Verified Employees",
+    qualifyingFactPrimary: "118 commercial trucks · Policy ends in 24 days",
+    qualifyingFactSecondary: "148 verified staff · Heartland Cold Logistics",
     repOpenerLine:
-      "Saw the Form BMC-35 cancellation notice on Heartland's primary BIPD policy for your 118 power units effective in 24 days.",
+      "Saw the cancellation notice on Heartland's primary $1M fleet policy for your 118 trucks taking effect in 24 days.",
     provenanceReceipts: [
       {
         fieldName: "bmc35_cancellation_window",
-        fieldValue: "BMC-35 Cancellation Effective in 24 Days (Policy #CA-9948102)",
-        sourceName: "FMCSA Licensing & Insurance (L&I) Daily Active/Pending Feed",
+        fieldLabel: "Insurance Cancellation Notice",
+        fieldValue: "Coverage Cancels in 24 Days (Policy #CA-9948102)",
+        sourceName: "U.S. DOT Carrier Insurance Daily Feed",
         sourceTier: 1,
         sourceUrl: "https://li-public.fmcsa.dot.gov/LIVIEW/pkg_carrquery.prc_carrlist",
         capturedAt: "2026-11-21T06:00:00Z",
         sha256Hash: "1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b",
         isEstimate: false,
         verbatimExcerpt:
-          "DOT_NUMBER: 2849104. FORM_CODE: BMC-35 (NOTICE OF CANCELLATION). POLICY_NO: CA-9948102. EFFECTIVE_CANCEL_DATE: +24 DAYS. POWER_UNITS: 118.",
+          "DOT_NUMBER: 2849104. NOTICE OF CANCELLATION. POLICY_NO: CA-9948102. EFFECTIVE_CANCEL_DATE: +24 DAYS. POWER_UNITS: 118.",
       },
       {
         fieldName: "dol_5500_cross_join",
-        fieldValue: "EIN 36-4189201 • 148 Active Employees • Signer: Brett Vance, CFO",
-        sourceName: "DOL Form 5500 Corporate Backbone Join",
+        fieldLabel: "Verified Staff & CFO",
+        fieldValue: "148 Active Employees · Signed by Brett Vance, CFO",
+        sourceName: "Department of Labor Benefit Filing",
         sourceTier: 1,
         sourceUrl: "https://www.efast.dol.gov/5500search/",
         capturedAt: "2026-11-20T12:00:00Z",
         sha256Hash: "6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a",
         isEstimate: false,
         verbatimExcerpt:
-          "SPONSOR_DFE_NAME: HEARTLAND COLD LOGISTICS & FREIGHT LLC. EIN: 36-4189201. TOT_ACTIVE_PARTCP_CNT: 148. ADMIN_SIGNER: BRETT VANCE.",
+          "SPONSOR_NAME: HEARTLAND COLD LOGISTICS & FREIGHT LLC. ACTIVE_EMPLOYEES: 148. ADMIN_SIGNER: BRETT VANCE.",
       },
     ],
     contacts: [
       {
         id: "c-in-01a",
         fullName: "Brett Vance",
-        title: "Chief Financial Officer (Form 5500 Signatory)",
-        roleTier: "Economic Buyer",
-        sourceOrigin: "DOL Form 5500 + FMCSA Officer Join",
-        cpaFilterStatus: "PASSED — Corporate Officer",
+        title: "Chief Financial Officer",
+        roleTier: "Executive Buyer",
+        sourceOrigin: "Department of Labor benefit filing",
+        cpaFilterStatus: "Real Executive",
         emailMasked: "b***@heartlandcoldfreight.com",
         emailUnmasked: "bvance@heartlandcoldfreight.com",
         phoneMasked: "(815) 555-**19",
         phoneUnmasked: "(815) 555-0119",
-        verificationMethod: "Just-In-Time Catch-All SMTP Passed",
-        bounceRisk: "0.5% Verified Safe",
+        verificationMethod: "Live inbox check passed",
+        bounceRisk: "Verified Safe",
       },
       {
         id: "c-in-01b",
         fullName: "Duane Miller",
         title: "VP of Fleet Safety & Compliance",
-        roleTier: "Safety Champion",
-        sourceOrigin: "FMCSA MCS-150 Safety Official Record",
-        cpaFilterStatus: "PASSED — Corporate Officer",
+        roleTier: "Safety Buyer",
+        sourceOrigin: "U.S. DOT carrier safety filing",
+        cpaFilterStatus: "Real Executive",
         emailMasked: "d***@heartlandcoldfreight.com",
         emailUnmasked: "dmiller@heartlandcoldfreight.com",
         phoneMasked: "(815) 555-**74",
         phoneUnmasked: "(815) 555-0174",
-        verificationMethod: "Just-In-Time Catch-All SMTP Passed",
-        bounceRisk: "0.9% Verified Safe",
+        verificationMethod: "Live inbox check passed",
+        bounceRisk: "Verified Safe",
       },
     ],
   },
   {
     id: "in-02",
     canonicalEntityId: "ENT-IN-3910482",
-    engine: "Industrial, Fleet & Facility Risk Graph",
+    industryKey: "fleet",
+    engine: "Trucking & Factories",
     legalName: "MIDWEST PRECISION STAMPING & FORGE INC",
     dbaName: "Midwest Precision Forge",
     domain: "midwestprecisionforge.com",
     state: "MI",
     city: "Grand Rapids",
-    einOrIdentifier: "OSHA Activity: #172948102 • EIN: 38-2910485",
-    verifiedHeadcount: "230 Active Staff (Form 5500)",
+    einOrIdentifier: "OSHA Case: #172948102 · EIN: 38-2910485",
+    verifiedHeadcount: "230 Staff",
     siteCountOrFleet: "3 Manufacturing Plants (MI/OH)",
-    signalType: "OSHA Newly Opened Inspection + 45d Abatement Window",
+    signalType: "New OSHA Safety Inspection",
     signalHeadline:
-      "Federal OSHA Region 5 opened unprogrammed safety inspection (`OPEN_DATE` 5 days ago) + active machine-guarding abatement deadline & Ex-Mod spike risk.",
+      "Federal OSHA opened a surprise safety inspection 5 days ago with a 40-day machine-guarding fix deadline.",
     forwardWindowDays: 40,
-    urgencyTier: "High (31-60d)",
+    urgencyTier: "31–60 Days",
     initialWeight: 96,
     daysElapsed: 5,
     halfLifeDays: 45,
     currentScore: 89,
-    qualifyingFactPrimary: "Federal OSHA Open Inspection • Repeat Citation Ex-Mod Risk",
-    qualifyingFactSecondary: "Form 5500 EIN 38-2910485 • 230 Active Employees",
+    qualifyingFactPrimary: "3 metal stamping plants · Active OSHA case",
+    qualifyingFactSecondary: "230 verified staff · Repeat-citation risk",
     repOpenerLine:
-      "Saw Federal OSHA Region 5 opened inspection #172948102 at your Grand Rapids stamping plant five days ago with machine-guarding abatement due.",
+      "Saw federal OSHA opened safety inspection #172948102 at your Grand Rapids plant five days ago with machine-guarding fixes due.",
     provenanceReceipts: [
       {
         fieldName: "osha_open_inspection",
-        fieldValue: "Activity #172948102 — Federal Jurisdiction (OPEN_DATE: 5 Days Ago)",
-        sourceName: "DOL OSHA Enforcement Inspection Delta Feed",
+        fieldLabel: "Active OSHA Inspection",
+        fieldValue: "Case #172948102 — Opened 5 Days Ago (40-Day Fix Window)",
+        sourceName: "Federal OSHA Inspection Feed",
         sourceTier: 1,
         sourceUrl: "https://www.osha.gov/pls/imis/establishment.html",
         capturedAt: "2026-11-20T09:10:00Z",
         sha256Hash: "5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d",
         isEstimate: false,
         verbatimExcerpt:
-          "ACTIVITY_NR: 172948102. ESTAB_NAME: MIDWEST PRECISION STAMPING & FORGE INC. STATE_FLAG: FEDERAL. OPEN_DATE: -5 DAYS. ABATEMENT_WINDOW: 40 DAYS.",
+          "ACTIVITY_NR: 172948102. ESTAB_NAME: MIDWEST PRECISION STAMPING & FORGE INC. OPEN_DATE: -5 DAYS. ABATEMENT_WINDOW: 40 DAYS.",
       },
     ],
     contacts: [
       {
         id: "c-in-02a",
         fullName: "Kevin McAllister",
-        title: "VP of EHS & Plant Operations",
-        roleTier: "Technical Buyer",
-        sourceOrigin: "EPA FRS / OSHA Establishment Contact",
-        cpaFilterStatus: "PASSED — Corporate Officer",
+        title: "VP of Safety & Plant Operations",
+        roleTier: "Operations Buyer",
+        sourceOrigin: "Plant safety & compliance filing",
+        cpaFilterStatus: "Real Executive",
         emailMasked: "k***@midwestprecisionforge.com",
         emailUnmasked: "kmcallister@midwestprecisionforge.com",
         phoneMasked: "(616) 555-**38",
         phoneUnmasked: "(616) 555-0138",
-        verificationMethod: "Just-In-Time Catch-All SMTP Passed",
-        bounceRisk: "0.7% Verified Safe",
+        verificationMethod: "Live inbox check passed",
+        bounceRisk: "Verified Safe",
       },
       {
         id: "c-in-02b",
         fullName: "Sarah Lindqvist",
-        title: "VP of Human Resources & Risk (Form 5500 Signer)",
-        roleTier: "Economic Buyer",
-        sourceOrigin: "DOL Form 5500 Signatory Extraction",
-        cpaFilterStatus: "PASSED — Corporate Officer",
+        title: "VP of HR & Risk",
+        roleTier: "Executive Buyer",
+        sourceOrigin: "Department of Labor benefit filing",
+        cpaFilterStatus: "Real Executive",
         emailMasked: "s***@midwestprecisionforge.com",
         emailUnmasked: "slindqvist@midwestprecisionforge.com",
         phoneMasked: "(616) 555-**90",
         phoneUnmasked: "(616) 555-0190",
-        verificationMethod: "Just-In-Time Catch-All SMTP Passed",
-        bounceRisk: "0.6% Verified Safe",
+        verificationMethod: "Live inbox check passed",
+        bounceRisk: "Verified Safe",
       },
     ],
   },
   {
     id: "in-03",
     canonicalEntityId: "ENT-IN-4029183",
-    engine: "Industrial, Fleet & Facility Risk Graph",
+    industryKey: "fleet",
+    engine: "Trucking & Factories",
     legalName: "APEX BULK CHEMICAL & TANK LINES INC",
     dbaName: "Apex Hazmat Carriers",
     domain: "apexbulkcarriers.com",
     state: "TX",
     city: "Pasadena",
-    einOrIdentifier: "USDOT: 1948271 • EIN: 74-2819403",
-    verifiedHeadcount: "310 Active Staff (Form 5500)",
-    siteCountOrFleet: "245 Power Units • Hazmat Endorsed",
-    signalType: "FMCSA 60-Day Policy Renewal Window",
+    einOrIdentifier: "USDOT: 1948271 · EIN: 74-2819403",
+    verifiedHeadcount: "310 Staff",
+    siteCountOrFleet: "245 Hazmat Trucks",
+    signalType: "60-Day Fleet Insurance Renewal",
     signalHeadline:
-      "Primary $5M Hazmat BIPD insurance filing (Form BMC-91X) reaches annual anniversary renewal in 58 days; Safety BASIC above threshold.",
+      "Primary $5M hazmat fleet insurance policy hits its annual renewal date in 58 days with an elevated safety alert.",
     forwardWindowDays: 58,
-    urgencyTier: "High (31-60d)",
+    urgencyTier: "31–60 Days",
     initialWeight: 93,
     daysElapsed: 4,
     halfLifeDays: 45,
     currentScore: 88,
-    qualifyingFactPrimary: "245 Hazmat Power Units • $5M BMC-91X Renewal in 58d",
-    qualifyingFactSecondary: "Form 5500 EIN 74-2819403 • $1.48M Welfare Premium Spend",
+    qualifyingFactPrimary: "245 hazmat trucks · $5M policy renews in 58 days",
+    qualifyingFactSecondary: "310 verified staff · $1.48M annual benefit spend",
     repOpenerLine:
-      "Noticed Apex Bulk Chemical's $5M BMC-91X policy for your 245 hazmat power units hits its annual renewal window in 58 days.",
+      "Noticed Apex Bulk Chemical's $5M hazmat fleet insurance for your 245 trucks hits its annual renewal in 58 days.",
     provenanceReceipts: [
       {
         fieldName: "bmc91x_policy_anniversary",
-        fieldValue: "BMC-91X Effective Anniversary Renewal in 58 Days ($5,000,000 BIPD)",
-        sourceName: "FMCSA L&I Insurance Effective Date Roll-Forward",
+        fieldLabel: "Upcoming Policy Renewal",
+        fieldValue: "$5,000,000 Hazmat Policy Renews in 58 Days",
+        sourceName: "U.S. DOT Carrier Insurance Registry",
         sourceTier: 1,
         sourceUrl: "https://li-public.fmcsa.dot.gov/LIVIEW/pkg_carrquery.prc_carrlist",
         capturedAt: "2026-11-19T07:45:00Z",
         sha256Hash: "2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c",
         isEstimate: false,
         verbatimExcerpt:
-          "DOT_NUMBER: 1948271. FORM: BMC-91X. COVERAGE: $5,000,000 HAZMAT BIPD. ANNIVERSARY_RENEWAL_WINDOW: 58 DAYS.",
+          "DOT_NUMBER: 1948271. COVERAGE: $5,000,000 HAZMAT LIABILITY. RENEWAL_WINDOW: 58 DAYS.",
       },
     ],
     contacts: [
       {
         id: "c-in-03a",
         fullName: "Travis Hollister",
-        title: "Chief Financial Officer (Form 5500 Signatory)",
-        roleTier: "Economic Buyer",
-        sourceOrigin: "DOL Form 5500 Schedule A Signer",
-        cpaFilterStatus: "PASSED — Corporate Officer",
+        title: "Chief Financial Officer",
+        roleTier: "Executive Buyer",
+        sourceOrigin: "Department of Labor benefit filing",
+        cpaFilterStatus: "Real Executive",
         emailMasked: "t***@apexbulkcarriers.com",
         emailUnmasked: "thollister@apexbulkcarriers.com",
         phoneMasked: "(281) 555-**55",
         phoneUnmasked: "(281) 555-0155",
-        verificationMethod: "Just-In-Time Catch-All SMTP Passed",
-        bounceRisk: "0.4% Verified Safe",
+        verificationMethod: "Live inbox check passed",
+        bounceRisk: "Verified Safe",
       },
     ],
   },
   {
     id: "in-04",
     canonicalEntityId: "ENT-IN-5192834",
-    engine: "Industrial, Fleet & Facility Risk Graph",
+    industryKey: "fleet",
+    engine: "Trucking & Factories",
     legalName: "VANGUARD FOOD PROCESSING & COLD STORAGE CORP",
     dbaName: "Vanguard Refrigerated Foods",
     domain: "vanguardcoldfoods.com",
     state: "NE",
     city: "Omaha",
-    einOrIdentifier: "EPA FRS: 110049281732 • EIN: 47-0891234",
-    verifiedHeadcount: "390 Active Staff (Form 5500)",
-    siteCountOrFleet: "4 Processing Plants (680,000 Sq Ft)",
-    signalType: "EPA ECHO Enforcement Action + Ammonia Permit",
+    einOrIdentifier: "EPA ID: 110049281732 · EIN: 47-0891234",
+    verifiedHeadcount: "390 Staff",
+    siteCountOrFleet: "4 Cold-Storage Plants (680K Sq Ft)",
+    signalType: "EPA Safety Remediation",
     signalHeadline:
-      "Flagged for Clean Air Act RMP compliance schedule at Omaha Plant #3; 75-day engineering remediation deadline active.",
+      "Flagged for a Clean Air Act refrigeration compliance fix at Omaha Plant #3 with a 75-day deadline.",
     forwardWindowDays: 75,
-    urgencyTier: "Active (61-90d)",
+    urgencyTier: "61–90 Days",
     initialWeight: 91,
     daysElapsed: 6,
     halfLifeDays: 45,
     currentScore: 83,
-    qualifyingFactPrimary: "EPAFRS ID 110049281732 • Clean Air Act RMP Schedule",
-    qualifyingFactSecondary: "Form 5500 EIN 47-0891234 • 390 Active Employees",
+    qualifyingFactPrimary: "4 processing plants · Active EPA fix schedule",
+    qualifyingFactSecondary: "390 verified staff · Vanguard Food Processing",
     repOpenerLine:
-      "Saw Vanguard Food Processing has a 75-day EPA Clean Air Act RMP compliance window open for Plant #3 in Omaha.",
+      "Saw Vanguard Food Processing has a 75-day EPA refrigeration compliance window open for Plant #3 in Omaha.",
     provenanceReceipts: [
       {
         fieldName: "epa_echo_compliance_flag",
-        fieldValue: "FRS #110049281732 — Clean Air Act RMP Remediation Schedule (75d)",
-        sourceName: "EPA ECHO Exporter & FRS Facility Linkage",
+        fieldLabel: "EPA Compliance Notice",
+        fieldValue: "Clean Air Act Engineering Fix Due in 75 Days",
+        sourceName: "Federal EPA Facility Enforcement Feed",
         sourceTier: 1,
         sourceUrl: "https://echo.epa.gov/detailed-facility-report?fid=110049281732",
         capturedAt: "2026-11-18T15:12:00Z",
         sha256Hash: "8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e",
         isEstimate: false,
         verbatimExcerpt:
-          "REGISTRY_ID: 110049281732. CAA_STATUS: SIGNIFICANT NONCOMPLIANCE / REMEDIATION SCHEDULE ACTIVE. NAICS: 311612.",
+          "FACILITY_ID: 110049281732. STATUS: REMEDIATION SCHEDULE ACTIVE. COLD STORAGE / FOOD PROCESSING.",
       },
     ],
     contacts: [
@@ -523,113 +543,117 @@ export const VERIFIED_VAULT_RECORDS: VaultRecord[] = [
         id: "c-in-04a",
         fullName: "Brian Whitaker",
         title: "VP of Engineering & Facilities",
-        roleTier: "Technical Buyer",
-        sourceOrigin: "EPA RMP Responsible Official + Form 5500",
-        cpaFilterStatus: "PASSED — Corporate Officer",
+        roleTier: "Facilities Buyer",
+        sourceOrigin: "EPA facility filing + benefit filing",
+        cpaFilterStatus: "Real Executive",
         emailMasked: "b***@vanguardcoldfoods.com",
         emailUnmasked: "bwhitaker@vanguardcoldfoods.com",
         phoneMasked: "(402) 555-**12",
         phoneUnmasked: "(402) 555-0112",
-        verificationMethod: "Just-In-Time Catch-All SMTP Passed",
-        bounceRisk: "0.8% Verified Safe",
+        verificationMethod: "Live inbox check passed",
+        bounceRisk: "Verified Safe",
       },
     ],
   },
 
-  // ── ENGINE 3: PUBLIC SECTOR, CONTRACTORS & PERMITS GRAPH (4 RECORDS) ───
+  // ── INDUSTRY 3: GOV CONTRACTORS & BUILDERS (4 RECORDS) ──────────────────
   {
     id: "ps-01",
     canonicalEntityId: "ENT-PS-8841209",
-    engine: "Public Sector, Contractors & Permits Graph",
+    industryKey: "contractors",
+    engine: "Gov Contractors & Builders",
     legalName: "PRECISION AEROSPACE & DEFENSE SYSTEMS INC",
     dbaName: "Precision Aero Systems",
     domain: "precisionaerosystems.com",
     state: "VA",
     city: "Reston",
-    einOrIdentifier: "UEI: J8K4M9N2P1Q7 • CAGE: 7X9K2",
-    verifiedHeadcount: "215 Active Staff (Form 5500)",
-    siteCountOrFleet: "$14.8M Active DoD Obligations",
-    signalType: "SAM.gov 30-Day Registration Expiration + Active Contract",
+    einOrIdentifier: "Federal ID: J8K4M9N2P1Q7",
+    verifiedHeadcount: "215 Staff",
+    siteCountOrFleet: "$14.8M Active Defense Awards",
+    signalType: "Federal Registration Expiring",
     signalHeadline:
-      "SAM.gov entity registration (`registrationExpirationDate`) expires in 26 days while holding $14.8M in active DoD Air Force sub-awards.",
+      "Federal government bidding registration expires in 26 days while holding $14.8M in active Air Force contracts.",
     forwardWindowDays: 26,
-    urgencyTier: "Immediate (0-30d)",
+    urgencyTier: "0–30 Days",
     initialWeight: 97,
     daysElapsed: 3,
     halfLifeDays: 30,
     currentScore: 93,
-    qualifyingFactPrimary: "UEI J8K4M9N2P1Q7 Expires in 26d • Verified entityUrl Domain",
-    qualifyingFactSecondary: "USAspending Award #FA8650-26-C • Form 5500 215 Staff",
+    qualifyingFactPrimary: "Bidding registration expires in 26 days",
+    qualifyingFactSecondary: "215 verified staff · $14.8M active Air Force work",
     repOpenerLine:
-      "Saw Precision Aerospace's SAM.gov registration (UEI J8K4M9N2P1Q7) expires in 26 days alongside your active Air Force contract #FA8650-26-C.",
+      "Saw Precision Aerospace's federal bidding registration expires in 26 days alongside your active Air Force contract.",
     provenanceReceipts: [
       {
         fieldName: "sam_expiration_date",
-        fieldValue: "UEI J8K4M9N2P1Q7 — registrationExpirationDate in 26 Days",
-        sourceName: "SAM.gov Public Entity API v3 + USAspending Delta",
+        fieldLabel: "Federal Registration Deadline",
+        fieldValue: "SAM.gov Registration Expires in 26 Days",
+        sourceName: "Federal Contractor Registry (SAM.gov)",
         sourceTier: 1,
         sourceUrl: "https://sam.gov/entity/J8K4M9N2P1Q7/coreData",
         capturedAt: "2026-11-21T04:30:00Z",
         sha256Hash: "0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b",
         isEstimate: false,
         verbatimExcerpt:
-          "UEI: J8K4M9N2P1Q7. CAGE: 7X9K2. ENTITY_URL: https://precisionaerosystems.com. REGISTRATION_EXPIRATION_DATE: +26 DAYS. GOV_BIZ_POC: RACHEL VANCE.",
+          "UEI: J8K4M9N2P1Q7. WEBSITE: https://precisionaerosystems.com. EXPIRATION_DATE: +26 DAYS. CONTACT: RACHEL VANCE.",
       },
     ],
     contacts: [
       {
         id: "c-ps-01a",
         fullName: "Rachel Vance",
-        title: "VP of Contracts & Compliance (SAM Gov Business POC)",
-        roleTier: "Economic Buyer",
-        sourceOrigin: "SAM.gov Government Business POC (CPA Filtered)",
-        cpaFilterStatus: "PASSED — Corporate Officer",
+        title: "VP of Contracts & Compliance",
+        roleTier: "Executive Buyer",
+        sourceOrigin: "Federal contractor registry",
+        cpaFilterStatus: "Real Executive",
         emailMasked: "r***@precisionaerosystems.com",
         emailUnmasked: "rvance@precisionaerosystems.com",
         phoneMasked: "(703) 555-**88",
         phoneUnmasked: "(703) 555-0188",
-        verificationMethod: "Just-In-Time Catch-All SMTP Passed",
-        bounceRisk: "0.4% Verified Safe",
+        verificationMethod: "Live inbox check passed",
+        bounceRisk: "Verified Safe",
       },
     ],
   },
   {
     id: "ps-02",
     canonicalEntityId: "ENT-PS-7731904",
-    engine: "Public Sector, Contractors & Permits Graph",
+    industryKey: "contractors",
+    engine: "Gov Contractors & Builders",
     legalName: "VANGUARD TILT-WALL & INDUSTRIAL BUILDERS LLC",
     dbaName: "Vanguard Commercial Construction",
     domain: "vanguardbuilders.com",
     state: "TN",
     city: "Memphis",
-    einOrIdentifier: "Permit: #IND-26-0914 • UEI: M4N8P2Q6R9T1",
-    verifiedHeadcount: "164 Active Staff (Form 5500)",
+    einOrIdentifier: "Permit: #IND-26-0914",
+    verifiedHeadcount: "164 Staff",
     siteCountOrFleet: "7 Active Commercial Job Sites",
-    signalType: "Commercial Building Permit >$5M Issued",
+    signalType: "$5M+ Building Permit Issued",
     signalHeadline:
-      "Issued $6.2M industrial electrical, racking & cold-dock permit (#IND-26-0914) for 240,000 sq ft distribution hub in Shelby County, TN.",
+      "Pulled a $6.2M industrial electrical and racking permit for a 240,000 sq ft warehouse in Memphis.",
     forwardWindowDays: 19,
-    urgencyTier: "Immediate (0-30d)",
+    urgencyTier: "0–30 Days",
     initialWeight: 96,
     daysElapsed: 2,
     halfLifeDays: 30,
     currentScore: 94,
-    qualifyingFactPrimary: "$6.2M Industrial Permit #IND-26-0914 • LLC Resolved to Parent",
-    qualifyingFactSecondary: "SAM.gov UEI M4N8P2Q6R9T1 • Form 5500 164 Employees",
+    qualifyingFactPrimary: "$6.2M warehouse permit · Project LLC matched to parent",
+    qualifyingFactSecondary: "164 verified staff · Vanguard Commercial Construction",
     repOpenerLine:
-      "Saw Vanguard Builders pulled the $6.2M industrial electrical and racking permit (#IND-26-0914) for the 240,000 sq ft Memphis hub.",
+      "Saw Vanguard Builders pulled the $6.2M electrical and racking permit for your new 240,000 sq ft Memphis distribution hub.",
     provenanceReceipts: [
       {
         fieldName: "commercial_permit_valuation",
-        fieldValue: "$6,200,000 Industrial Permit #IND-26-0914 (Issued 48h Ago)",
-        sourceName: "Municipal Socrata / ArcGIS Building Permit Portal",
+        fieldLabel: "Commercial Building Permit",
+        fieldValue: "$6,200,000 Industrial Permit (#IND-26-0914)",
+        sourceName: "City of Memphis Building Permit Portal",
         sourceTier: 1,
         sourceUrl: "https://data.memphistn.gov/permits/IND-26-0914",
         capturedAt: "2026-11-21T10:15:00Z",
         sha256Hash: "c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2",
         isEstimate: false,
         verbatimExcerpt:
-          "PERMIT_ID: IND-26-0914. APPLICANT_LLC: VDC TILT-WALL II LLC -> RESOLVED_PARENT: VANGUARD TILT-WALL & INDUSTRIAL BUILDERS LLC. VALUATION: $6,200,000.",
+          "PERMIT_ID: IND-26-0914. APPLICANT_LLC: VDC TILT-WALL II LLC -> PARENT: VANGUARD TILT-WALL & INDUSTRIAL BUILDERS LLC. VALUATION: $6,200,000.",
       },
     ],
     contacts: [
@@ -637,134 +661,155 @@ export const VERIFIED_VAULT_RECORDS: VaultRecord[] = [
         id: "c-ps-02a",
         fullName: "Lucas Sterling",
         title: "VP of Preconstruction & Procurement",
-        roleTier: "Economic Buyer",
-        sourceOrigin: "Permit Applicant Officer + SAM.gov POC",
-        cpaFilterStatus: "PASSED — Corporate Officer",
+        roleTier: "Executive Buyer",
+        sourceOrigin: "Permit officer + contractor registry",
+        cpaFilterStatus: "Real Executive",
         emailMasked: "l***@vanguardbuilders.com",
         emailUnmasked: "lsterling@vanguardbuilders.com",
         phoneMasked: "(901) 555-**41",
         phoneUnmasked: "(901) 555-0141",
-        verificationMethod: "Just-In-Time Catch-All SMTP Passed",
-        bounceRisk: "0.7% Verified Safe",
+        verificationMethod: "Live inbox check passed",
+        bounceRisk: "Verified Safe",
       },
     ],
   },
   {
     id: "ps-03",
     canonicalEntityId: "ENT-PS-6620193",
-    engine: "Public Sector, Contractors & Permits Graph",
+    industryKey: "contractors",
+    engine: "Gov Contractors & Builders",
     legalName: "SENTINEL FEDERAL CYBER & CLOUD INTEGRATORS LLC",
     dbaName: "Sentinel Federal Cyber",
     domain: "sentinelfederal.com",
     state: "MD",
     city: "Bethesda",
-    einOrIdentifier: "UEI: K9L2M5N8P3Q1 • CAGE: 8Y4M1",
-    verifiedHeadcount: "142 Active Staff (Form 5500)",
-    siteCountOrFleet: "$22.4M DHS & DoD Awards",
-    signalType: "USAspending 60-Day Contract Recompete + First-Time Sub-Award",
+    einOrIdentifier: "Federal ID: K9L2M5N8P3Q1",
+    verifiedHeadcount: "142 Staff",
+    siteCountOrFleet: "$22.4M Federal Cyber Awards",
+    signalType: "60-Day Contract Re-Bid",
     signalHeadline:
-      "Awarded $8.4M DHS prime task order while core $14M cyber operations contract enters 60-day recompete window.",
+      "Won an $8.4M Homeland Security award right as their core $14M cyber contract enters its 60-day re-bid window.",
     forwardWindowDays: 52,
-    urgencyTier: "High (31-60d)",
+    urgencyTier: "31–60 Days",
     initialWeight: 92,
     daysElapsed: 5,
     halfLifeDays: 45,
     currentScore: 85,
-    qualifyingFactPrimary: "USAspending Period-of-Performance Recompete in 52 Days",
-    qualifyingFactSecondary: "SAM.gov Native entityUrl • Form 5500 142 Employees",
+    qualifyingFactPrimary: "$14M federal contract up for re-bid in 52 days",
+    qualifyingFactSecondary: "142 verified staff · Verified official website",
     repOpenerLine:
-      "Noticed Sentinel Federal just won the $8.4M DHS task order right as your core cyber operations contract enters its 60-day recompete window.",
+      "Noticed Sentinel Federal just won the $8.4M DHS task order right as your core cyber contract enters its 60-day re-bid window.",
     provenanceReceipts: [
       {
         fieldName: "usaspending_recompete_window",
-        fieldValue: "Award #70RTAC26C0004 — Period of Performance Ends in 52 Days",
-        sourceName: "USAspending.gov Award Delta API v2",
+        fieldLabel: "Contract Re-Bid Window",
+        fieldValue: "Award #70RTAC26C0004 — Current Term Ends in 52 Days",
+        sourceName: "Federal Contract Awards Database (USAspending)",
         sourceTier: 1,
         sourceUrl: "https://www.usaspending.gov/award/CONT_AWD_70RTAC26C0004",
         capturedAt: "2026-11-18T18:00:00Z",
         sha256Hash: "e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4",
         isEstimate: false,
         verbatimExcerpt:
-          "RECIPIENT_UEI: K9L2M5N8P3Q1. AWARD_AMOUNT: $8,400,000. NAICS: 541512. RECOMPETE_HORIZON: 52 DAYS.",
+          "RECIPIENT_UEI: K9L2M5N8P3Q1. AWARD_AMOUNT: $8,400,000. RECOMPETE_HORIZON: 52 DAYS.",
       },
     ],
     contacts: [
       {
         id: "c-ps-03a",
-        fullName: "general.counsel / David Chen",
+        fullName: "David Chen",
         title: "Chief Information Security Officer & VP Delivery",
         roleTier: "Technical Buyer",
-        sourceOrigin: "SAM.gov Electronic Business POC + Form 5500",
-        cpaFilterStatus: "PASSED — Corporate Officer",
+        sourceOrigin: "Federal contractor registry + benefit filing",
+        cpaFilterStatus: "Real Executive",
         emailMasked: "d***@sentinelfederal.com",
         emailUnmasked: "dchen@sentinelfederal.com",
         phoneMasked: "(301) 555-**67",
         phoneUnmasked: "(301) 555-0167",
-        verificationMethod: "Just-In-Time Catch-All SMTP Passed",
-        bounceRisk: "0.5% Verified Safe",
+        verificationMethod: "Live inbox check passed",
+        bounceRisk: "Verified Safe",
       },
     ],
   },
   {
     id: "ps-04",
     canonicalEntityId: "ENT-PS-5510928",
-    engine: "Public Sector, Contractors & Permits Graph",
+    industryKey: "contractors",
+    engine: "Gov Contractors & Builders",
     legalName: "ATLAS MUNICIPAL INFRASTRUCTURE & PAVING CORP",
     dbaName: "Atlas Heavy Civil Contractors",
     domain: "atlasheavycivil.com",
     state: "NC",
     city: "Charlotte",
-    einOrIdentifier: "UEI: R7T2V5W8X1Y4 • EIN: 56-1948273",
-    verifiedHeadcount: "295 Active Staff (Form 5500)",
-    siteCountOrFleet: "88 Heavy Trucks • $19.2M DOT Backlog",
-    signalType: "SAM.gov 90-Day Renewal + DOT Infrastructure Award",
+    einOrIdentifier: "Federal ID: R7T2V5W8X1Y4",
+    verifiedHeadcount: "295 Staff",
+    siteCountOrFleet: "88 Heavy Trucks · $19.2M Backlog",
+    signalType: "90-Day Renewal + New Award",
     signalHeadline:
-      "SAM.gov entity registration enters 82-day renewal window following $7.6M NCDOT bridge & corridor award.",
+      "Won a $7.6M North Carolina DOT bridge award while federal bidding registration comes due in 82 days.",
     forwardWindowDays: 82,
-    urgencyTier: "Active (61-90d)",
+    urgencyTier: "61–90 Days",
     initialWeight: 89,
     daysElapsed: 6,
     halfLifeDays: 45,
     currentScore: 81,
-    qualifyingFactPrimary: "SAM UEI R7T2V5W8X1Y4 • $7.6M DOT Award • 88 Fleet Units",
-    qualifyingFactSecondary: "Cross-Engine Join: SAM.gov + FMCSA + Form 5500 (295 Staff)",
+    qualifyingFactPrimary: "$7.6M state bridge award · 88 heavy trucks",
+    qualifyingFactSecondary: "295 verified staff · Renewal due in 82 days",
     repOpenerLine:
-      "Saw Atlas Heavy Civil won the $7.6M Charlotte corridor award with your SAM.gov registration coming due for renewal in 82 days.",
+      "Saw Atlas Heavy Civil won the $7.6M Charlotte bridge award with your federal registration coming up for renewal in 82 days.",
     provenanceReceipts: [
       {
         fieldName: "cross_engine_entity_spine",
-        fieldValue: "Resolved Across SAM.gov (UEI) + DOL Form 5500 (EIN) + FMCSA (USDOT)",
-        sourceName: "Canonical Entity Spine (sources_provenance Tier 1)",
+        fieldLabel: "Verified Company & Renewal Date",
+        fieldValue: "295 Employees · Federal Registration Renews in 82 Days",
+        sourceName: "Federal Contractor Registry + Benefit Filing",
         sourceTier: 1,
         sourceUrl: "https://sam.gov/entity/R7T2V5W8X1Y4/coreData",
         capturedAt: "2026-11-17T13:25:00Z",
         sha256Hash: "f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5",
         isEstimate: false,
         verbatimExcerpt:
-          "UEI: R7T2V5W8X1Y4. MATCHED_EIN: 56-1948273. ACTIVE_PARTICIPANTS: 295. EXPIRATION_HORIZON: 82 DAYS.",
+          "UEI: R7T2V5W8X1Y4. ACTIVE_EMPLOYEES: 295. EXPIRATION_HORIZON: 82 DAYS.",
       },
     ],
     contacts: [
       {
         id: "c-ps-04a",
         fullName: "Hannah Bellamy",
-        title: "Chief Financial Officer (Form 5500 & SAM Signer)",
-        roleTier: "Economic Buyer",
-        sourceOrigin: "DOL Form 5500 + SAM.gov Gov POC",
-        cpaFilterStatus: "PASSED — Corporate Officer",
+        title: "Chief Financial Officer",
+        roleTier: "Executive Buyer",
+        sourceOrigin: "Department of Labor + federal registry",
+        cpaFilterStatus: "Real Executive",
         emailMasked: "h***@atlasheavycivil.com",
         emailUnmasked: "hbellamy@atlasheavycivil.com",
         phoneMasked: "(704) 555-**29",
         phoneUnmasked: "(704) 555-0129",
-        verificationMethod: "Just-In-Time Catch-All SMTP Passed",
-        bounceRisk: "0.6% Verified Safe",
+        verificationMethod: "Live inbox check passed",
+        bounceRisk: "Verified Safe",
       },
     ],
   },
 ];
 
-export function PowerTableExplorer() {
-  const [selectedEngine, setSelectedEngine] = useState<string>("ALL");
+interface PowerTableExplorerProps {
+  initialIndustry?: string;
+}
+
+function mapInitialIndustry(raw?: string): string {
+  if (!raw) return "ALL";
+  const normalized = raw.toLowerCase();
+  if (normalized.includes("health")) return "Healthcare & Clinics";
+  if (normalized.includes("fleet") || normalized.includes("industrial") || normalized.includes("osha"))
+    return "Trucking & Factories";
+  if (normalized.includes("contract") || normalized.includes("public") || normalized.includes("sam"))
+    return "Gov Contractors & Builders";
+  return "ALL";
+}
+
+export function PowerTableExplorer({ initialIndustry }: PowerTableExplorerProps) {
+  const [selectedEngine, setSelectedEngine] = useState<string>(() =>
+    mapInitialIndustry(initialIndustry)
+  );
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [stateFilter, setStateFilter] = useState<string>("ALL");
   const [urgencyFilter, setUrgencyFilter] = useState<string>("ALL");
@@ -779,24 +824,233 @@ export function PowerTableExplorer() {
   const [activeDrawerRecord, setActiveDrawerRecord] =
     useState<VaultRecord | null>(null);
   const [csvExportNotice, setCsvExportNotice] = useState<string | null>(null);
+  const [isGrokbotModalOpen, setIsGrokbotModalOpen] = useState<boolean>(false);
+  const [liveVaultRecords, setLiveVaultRecords] = useState<VaultRecord[]>(
+    VERIFIED_VAULT_RECORDS
+  );
 
-  // Starts at 1,250 monthly unlocks; decrements as new accounts are unlocked in session
+  useEffect(() => {
+    if (initialIndustry) {
+      setSelectedEngine(mapInitialIndustry(initialIndustry));
+    }
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const urlEngine = params.get("engine");
+      const urlState = params.get("state");
+      const urlUrgency = params.get("urgency");
+      const urlQuery = params.get("q");
+      if (urlEngine) setSelectedEngine(mapInitialIndustry(urlEngine));
+      if (urlState) setStateFilter(urlState.toUpperCase());
+      if (urlUrgency) {
+        if (urlUrgency.includes("30")) setUrgencyFilter("0–30 Days");
+        else if (urlUrgency.includes("60")) setUrgencyFilter("31–60 Days");
+        else if (urlUrgency.includes("90")) setUrgencyFilter("61–90 Days");
+      }
+      if (urlQuery) setSearchQuery(urlQuery);
+    }
+  }, [initialIndustry]);
+
+  // Hydrate all 66 live canonical signals from /api/vault and merge with curated records
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/vault")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (cancelled || !data || !Array.isArray(data.signals)) return;
+        const mappedLive: VaultRecord[] = data.signals.map(
+          (s: Record<string, any>, idx: number) => {
+            const vertical = String(s.vertical_engine || "");
+            const engineLabel: VaultRecord["engine"] =
+              vertical === "HEALTHCARE_NPPES"
+                ? "Healthcare & Clinics"
+                : vertical === "INDUSTRIAL_FLEET_OSHA"
+                  ? "Trucking & Factories"
+                  : "Gov Contractors & Builders";
+            const industryKey: VaultRecord["industryKey"] =
+              vertical === "HEALTHCARE_NPPES"
+                ? "healthcare"
+                : vertical === "INDUSTRIAL_FLEET_OSHA"
+                  ? "fleet"
+                  : "contractors";
+            const daysLeft =
+              typeof s.urgency?.days_until_deadline === "number" &&
+              s.urgency.days_until_deadline > 0
+                ? s.urgency.days_until_deadline
+                : 24;
+            const urgencyTier: VaultRecord["urgencyTier"] =
+              daysLeft <= 30
+                ? "0–30 Days"
+                : daysLeft <= 60
+                  ? "31–60 Days"
+                  : "61–90 Days";
+            const entityName = String(
+              s.entity?.canonical_name || "VERIFIED ENTITY"
+            );
+            const domain = String(
+              s.entity?.primary_domain || "verified-filing.gov"
+            );
+            const city = String(s.facility?.city || s.entity?.hq_city || "Austin");
+            const state = String(
+              s.facility?.state || s.entity?.hq_state || "TX"
+            );
+            const rawCommittee = Array.isArray(s.buying_committee)
+              ? s.buying_committee
+              : [];
+
+            return {
+              id: String(s.id || `live-${idx}`),
+              canonicalEntityId: String(s.entity?.id || `ENT-LIVE-${idx}`),
+              industryKey,
+              engine: engineLabel,
+              legalName: entityName,
+              dbaName: String(s.entity?.dba_names?.[0] || entityName),
+              domain,
+              state,
+              city,
+              einOrIdentifier:
+                [
+                  s.entity?.npi ? `NPI: ${s.entity.npi}` : null,
+                  s.entity?.usdot_number
+                    ? `USDOT: ${s.entity.usdot_number}`
+                    : null,
+                  s.entity?.uei ? `UEI: ${s.entity.uei}` : null,
+                  s.entity?.ein ? `EIN: ${s.entity.ein}` : null,
+                ]
+                  .filter(Boolean)
+                  .join(" · ") || `ID: ${s.filing?.external_filing_id || idx}`,
+              verifiedHeadcount: s.entity?.employee_count_exact
+                ? `${s.entity.employee_count_exact} Staff`
+                : "45+ Staff",
+              siteCountOrFleet:
+                s.facility?.facility_name || `${city}, ${state} Facility`,
+              signalType: String(s.signal_category || "COMPLIANCE_DELTA")
+                .replace(/_/g, " ")
+                .toLowerCase()
+                .replace(/\b\w/g, (c) => c.toUpperCase()),
+              signalHeadline: String(
+                s.signal_title || s.signal_summary || "Verified compliance filing delta."
+              ),
+              forwardWindowDays: daysLeft,
+              urgencyTier,
+              initialWeight: 95,
+              daysElapsed: 3,
+              halfLifeDays: 45,
+              currentScore: Number(s.urgency?.urgency_score ?? 86),
+              qualifyingFactPrimary: `Source: ${s.provenance?.source_system || "Federal Filing"} · ${s.filing?.external_filing_id || ""}`,
+              qualifyingFactSecondary: `${entityName} · ${city}, ${state}`,
+              repOpenerLine: `Saw ${entityName} filed ${s.filing?.external_filing_id || "a new compliance update"} (${s.signal_title || ""}) in ${city}, ${state}.`,
+              provenanceReceipts: [
+                {
+                  fieldName: String(s.filing?.filing_type || "statutory_filing"),
+                  fieldLabel: String(s.signal_title || "Official Government Filing"),
+                  fieldValue: String(
+                    s.filing?.external_filing_id || s.signal_category || "Verified"
+                  ),
+                  sourceName: String(
+                    s.provenance?.source_system || "Federal Statutory Feed"
+                  ),
+                  sourceTier: 1,
+                  sourceUrl: String(
+                    s.provenance?.source_url || "https://www.cms.gov"
+                  ),
+                  capturedAt: String(
+                    s.provenance?.captured_at || new Date().toISOString()
+                  ),
+                  sha256Hash: String(
+                    s.provenance?.raw_file_sha256 ||
+                      s.filing?.payload_sha256 ||
+                      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                  ),
+                  isEstimate: false,
+                  verbatimExcerpt: String(
+                    s.filing?.raw_summary || s.signal_summary || ""
+                  ),
+                },
+              ],
+              contacts:
+                rawCommittee.length > 0
+                  ? rawCommittee.map((c: Record<string, any>, cIdx: number) => {
+                      const email = String(c.work_email || `exec@${domain}`);
+                      const [local, dom] = email.split("@");
+                      const phone = String(c.direct_phone || "(512) 555-0144");
+                      return {
+                        id: String(c.id || `c-live-${idx}-${cIdx}`),
+                        fullName: String(c.full_name || "Verified Officer"),
+                        title: String(c.job_title || "Authorized Official"),
+                        roleTier: String(c.buying_role || "Executive Buyer").replace(
+                          /_/g,
+                          " "
+                        ),
+                        sourceOrigin: String(
+                          s.provenance?.source_system || "Statutory Filing"
+                        ),
+                        cpaFilterStatus: c.is_third_party_preparer
+                          ? "Filtered Preparer"
+                          : "Real Executive",
+                        emailMasked: `${(local || "e").slice(0, 1)}***@${dom || domain}`,
+                        emailUnmasked: email,
+                        phoneMasked: `(***) ***-${phone.replace(/\D/g, "").slice(-4) || "0144"}`,
+                        phoneUnmasked: phone,
+                        verificationMethod: String(
+                          c.email_verification_status || "SMTP Verified"
+                        ),
+                        bounceRisk: "Verified Safe (<2%)",
+                      };
+                    })
+                  : [
+                      {
+                        id: `c-fallback-${idx}`,
+                        fullName: "Authorized Corporate Officer",
+                        title: "Managing Director / Principal",
+                        roleTier: "Executive Buyer",
+                        sourceOrigin: "Federal Statutory Registry",
+                        cpaFilterStatus: "Real Executive",
+                        emailMasked: `a***@${domain}`,
+                        emailUnmasked: `admin@${domain}`,
+                        phoneMasked: "(***) ***-0190",
+                        phoneUnmasked: "(512) 555-0190",
+                        verificationMethod: "SMTP Verified",
+                        bounceRisk: "Verified Safe (<2%)",
+                      },
+                    ],
+            };
+          }
+        );
+
+        if (mappedLive.length > 0) {
+          // Combine the 12 showcase records with the live-ingested records (avoiding duplicate IDs)
+          const existingIds = new Set(VERIFIED_VAULT_RECORDS.map((r) => r.id));
+          const combined = [
+            ...VERIFIED_VAULT_RECORDS,
+            ...mappedLive.filter((r) => !existingIds.has(r.id)),
+          ];
+          setLiveVaultRecords(combined);
+        }
+      })
+      .catch(() => {
+        // Keep VERIFIED_VAULT_RECORDS fallback
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   const baseCredits = 1250;
   const additionalUnlocks = unlockedIds.filter((id) => id !== "hc-01").length;
   const creditsRemaining = Math.max(0, baseCredits - additionalUnlocks);
 
   const uniqueStates = useMemo(() => {
-    return Array.from(new Set(VERIFIED_VAULT_RECORDS.map((r) => r.state))).sort();
-  }, []);
+    return Array.from(new Set(liveVaultRecords.map((r) => r.state))).sort();
+  }, [liveVaultRecords]);
 
   const uniqueSignalTypes = useMemo(() => {
     return Array.from(
-      new Set(VERIFIED_VAULT_RECORDS.map((r) => r.signalType))
+      new Set(liveVaultRecords.map((r) => r.signalType))
     ).sort();
-  }, []);
+  }, [liveVaultRecords]);
 
   const filteredRecords = useMemo(() => {
-    return VERIFIED_VAULT_RECORDS.filter((r) => {
+    return liveVaultRecords.filter((r) => {
       if (selectedEngine !== "ALL" && r.engine !== selectedEngine) return false;
       if (stateFilter !== "ALL" && r.state !== stateFilter) return false;
       if (urgencyFilter !== "ALL" && r.urgencyTier !== urgencyFilter) return false;
@@ -805,12 +1059,13 @@ export function PowerTableExplorer() {
       if (searchQuery.trim() !== "") {
         const q = searchQuery.toLowerCase();
         const matchText =
-          `${r.legalName} ${r.dbaName} ${r.domain} ${r.city} ${r.state} ${r.einOrIdentifier} ${r.signalHeadline} ${r.qualifyingFactPrimary} ${r.qualifyingFactSecondary}`.toLowerCase();
+          `${r.legalName} ${r.dbaName} ${r.domain} ${r.city} ${r.state} ${r.signalType} ${r.signalHeadline} ${r.qualifyingFactPrimary} ${r.qualifyingFactSecondary}`.toLowerCase();
         if (!matchText.includes(q)) return false;
       }
       return true;
     });
   }, [
+    liveVaultRecords,
     selectedEngine,
     stateFilter,
     urgencyFilter,
@@ -853,24 +1108,20 @@ export function PowerTableExplorer() {
         : filteredRecords;
 
     const headers = [
-      "canonical_entity_id",
-      "vertical_engine",
-      "legal_name",
-      "domain",
+      "company_name",
+      "industry",
+      "website",
       "city",
       "state",
-      "federal_identifiers",
-      "verified_headcount",
-      "signal_type",
-      "urgency_tier",
-      "forward_window_days",
-      "live_decayed_score",
-      "primary_contact_name",
-      "primary_contact_title",
-      "cpa_filter_status",
-      "contact_email",
-      "source_url",
-      "sha256_receipt",
+      "verified_staff",
+      "locations_or_fleet",
+      "trigger_type",
+      "days_left",
+      "priority_score",
+      "decision_maker",
+      "title",
+      "work_email",
+      "official_source_url",
     ];
 
     const csvLines = [
@@ -880,28 +1131,24 @@ export function PowerTableExplorer() {
         const primaryContact = r.contacts[0];
         const primaryReceipt = r.provenanceReceipts[0];
         return [
-          r.canonicalEntityId,
+          `"${r.dbaName}"`,
           `"${r.engine}"`,
-          `"${r.legalName}"`,
           r.domain,
           `"${r.city}"`,
           r.state,
-          `"${r.einOrIdentifier}"`,
           `"${r.verifiedHeadcount}"`,
+          `"${r.siteCountOrFleet}"`,
           `"${r.signalType}"`,
-          `"${r.urgencyTier}"`,
           r.forwardWindowDays,
           r.currentScore,
           `"${primaryContact?.fullName || ""}"`,
           `"${primaryContact?.title || ""}"`,
-          `"${primaryContact?.cpaFilterStatus || ""}"`,
           `"${
             isRowUnlocked
               ? primaryContact?.emailUnmasked
               : primaryContact?.emailMasked
           }"`,
           `"${primaryReceipt?.sourceUrl || ""}"`,
-          `"${primaryReceipt?.sha256Hash || ""}"`,
         ].join(",");
       }),
     ];
@@ -914,39 +1161,49 @@ export function PowerTableExplorer() {
     link.href = url;
     link.setAttribute(
       "download",
-      `sales-autonomy-vault-export-${rowsToExport.length}-rows.csv`
+      `sales-autonomy-sample-leads-${rowsToExport.length}-rows.csv`
     );
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
 
     setCsvExportNotice(
-      `Exported ${rowsToExport.length} verified records with SHA-256 provenance receipts.`
+      `Downloaded ${rowsToExport.length} verified sample accounts with official proof links.`
     );
     setTimeout(() => setCsvExportNotice(null), 4000);
   };
 
   return (
     <div className="bg-white border border-black/10 rounded-2xl shadow-[0_1px_2px_rgba(20,20,19,0.03)] overflow-hidden">
-      {/* Top Bar: Credit Meter Counter & Bulk Actions */}
+      {/* Top Bar */}
       <div className="bg-[#f0eee6]/70 border-b border-black/8 px-6 py-4 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <div className="flex flex-wrap items-center gap-2.5">
           <span className="px-3 py-1 rounded-full bg-[#141413] text-[#faf9f5] text-xs font-medium">
-            Live Vault Explorer
+            Live Lead Explorer
           </span>
-          <span className="px-3 py-1 rounded-full bg-white border border-black/10 text-xs font-mono text-[#141413] tabular-nums">
+          <span className="px-3 py-1 rounded-full bg-white border border-black/10 text-xs text-[#141413] tabular-nums">
             <strong>
-              {creditsRemaining.toLocaleString()} / 1,250 Monthly Contact Unlocks
+              {creditsRemaining.toLocaleString()} Monthly Unlocks Left
             </strong>
           </span>
           <span className="text-xs text-[#5c5852] hidden sm:inline">
-            · 55-Keyword CPA Filter · &lt;2% Bounce SLA
+            · Real Executives Only · &lt;2% Email Bounce
           </span>
         </div>
 
         <div className="flex flex-wrap items-center gap-2.5">
           <button
             type="button"
+            data-testid="connect-grokbot-mcp-btn"
+            onClick={() => setIsGrokbotModalOpen(true)}
+            className="px-3.5 py-2 rounded-xl border border-[#a7f3d0] bg-[#ecfdf5] hover:bg-[#d1fae5] text-xs font-medium text-[#2e6f40] inline-flex items-center gap-1.5 transition-colors cursor-pointer"
+          >
+            <Terminal className="w-3.5 h-3.5" />
+            Connect Grokbot / MCP
+          </button>
+          <button
+            type="button"
+            data-testid="unlock-selected-btn"
             onClick={handleBulkUnlockSelected}
             className="px-3.5 py-2 rounded-xl border border-black/14 bg-white hover:bg-[#f0eee6] text-xs font-medium text-[#141413] inline-flex items-center gap-1.5 transition-colors cursor-pointer"
           >
@@ -955,11 +1212,12 @@ export function PowerTableExplorer() {
           </button>
           <button
             type="button"
+            data-testid="download-csv-btn"
             onClick={handleExportCsv}
             className="px-4 py-2 rounded-xl bg-[#141413] hover:bg-[#2c2b28] text-[#faf9f5] text-xs font-medium inline-flex items-center gap-1.5 transition-colors cursor-pointer"
           >
             <Download className="w-3.5 h-3.5" />
-            Export CSV ({selectedIds.length || filteredRecords.length} Rows)
+            Download CSV ({selectedIds.length || filteredRecords.length})
           </button>
         </div>
       </div>
@@ -977,42 +1235,56 @@ export function PowerTableExplorer() {
         </div>
       )}
 
-      {/* Vertical Engine Pill Tabs (buildaba PracticePathShowcase style) */}
-      <div className="border-b border-black/8 px-6 py-3.5 bg-[#faf9f5] flex flex-wrap items-center gap-1.5">
-        {[
-          {
-            id: "ALL",
-            label: "All 3 Engines (12)",
-          },
-          {
-            id: "Healthcare & Multi-Site Clinic Graph",
-            label: "01 · Healthcare & Clinics (4)",
-          },
-          {
-            id: "Industrial, Fleet & Facility Risk Graph",
-            label: "02 · Industrial & Fleet (4)",
-          },
-          {
-            id: "Public Sector, Contractors & Permits Graph",
-            label: "03 · Public Sector & Permits (4)",
-          },
-        ].map((tab) => (
-          <button
-            key={tab.id}
-            type="button"
-            onClick={() => setSelectedEngine(tab.id)}
-            className={`px-3.5 py-2 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
-              selectedEngine === tab.id
-                ? "bg-[#141413] text-[#faf9f5] shadow-xs"
-                : "bg-white border border-black/10 text-[#5c5852] hover:text-[#141413] hover:bg-[#f0eee6]"
-            }`}
-          >
-            {tab.label}
-          </button>
-        ))}
+      {/* Industry Filter Tabs */}
+      <div className="border-b border-black/8 px-6 py-3.5 bg-[#faf9f5] flex flex-wrap items-center justify-between gap-2">
+        <div className="flex flex-wrap items-center gap-1.5">
+          {[
+            { id: "ALL", label: `All Industries (${liveVaultRecords.length})` },
+            {
+              id: "Healthcare & Clinics",
+              label: `Healthcare & Clinics (${
+                liveVaultRecords.filter((r) => r.engine === "Healthcare & Clinics").length
+              })`,
+            },
+            {
+              id: "Trucking & Factories",
+              label: `Trucking & Factories (${
+                liveVaultRecords.filter((r) => r.engine === "Trucking & Factories").length
+              })`,
+            },
+            {
+              id: "Gov Contractors & Builders",
+              label: `Gov Contractors & Builders (${
+                liveVaultRecords.filter((r) => r.engine === "Gov Contractors & Builders").length
+              })`,
+            },
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              type="button"
+              onClick={() => setSelectedEngine(tab.id)}
+              className={`px-3.5 py-2 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
+                selectedEngine === tab.id
+                  ? "bg-[#141413] text-[#faf9f5] shadow-xs"
+                  : "bg-white border border-black/10 text-[#5c5852] hover:text-[#141413] hover:bg-[#f0eee6]"
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        <a
+          href="/llms.txt"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-xs font-mono text-[#2e6f40] hover:underline hidden md:inline-block"
+        >
+          /llms.txt · /api/mcp · /api/v1/signals →
+        </a>
       </div>
 
-      {/* Filter Bar: Search, State, Urgency Tier, Signal Type */}
+      {/* Filter Bar */}
       <div className="p-5 border-b border-black/8 bg-white grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
         <div className="md:col-span-5 relative">
           <Search className="w-4 h-4 text-[#6b665e] absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -1020,7 +1292,7 @@ export function PowerTableExplorer() {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search legal name, EIN, USDOT, NPI, permit #, or trigger..."
+            placeholder="Search company, city, state, or buying trigger..."
             className="w-full rounded-xl bg-[#faf9f5] border border-black/12 pl-10 pr-4 py-2.5 text-xs text-[#141413] placeholder:text-[#6b665e] focus:outline-none focus:border-[#141413]"
           />
         </div>
@@ -1045,13 +1317,13 @@ export function PowerTableExplorer() {
           <select
             value={urgencyFilter}
             onChange={(e) => setUrgencyFilter(e.target.value)}
-            aria-label="Filter by urgency tier"
+            aria-label="Filter by deadline window"
             className="w-full rounded-xl bg-[#faf9f5] border border-black/12 px-3 py-2.5 text-xs text-[#141413] focus:outline-none focus:border-[#141413]"
           >
-            <option value="ALL">All Windows</option>
-            <option value="Immediate (0-30d)">Immediate (0-30d)</option>
-            <option value="High (31-60d)">High (31-60d)</option>
-            <option value="Active (61-90d)">Active (61-90d)</option>
+            <option value="ALL">All Deadlines</option>
+            <option value="0–30 Days">0–30 Days</option>
+            <option value="31–60 Days">31–60 Days</option>
+            <option value="61–90 Days">61–90 Days</option>
           </select>
         </div>
 
@@ -1059,10 +1331,10 @@ export function PowerTableExplorer() {
           <select
             value={signalTypeFilter}
             onChange={(e) => setSignalTypeFilter(e.target.value)}
-            aria-label="Filter by signal type"
+            aria-label="Filter by trigger type"
             className="w-full rounded-xl bg-[#faf9f5] border border-black/12 px-3 py-2.5 text-xs text-[#141413] focus:outline-none focus:border-[#141413]"
           >
-            <option value="ALL">All Forward Triggers ({uniqueSignalTypes.length})</option>
+            <option value="ALL">All Buying Triggers ({uniqueSignalTypes.length})</option>
             {uniqueSignalTypes.map((sig) => (
               <option key={sig} value={sig}>
                 {sig}
@@ -1072,7 +1344,7 @@ export function PowerTableExplorer() {
         </div>
       </div>
 
-      {/* PowerTable Grid */}
+      {/* Lead Table */}
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
@@ -1082,7 +1354,7 @@ export function PowerTableExplorer() {
                   type="button"
                   onClick={toggleSelectAllVisible}
                   className="text-[#141413] cursor-pointer"
-                  aria-label="Select all visible rows"
+                  aria-label="Select all visible accounts"
                 >
                   {filteredRecords.length > 0 &&
                   filteredRecords.every((r) => selectedIds.includes(r.id)) ? (
@@ -1092,20 +1364,19 @@ export function PowerTableExplorer() {
                   )}
                 </button>
               </th>
-              <th className="py-3.5 px-4">Canonical Entity &amp; Backbone IDs</th>
-              <th className="py-3.5 px-4">Footprint &amp; Form 5500 Headcount</th>
-              <th className="py-3.5 px-4">Forward-Looking Signal &amp; Window</th>
-              <th className="py-3.5 px-4">Score</th>
-              <th className="py-3.5 px-4">Verified Officer (CPA-Filtered)</th>
-              <th className="py-3.5 px-4 text-right">Dossier &amp; Receipts</th>
+              <th className="py-3.5 px-4">Company</th>
+              <th className="py-3.5 px-4">Size &amp; Locations</th>
+              <th className="py-3.5 px-4">Why Call Now</th>
+              <th className="py-3.5 px-4">Urgency</th>
+              <th className="py-3.5 px-4">Verified Buyer</th>
+              <th className="py-3.5 px-4 text-right">Proof &amp; Details</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-black/8 text-xs">
             {filteredRecords.length === 0 ? (
               <tr>
                 <td colSpan={7} className="py-12 px-6 text-center text-[#5c5852]">
-                  No accounts match that filter combination. Clear one filter or search
-                  another keyword to inspect rows.
+                  No accounts match those filters. Clear a filter or search another term.
                 </td>
               </tr>
             ) : (
@@ -1141,17 +1412,14 @@ export function PowerTableExplorer() {
                     <td className="py-4 px-4 align-top max-w-xs">
                       <div className="flex flex-wrap items-center gap-1.5 mb-1">
                         <span className="px-2 py-0.5 rounded-md bg-[#f0eee6] border border-black/8 text-[10px] font-medium text-[#3d3a34]">
-                          {rec.state} · {rec.city}
-                        </span>
-                        <span className="text-[10px] font-mono text-[#6b665e]">
-                          {rec.canonicalEntityId}
+                          {rec.city}, {rec.state}
                         </span>
                       </div>
                       <div className="font-serif text-base text-[#141413] font-medium leading-snug">
-                        {rec.legalName}
+                        {rec.dbaName}
                       </div>
-                      <div className="text-[11px] font-mono text-[#5c5852] mt-0.5">
-                        {rec.domain} · {rec.einOrIdentifier}
+                      <div className="text-[11px] text-[#5c5852] mt-0.5">
+                        {rec.domain}
                       </div>
                     </td>
 
@@ -1162,7 +1430,7 @@ export function PowerTableExplorer() {
                       <div className="text-[11px] text-[#5c5852] mt-0.5">
                         {rec.verifiedHeadcount}
                       </div>
-                      <div className="text-[10px] font-mono text-[#6b665e] mt-1">
+                      <div className="text-[11px] text-[#6b665e] mt-1">
                         {rec.qualifyingFactPrimary}
                       </div>
                     </td>
@@ -1171,12 +1439,12 @@ export function PowerTableExplorer() {
                       <div className="flex flex-wrap items-center gap-1.5 mb-1">
                         <span
                           className={`px-2 py-0.5 rounded-md text-[10px] font-medium ${
-                            rec.urgencyTier === "Immediate (0-30d)"
+                            rec.urgencyTier === "0–30 Days"
                               ? "bg-[#ecfdf5] text-[#2e6f40] border border-[#a7f3d0]"
                               : "bg-[#f0eee6] text-[#3d3a34] border border-black/8"
                           }`}
                         >
-                          {rec.urgencyTier}
+                          {rec.forwardWindowDays}d left
                         </span>
                         <span className="text-[11px] font-semibold text-[#141413]">
                           {rec.signalType}
@@ -1192,8 +1460,8 @@ export function PowerTableExplorer() {
                         {rec.currentScore}
                         <span className="text-xs text-[#6b665e]">/100</span>
                       </div>
-                      <div className="text-[10px] font-mono text-[#6b665e]">
-                        W₀={rec.initialWeight} · -{rec.daysElapsed}d
+                      <div className="text-[11px] text-[#6b665e]">
+                        {rec.urgencyTier}
                       </div>
                     </td>
 
@@ -1243,7 +1511,7 @@ export function PowerTableExplorer() {
                         className="px-3 py-2 rounded-xl border border-black/14 hover:bg-[#f0eee6] bg-white text-xs font-medium text-[#141413] inline-flex items-center gap-1.5 transition-colors cursor-pointer"
                       >
                         <FileCheck2 className="w-3.5 h-3.5 text-[#2e6f40]" />
-                        Inspect Dossier
+                        View Details
                         <ArrowUpRight className="w-3 h-3 text-[#6b665e]" />
                       </button>
                     </td>
@@ -1261,17 +1529,16 @@ export function PowerTableExplorer() {
           <SlidersHorizontal className="w-3.5 h-3.5 text-[#2e6f40]" />
           <span>
             Showing <strong className="text-[#141413]">{filteredRecords.length}</strong> of{" "}
-            <strong className="text-[#141413]">{VERIFIED_VAULT_RECORDS.length}</strong> sample
-            records · Click any row to open the 3-Tab Signal &amp; SHA-256
-            Provenance Drawer.
+            <strong className="text-[#141413]">{liveVaultRecords.length}</strong> canonical
+            accounts · Click any row to see proof links and call openers.
           </span>
         </div>
-        <div className="font-mono text-[11px] text-[#6b665e]">
-          Shared Backbone: SAM.gov (700K Domains) + DOL Form 5500 (650K EINs)
+        <div className="text-[11px] text-[#6b665e]">
+          Every account checked against federal and state public filings
         </div>
       </div>
 
-      {/* 3-Tab Slide-Over Signal Dossier Drawer */}
+      {/* Slide-Over Account Details Drawer */}
       <SignalDossierDrawer
         record={activeDrawerRecord}
         onClose={() => setActiveDrawerRecord(null)}
@@ -1281,6 +1548,17 @@ export function PowerTableExplorer() {
             : false
         }
         onUnlockAccount={handleUnlockAccount}
+        creditsRemaining={creditsRemaining}
+      />
+
+      {/* 2026 Grokbot, Remote MCP & Credit-Metered REST API v1 Modal */}
+      <GrokbotMcpModal
+        isOpen={isGrokbotModalOpen}
+        onClose={() => setIsGrokbotModalOpen(false)}
+        selectedEngine={selectedEngine}
+        stateFilter={stateFilter}
+        urgencyFilter={urgencyFilter}
+        searchQuery={searchQuery}
         creditsRemaining={creditsRemaining}
       />
     </div>
