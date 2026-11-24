@@ -6,6 +6,7 @@
 --            + Multi-Tenant Row-Level Security (RLS) & v_client_compliance_feed
 -- ============================================================================
 
+SET search_path TO public, extensions;
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 CREATE EXTENSION IF NOT EXISTS "pg_trgm";
 
@@ -114,7 +115,7 @@ CREATE TABLE IF NOT EXISTS public.entities (
     updated_at              TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
-CREATE INDEX IF NOT EXISTS idx_entities_normalized_name_trgm ON public.entities USING gin (normalized_name gin_trgm_ops);
+CREATE INDEX IF NOT EXISTS idx_entities_normalized_name ON public.entities (normalized_name);
 CREATE INDEX IF NOT EXISTS idx_entities_ein ON public.entities (ein) WHERE ein IS NOT NULL;
 CREATE INDEX IF NOT EXISTS idx_entities_uei ON public.entities (uei) WHERE uei IS NOT NULL;
 CREATE INDEX IF NOT EXISTS idx_entities_npi ON public.entities (npi) WHERE npi IS NOT NULL;
