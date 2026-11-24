@@ -30,22 +30,14 @@ export function Header() {
         </Link>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-7">
           <ul className="flex items-center gap-7">
             <li>
               <Link
                 href="/portal/demo"
                 className="text-sm text-[#111111]/65 hover:text-[#111111] transition-colors font-medium tracking-tight"
               >
-                Live Bench
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/pricing"
-                className="text-sm text-[#111111]/65 hover:text-[#111111] transition-colors font-medium tracking-tight"
-              >
-                Bench Pass
+                PowerTable Preview
               </Link>
             </li>
             <li>
@@ -53,16 +45,40 @@ export function Header() {
                 href="/academy"
                 className="text-sm text-[#111111]/65 hover:text-[#111111] transition-colors font-medium tracking-tight"
               >
-                For Candidates
+                Data Plays
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/credibility"
+                className="text-sm text-[#111111]/65 hover:text-[#111111] transition-colors font-medium tracking-tight"
+              >
+                How We Verify
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/pricing"
+                className="text-sm text-[#111111]/65 hover:text-[#111111] transition-colors font-medium tracking-tight"
+              >
+                Pricing
               </Link>
             </li>
           </ul>
-          <Link
-            href="/hire/apply"
-            className="bg-[#111111] hover:bg-[#333333] text-white px-5 py-2.5 text-sm font-medium transition-colors"
-          >
-            Unlock the Bench
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/portal/demo"
+              className="border border-black/20 hover:border-black text-[#111111] px-4 py-2 text-sm font-medium transition-colors"
+            >
+              Inspect 12 Live Rows
+            </Link>
+            <Link
+              href="/hire/apply"
+              className="bg-[#111111] hover:bg-[#333333] text-white px-5 py-2 text-sm font-medium transition-colors"
+            >
+              7-Day Pilot ($1,950)
+            </Link>
+          </div>
         </div>
 
         {/* Mobile Toggle */}
@@ -89,28 +105,42 @@ export function Header() {
             className="text-base font-medium text-[#111111]/80 hover:text-[#111111] py-2"
             onClick={() => setIsOpen(false)}
           >
-            Live Bench
-          </Link>
-          <Link
-            href="/pricing"
-            className="text-base font-medium text-[#111111]/80 hover:text-[#111111] py-2"
-            onClick={() => setIsOpen(false)}
-          >
-            Bench Pass
+            PowerTable Preview
           </Link>
           <Link
             href="/academy"
             className="text-base font-medium text-[#111111]/80 hover:text-[#111111] py-2"
             onClick={() => setIsOpen(false)}
           >
-            For Candidates
+            Data Plays
+          </Link>
+          <Link
+            href="/credibility"
+            className="text-base font-medium text-[#111111]/80 hover:text-[#111111] py-2"
+            onClick={() => setIsOpen(false)}
+          >
+            How We Verify
+          </Link>
+          <Link
+            href="/pricing"
+            className="text-base font-medium text-[#111111]/80 hover:text-[#111111] py-2"
+            onClick={() => setIsOpen(false)}
+          >
+            Pricing
+          </Link>
+          <Link
+            href="/portal/demo"
+            className="border border-black/20 text-[#111111] px-6 py-3.5 font-medium text-center mt-1"
+            onClick={() => setIsOpen(false)}
+          >
+            Inspect 12 Live Rows
           </Link>
           <Link
             href="/hire/apply"
-            className="bg-[#111111] text-white px-6 py-3.5 font-medium text-center mt-2"
+            className="bg-[#111111] text-white px-6 py-3.5 font-medium text-center"
             onClick={() => setIsOpen(false)}
           >
-            Unlock the Bench
+            7-Day Pilot ($1,950)
           </Link>
         </div>
       )}

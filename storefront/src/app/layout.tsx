@@ -21,15 +21,15 @@ const newsreader = Newsreader({
 export const metadata: Metadata = {
   metadataBase: new URL("https://salesautonomy.com"),
   title: {
-    default: "Sales Autonomy — Standardized B2B Sales & GTM Recruiting",
+    default: "Sales Autonomy — Private Market Databases for B2B Sales Teams",
     template: "%s | Sales Autonomy",
   },
   description:
-    "Hire Founding AEs, Mid-Market & Enterprise Sellers, VPs of Sales, and GTM Engineers. Standardized profiles, LinkedIn-verified 360° endorsements, and Pre-Start Ramp.",
+    "We build and deploy a private, secure database of every buyer, location, public record, and decision-maker in your market—then keep it updated for a small monthly retainer.",
   openGraph: {
-    title: "Sales Autonomy — Standardized B2B Sales & GTM Recruiting",
+    title: "Sales Autonomy — Private Market Databases for B2B Sales Teams",
     description:
-      "Hire Founding AEs, Mid-Market & Enterprise Sellers, VPs of Sales, and GTM Engineers.",
+      "Own your market database. Stop renting stale lists from Apollo and ZoomInfo.",
     url: "https://salesautonomy.com",
     siteName: "Sales Autonomy",
     locale: "en_US",
@@ -63,23 +63,28 @@ export default function RootLayout({
                     Sales Autonomy
                   </Link>
                   <p className="text-[#111111]/60 text-sm mb-6 max-w-sm font-light leading-relaxed">
-                    B2B SaaS sales and GTM recruiting. Standardized candidate profiles, LinkedIn-verified endorsements from managers, teammates, and buyers, and Pre-Start Ramp before Day 1.
+                    We build and deploy a private database of every qualified buyer in your market, backed by public filings, permits, and directories. Then we keep it updated for a flat monthly fee.
                   </p>
                 </div>
 
                 <div>
                   <h3 className="font-medium text-[#111111]/40 mb-5 uppercase tracking-[0.2em] text-[0.7rem]">
-                    For Companies
+                    Product &amp; Data
                   </h3>
                   <ul className="flex flex-col gap-3.5 text-sm">
                     <li>
-                      <Link href="/hire/apply" className="text-[#111111]/70 hover:text-[#111111] transition-colors">
-                        Build a Shortlist
+                      <Link href="/portal/demo" className="text-[#111111]/70 hover:text-[#111111] transition-colors">
+                        Live Database Preview
                       </Link>
                     </li>
                     <li>
-                      <Link href="/portal/demo" className="text-[#111111]/70 hover:text-[#111111] transition-colors">
-                        Sample Shortlist
+                      <Link href="/academy" className="text-[#111111]/70 hover:text-[#111111] transition-colors">
+                        5 Data Plays
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/credibility" className="text-[#111111]/70 hover:text-[#111111] transition-colors">
+                        How We Verify Data
                       </Link>
                     </li>
                   </ul>
@@ -87,17 +92,22 @@ export default function RootLayout({
 
                 <div>
                   <h3 className="font-medium text-[#111111]/40 mb-5 uppercase tracking-[0.2em] text-[0.7rem]">
-                    For Candidates
+                    Get Started
                   </h3>
                   <ul className="flex flex-col gap-3.5 text-sm">
                     <li>
-                      <Link href="/academy" className="text-[#111111]/70 hover:text-[#111111] transition-colors">
-                        How Stealth Works
+                      <Link href="/pricing" className="text-[#111111]/70 hover:text-[#111111] transition-colors">
+                        Build &amp; Retainer Pricing
                       </Link>
                     </li>
                     <li>
-                      <Link href="/academy/apply" className="text-[#111111]/70 hover:text-[#111111] transition-colors">
-                        Build Standardized Profile
+                      <Link href="/hire/apply" className="text-[#111111]/70 hover:text-[#111111] transition-colors">
+                        Request 250-Row Sandbox
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/dashboard" className="text-[#111111]/70 hover:text-[#111111] transition-colors">
+                        Client Vault API Keys
                       </Link>
                     </li>
                   </ul>
@@ -107,6 +117,9 @@ export default function RootLayout({
               <div className="pt-8 border-t border-black/10 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-[#111111]/45">
                 <p>&copy; {new Date().getFullYear()} Sales Autonomy. All rights reserved.</p>
                 <div className="flex items-center gap-6">
+                  <Link href="/llms.txt" className="hover:text-[#111111] transition-colors">
+                    llms.txt
+                  </Link>
                   <Link href="/terms" className="hover:text-[#111111] transition-colors">
                     Terms
                   </Link>

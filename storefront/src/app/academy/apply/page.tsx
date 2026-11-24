@@ -150,14 +150,14 @@ export default function CandidateProfileBuilderPage() {
 
         setAutoFillStatus({
           extracted: data.extractedFields || [
-            "Identity & LinkedIn Handle",
+            "Name & LinkedIn URL",
             "Role Track",
-            "Stage & Buyer Context",
-            "Auto-Blocked Current Employer Domain",
+            "Deal Size & Buyer Context",
+            "Current Employer Hidden Automatically",
           ],
           needsConfirm: data.needsConfirmation || [
             "Confirm Outbound % vs Inbound",
-            "Confirm Target OTE Floor",
+            "Confirm Minimum Pay to Move",
           ],
         });
       }
@@ -214,14 +214,14 @@ export default function CandidateProfileBuilderPage() {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
               <h1 className="text-4xl md:text-6xl font-serif tracking-tight text-[#111111] leading-[1.08]">
-                Build Your Standardized Profile
+                Create Your Candidate Profile
               </h1>
               <p className="text-lg text-[#111111]/60 font-light mt-3 max-w-2xl leading-relaxed">
-                Drop your resume or LinkedIn PDF to pre-fill your profile in 10 seconds, then verify the 3 commercial numbers resumes leave out.
+                Paste your resume to pre-fill your deal numbers in 10 seconds, hide your profile from your current employer, and add references from former managers, teammates, and customers.
               </p>
             </div>
             <div className="px-4 py-2 bg-[#f5f4ef] border border-black/10 text-xs uppercase tracking-[0.15em] text-[#111111]/70 self-start">
-              Stealth Default: <strong className="text-[#111111]">Identity Hidden</strong>
+              Privacy: <strong className="text-[#111111]">Hidden From Your Employer</strong>
             </div>
           </div>
         </div>
@@ -230,33 +230,33 @@ export default function CandidateProfileBuilderPage() {
           <div className="max-w-3xl mx-auto bg-white border border-black/10 p-8 md:p-12 space-y-8">
             <div>
               <div className="text-xs uppercase tracking-[0.2em] text-[#d9534f] font-medium mb-2">
-                Profile Standardized &amp; Deduplicated via LinkedIn
+                Profile Saved
               </div>
               <h2 className="text-3xl md:text-4xl font-serif text-[#111111]">
-                {stealthMode ? `${candidateHandle} is Live in Stealth Mode` : `${fullName}'s Profile is Live`}
+                {stealthMode ? `Your Profile (${candidateHandle}) is Live` : `${fullName}'s Profile is Live`}
               </h2>
               <p className="text-sm text-[#111111]/65 font-light mt-2 leading-relaxed">
-                Anchored to <strong className="text-[#111111]">{cleanLinkedinSlug}</strong>. Domains blocked from viewing your profile:{" "}
+                Linked to <strong className="text-[#111111]">{cleanLinkedinSlug}</strong>. Hidden from:{" "}
                 <strong className="text-[#111111]">{blockedDomains || "None"}</strong>.
               </p>
             </div>
 
-            {/* 1-Click Vouch Links */}
+            {/* 1-Click Reference Links */}
             <div className="p-8 bg-[#fcfaf8] border border-black/10 space-y-5">
               <div>
                 <div className="text-xs uppercase tracking-[0.2em] text-[#111111]/50 font-medium mb-1">
-                  Unlock Verified Status • Send Your 30-Second Vouch Links
+                  Next Step • Add References to Your Profile
                 </div>
                 <p className="text-sm text-[#111111]/65 font-light leading-relaxed">
-                  Profiles with at least 2 verified endorsements get 4x more interview requests. To prevent fake reviews, endorsers verify with their LinkedIn and work email in 30 seconds.
+                  Candidates with 2+ references get 4x more interview requests. Copy a link below to ask a former manager, teammate, or customer for a short quote—it takes them 30 seconds.
                 </p>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-black/10 border border-black/10">
                 {[
-                  { id: "manager", label: "1. Former Manager Link", sub: "Verifies quota & rehire signal" },
-                  { id: "teammate", label: "2. Teammate / SE Link", sub: "Verifies discovery & prep" },
-                  { id: "buyer", label: "3. Customer / Buyer Link", sub: "Verifies trust & deal value" },
+                  { id: "manager", label: "1. Former Manager", sub: "Backs up your quota & work ethic" },
+                  { id: "teammate", label: "2. Teammate / SE", sub: "Backs up how you run deals" },
+                  { id: "buyer", label: "3. Customer Who Bought", sub: "Backs up how you work with buyers" },
                 ].map((v) => (
                   <button
                     key={v.id}
@@ -276,7 +276,7 @@ export default function CandidateProfileBuilderPage() {
                       <p className="text-xs text-[#111111]/55 font-light">{v.sub}</p>
                     </div>
                     <div className="mt-4 text-[11px] uppercase tracking-[0.15em] text-[#d9534f] font-medium">
-                      {copiedVouch === v.id ? "Copied to clipboard ✓" : "Copy Vouch Link →"}
+                      {copiedVouch === v.id ? "Link Copied ✓" : "Copy Reference Link →"}
                     </div>
                   </button>
                 ))}
@@ -289,38 +289,38 @@ export default function CandidateProfileBuilderPage() {
                 onClick={() => setSubmitted(false)}
                 className="text-xs uppercase tracking-[0.2em] text-[#111111]/60 hover:text-[#111111] cursor-pointer"
               >
-                ← Edit Profile Configuration
+                ← Edit My Profile
               </button>
               <Link
                 href="/portal/demo"
                 className="px-6 py-3.5 bg-[#111111] text-white text-sm font-medium hover:bg-[#333333] transition-colors"
               >
-                See How Companies View Shortlists →
+                See Live Candidate &amp; Company Profiles →
               </Link>
             </div>
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-            {/* LEFT COLUMN: AUTO-FILL + 6-BLOCK CONFIGURATION FORM (7 COLS) */}
+            {/* LEFT COLUMN: FORM (7 COLS) */}
             <form onSubmit={handleSubmit} className="lg:col-span-7 space-y-8">
-              {/* STEP 0: 10-SECOND COMPLIANT RESUME / LINKEDIN PDF AUTO-FILL */}
+              {/* FAST AUTO-FILL */}
               <div className="p-8 bg-[#f5f4ef] border border-black/15 space-y-5">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                   <div>
                     <div className="text-xs uppercase tracking-[0.2em] text-[#d9534f] font-medium mb-1">
-                      Step 0 · Optional 10-Second Auto-Fill
+                      Fast Setup · Takes 10 Seconds
                     </div>
                     <h2 className="text-2xl font-serif text-[#111111]">
-                      Pre-Fill from Your Resume or LinkedIn PDF
+                      Auto-Fill From Your Resume
                     </h2>
                   </div>
                   <span className="text-[11px] uppercase tracking-[0.15em] text-[#111111]/50">
-                    Zero Invented Numbers
+                    Optional
                   </span>
                 </div>
 
                 <p className="text-sm text-[#111111]/65 font-light leading-relaxed">
-                  Paste your resume or LinkedIn &ldquo;Save to PDF&rdquo; text below (or test a sample profile). We auto-fill your career history, auto-block your current employer&apos;s domain, and highlight the exact commercial numbers for you to confirm.
+                  Paste your resume or LinkedIn text below (or click a sample to see how it works). We pull out your deal numbers and automatically hide your profile from your current company.
                 </p>
 
                 {/* 1-Click Sample Loaders */}
@@ -400,26 +400,26 @@ export default function CandidateProfileBuilderPage() {
                 )}
               </div>
 
-              {/* STEALTH & ANTI-GAMING IDENTITY SHIELD */}
+              {/* PRIVACY & IDENTITY */}
               <div className="p-8 bg-white border border-black/10 space-y-6">
                 <div className="flex items-center justify-between border-b border-black/10 pb-4">
                   <div>
                     <div className="text-xs uppercase tracking-[0.2em] text-[#111111]/45 font-medium">
-                      Identity &amp; Privacy
+                      Your Info &amp; Privacy
                     </div>
                     <h2 className="text-2xl font-serif text-[#111111] mt-1">
-                      Stealth Shield &amp; LinkedIn Deduplication
+                      Stay Anonymous Until You Say Yes
                     </h2>
                   </div>
                   <span className="text-[11px] uppercase tracking-[0.15em] text-[#111111]/45">
-                    1 Profile Per LinkedIn ID
+                    100% Confidential
                   </span>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
                     <label className="text-xs uppercase tracking-[0.15em] text-[#111111]/55 font-medium block">
-                      Full Name (Hidden in Stealth)
+                      Full Name (Hidden Until You Approve an Intro)
                     </label>
                     <input
                       type="text"
@@ -431,7 +431,7 @@ export default function CandidateProfileBuilderPage() {
                   </div>
                   <div className="space-y-1.5">
                     <label className="text-xs uppercase tracking-[0.15em] text-[#111111]/55 font-medium block">
-                      Private Email
+                      Personal Email (Where We Send Intro Requests)
                     </label>
                     <input
                       type="email"
@@ -445,8 +445,8 @@ export default function CandidateProfileBuilderPage() {
 
                 <div className="space-y-1.5">
                   <label className="text-xs uppercase tracking-[0.15em] text-[#111111]/55 font-medium flex items-center justify-between">
-                    <span>LinkedIn Profile URL (Prevents Fake or Duplicate Profiles)</span>
-                    <span className="text-[#d9534f]">Unique Key</span>
+                    <span>LinkedIn Profile URL (Hidden Until You Approve an Intro)</span>
+                    <span className="text-[#d9534f]">Required</span>
                   </label>
                   <input
                     type="text"
@@ -463,10 +463,10 @@ export default function CandidateProfileBuilderPage() {
                   <div className="flex items-center justify-between gap-4">
                     <div>
                       <div className="text-base font-serif text-[#111111]">
-                        Stealth Mode (Hide Name &amp; Current Employer)
+                        Hide My Name &amp; Current Employer
                       </div>
                       <p className="text-xs text-[#111111]/60 font-light mt-0.5">
-                        Companies see your standardized numbers and endorsements first. You approve every intro before your name or LinkedIn is revealed.
+                        Companies see your deal numbers and references first. You see the company, role, and pay range before deciding to reveal your name.
                       </p>
                     </div>
                     <button
@@ -478,14 +478,14 @@ export default function CandidateProfileBuilderPage() {
                           : "bg-white text-[#111111]/60 border-black/20"
                       }`}
                     >
-                      {stealthMode ? "Stealth ON" : "Visible"}
+                      {stealthMode ? "Hidden (On)" : "Public"}
                     </button>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-black/10">
                     <div className="space-y-1">
                       <label className="text-[11px] uppercase tracking-[0.15em] text-[#111111]/50 block">
-                        Anonymized Company Descriptor
+                        How to Describe Your Current Company
                       </label>
                       <input
                         type="text"
@@ -496,8 +496,8 @@ export default function CandidateProfileBuilderPage() {
                     </div>
                     <div className="space-y-1">
                       <label className="text-[11px] uppercase tracking-[0.15em] text-[#111111]/50 flex items-center justify-between">
-                        <span>Blocked Domains (Employer / VCs)</span>
-                        <span className="text-[#d9534f]">Shielded</span>
+                        <span>Block These Company Domains</span>
+                        <span className="text-[#d9534f]">Blocked</span>
                       </label>
                       <input
                         type="text"
@@ -510,10 +510,10 @@ export default function CandidateProfileBuilderPage() {
                 </div>
               </div>
 
-              {/* BLOCK 01: ROLE TRACK */}
+              {/* SECTION 01: ROLE TRACK */}
               <div className="p-8 bg-white border border-black/10 space-y-4">
                 <div className="text-xs uppercase tracking-[0.2em] text-[#d9534f] font-medium">
-                  Block 01 · Standardized Role Track
+                  01 · Role Track
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-black/10 border border-black/10">
                   {(Object.keys(ROLE_LABELS) as RoleTrack[]).map((key) => (
@@ -533,10 +533,10 @@ export default function CandidateProfileBuilderPage() {
                 </div>
               </div>
 
-              {/* BLOCK 02: COMMERCIAL ENVIRONMENT */}
+              {/* SECTION 02: COMMERCIAL ENVIRONMENT */}
               <div className="p-8 bg-white border border-black/10 space-y-5">
                 <div className="text-xs uppercase tracking-[0.2em] text-[#d9534f] font-medium">
-                  Block 02 · Commercial Environment (Apples-to-Apples Context)
+                  02 · Deal Environment (Stage, Deal Size &amp; Buyer)
                 </div>
 
                 <div className="space-y-2">
@@ -628,10 +628,10 @@ export default function CandidateProfileBuilderPage() {
                 </div>
               </div>
 
-              {/* BLOCK 03: PIPELINE & TERRITORY REALITY */}
+              {/* SECTION 03: PIPELINE & TERRITORY REALITY */}
               <div className="p-8 bg-white border border-black/10 space-y-4">
                 <div className="text-xs uppercase tracking-[0.2em] text-[#d9534f] font-medium">
-                  Block 03 · Pipeline Source &amp; Territory Reality
+                  03 · Pipeline Source &amp; Territory
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
@@ -666,10 +666,10 @@ export default function CandidateProfileBuilderPage() {
                 </div>
               </div>
 
-              {/* BLOCK 04: ROLE-SPECIFIC HARD NUMBERS */}
+              {/* SECTION 04: ROLE-SPECIFIC HARD NUMBERS */}
               <div className="p-8 bg-white border border-black/10 space-y-4">
                 <div className="text-xs uppercase tracking-[0.2em] text-[#d9534f] font-medium">
-                  Block 04 · Verified Numbers ({ROLE_LABELS[roleTrack]})
+                  04 · Quota &amp; Track Record ({ROLE_LABELS[roleTrack]})
                 </div>
 
                 {(roleTrack === "founding-ae" || roleTrack === "mm-ent-ae") && (
@@ -799,18 +799,18 @@ export default function CandidateProfileBuilderPage() {
                 </div>
               </div>
 
-              {/* BLOCK 05: 360° VOUCH INVITES */}
+              {/* SECTION 05: PUBLISHED REFERENCES */}
               <div className="p-8 bg-white border border-black/10 space-y-4">
                 <div className="flex items-center justify-between">
                   <span className="text-xs uppercase tracking-[0.2em] text-[#d9534f] font-medium">
-                    Block 05 · 360° Endorsements (Unlocks Verified Badge)
+                    05 · Published References (Boss, Teammate &amp; Buyer)
                   </span>
                   <span className="text-[11px] uppercase tracking-[0.15em] text-[#111111]/45">
                     LinkedIn-Verified Only
                   </span>
                 </div>
                 <p className="text-xs text-[#111111]/60 font-light leading-relaxed">
-                  Enter the work email of a former manager, a cross-functional teammate (like an SE), or a buyer you sold to—or copy your vouch links after saving.
+                  Enter the work email of a former manager, a teammate (like an SE), or a customer you sold to—or copy your reference links after saving.
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <input
@@ -837,10 +837,10 @@ export default function CandidateProfileBuilderPage() {
                 </div>
               </div>
 
-              {/* BLOCK 06: NEXT ROLE & COMP FLOOR */}
+              {/* SECTION 06: NEXT ROLE & COMP FLOOR */}
               <div className="p-8 bg-white border border-black/10 space-y-4">
                 <div className="text-xs uppercase tracking-[0.2em] text-[#d9534f] font-medium">
-                  Block 06 · Next Role &amp; Comp Floor
+                  06 · Minimum Pay &amp; Work Mode
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div className="space-y-1.5">
@@ -888,18 +888,18 @@ export default function CandidateProfileBuilderPage() {
                 type="submit"
                 className="w-full bg-[#111111] hover:bg-[#333333] text-white font-medium py-4 px-6 text-base transition-colors cursor-pointer"
               >
-                Save Standardized Profile &amp; Generate My 360° Vouch Links →
+                Save My Profile &amp; Get Reference Links →
               </button>
             </form>
 
-            {/* RIGHT COLUMN: LIVE STANDARDIZED PROFILE PREVIEW (5 COLS, STICKY) */}
+            {/* RIGHT COLUMN: LIVE PROFILE PREVIEW (5 COLS, STICKY) */}
             <div className="lg:col-span-5 lg:sticky lg:top-28 space-y-3">
               <div className="flex items-center justify-between px-1">
                 <span className="text-xs uppercase tracking-[0.2em] text-[#d9534f] font-medium">
-                  ● Live Dossier Preview
+                  ● Live Profile Preview
                 </span>
                 <span className="text-xs uppercase tracking-[0.15em] text-[#111111]/45">
-                  {stealthMode ? "Stealth Shield Active" : "Public Identity"}
+                  {stealthMode ? "Hidden From Employers" : "Public Profile"}
                 </span>
               </div>
 
@@ -911,11 +911,11 @@ export default function CandidateProfileBuilderPage() {
                       {ROLE_LABELS[roleTrack]}
                     </span>
                     <span className="px-2.5 py-0.5 border border-black/15 text-[#111111]/70 text-[10px] uppercase tracking-[0.15em]">
-                      ✓ LinkedIn Deduped
+                      ✓ LinkedIn Verified
                     </span>
                     {stealthMode && (
                       <span className="px-2.5 py-0.5 bg-[#f5f4ef] text-[#111111]/65 text-[10px] uppercase tracking-[0.15em]">
-                        Stealth ON
+                        Identity Hidden
                       </span>
                     )}
                   </div>
@@ -1010,7 +1010,7 @@ export default function CandidateProfileBuilderPage() {
                 {/* Environment Tags */}
                 <div className="space-y-2">
                   <div className="text-[10px] uppercase tracking-[0.15em] text-[#111111]/45">
-                    Standardized Environment &amp; Buyer Fit
+                    Deal Size, Sales Cycle &amp; Buyers
                   </div>
                   <div className="flex flex-wrap gap-1.5">
                     {stages.map((s) => (
@@ -1038,21 +1038,21 @@ export default function CandidateProfileBuilderPage() {
                   </div>
                 </div>
 
-                {/* Proof Summary */}
+                {/* Track Record Summary */}
                 <div className="p-4 bg-[#fcfaf8] border border-black/10">
                   <div className="text-[10px] uppercase tracking-[0.15em] text-[#111111]/45 mb-1">
-                    Verified Track Record Summary
+                    Track Record Highlight
                   </div>
                   <p className="text-xs text-[#111111]/80 font-light leading-relaxed">
                     {highlightNote}
                   </p>
                 </div>
 
-                {/* 360 Vouch Slots */}
+                {/* Reference Slots */}
                 <div className="space-y-2">
                   <div className="text-[10px] uppercase tracking-[0.15em] text-[#111111]/45 flex items-center justify-between">
-                    <span>360° Vouch Slots (LinkedIn Verified)</span>
-                    <span>3 Slots</span>
+                    <span>Published References</span>
+                    <span>3 References</span>
                   </div>
                   <div className="grid grid-cols-3 gap-px bg-black/10 border border-black/10">
                     {[
@@ -1068,7 +1068,7 @@ export default function CandidateProfileBuilderPage() {
                       >
                         <div className="text-[11px] font-medium">{slot.role}</div>
                         <div className="text-[10px] font-light mt-0.5">
-                          {slot.active ? "Invite Queued ✓" : "Link on Save"}
+                          {slot.active ? "Invite Ready ✓" : "Add on Save"}
                         </div>
                       </div>
                     ))}
@@ -1078,13 +1078,13 @@ export default function CandidateProfileBuilderPage() {
                 {/* Footer Comp & Blocked Domains */}
                 <div className="pt-4 border-t border-black/10 flex items-center justify-between text-xs text-[#111111]/60">
                   <span>
-                    Floor: <strong className="text-[#111111]">{minBase} Base / {targetOte} OTE</strong>
+                    Min Pay: <strong className="text-[#111111]">{minBase} Base / {targetOte} OTE</strong>
                   </span>
                   <span>{workMode}</span>
                 </div>
                 {stealthMode && blockedDomains && (
                   <div className="px-3.5 py-2 bg-[#f5f4ef] border border-black/10 text-[11px] text-[#111111]/60 flex items-center justify-between">
-                    <span>Shielded from domains:</span>
+                    <span>Hidden from:</span>
                     <span className="font-medium text-[#111111] truncate max-w-[190px]">
                       {blockedDomains}
                     </span>
